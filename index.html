@@ -733,7 +733,7 @@
                 
                 // Adicionar event listeners para edição
                 document.querySelectorAll('.shortcut-value').forEach(input => {
-                    input.addEventListener('change', function() {
+                    input.addEventListener('blur', function() {
                         const key = this.getAttribute('data-key');
                         shortcuts[key] = this.value;
                         localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
@@ -872,7 +872,7 @@
             // Função para exportar atalhos para um arquivo JSON
             function exportShortcuts() {
                 const dataStr = JSON.stringify(shortcuts, null, 2);
-                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                const dataUri = 'application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
                 
                 const exportFileDefaultName = `textmaster-atalhos-${new Date().toISOString().slice(0,10)}.json`;
                 
@@ -893,7 +893,7 @@
                 };
                 
                 const dataStr = JSON.stringify(allData, null, 2);
-                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                const dataUri = 'application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
                 
                 const exportFileDefaultName = `textmaster-backup-${new Date().toISOString().slice(0,10)}.json`;
                 
@@ -913,7 +913,7 @@
                 }
                 
                 const text = outputText.value;
-                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(text);
+                const dataUri = 'application/json;charset=utf-8,'+ encodeURIComponent(text);
                 
                 const exportFileDefaultName = `textmaster-texto-${new Date().toISOString().slice(0,10)}.txt`;
                 
