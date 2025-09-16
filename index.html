@@ -3,420 +3,402 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TextFlow - Plataforma de Atalhos de Texto</title>
+    <title>TextMaster Pro - Plataforma Completa de Atalhos de Texto</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2563eb;
-            --primary-light: #dbeafe;
-            --secondary-color: #1e40af;
-            --background-color: #f8fafc;
-            --surface-color: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --text-tertiary: #94a3b8;
-            --border-color: #e2e8f0;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --error-color: #ef4444;
-            --info-color: #3b82f6;
-            --radius: 12px;
-            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --transition: all 0.2s ease;
+            --primary-color: #4361ee;
+            --primary-light: #e6eeff;
+            --secondary-color: #3a0ca3;
+            --accent-color: #7209b7;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-light: #e9ecef;
+            --gray: #adb5bd;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--background-color);
-            color: var(--text-primary);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--dark-color);
             line-height: 1.6;
-            padding: 0;
+            padding: 20px;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
 
         .app-container {
-            display: flex;
-            flex-direction: column;
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
-            width: 100%;
-            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1.8fr;
             gap: 24px;
-            flex: 1;
         }
 
-        header {
+        .header {
+            grid-column: 1 / -1;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            font-size: 24px;
-            color: var(--primary-color);
+            gap: 15px;
         }
 
         .logo i {
-            font-size: 28px;
+            font-size: 32px;
+            color: var(--primary-color);
         }
 
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1.8fr;
-            gap: 24px;
-            flex: 1;
+        .logo h1 {
+            font-size: 28px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+
+        .app-version {
+            font-size: 14px;
+            color: var(--gray);
+            margin-left: 10px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
         }
 
         .panel {
-            background-color: var(--surface-color);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
-            overflow: hidden;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
             display: flex;
             flex-direction: column;
+            height: 100%;
         }
 
         .panel-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border-color);
-            background-color: #f9fafb;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--gray-light);
         }
 
         .panel-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
+            font-size: 20px;
+            color: var(--secondary-color);
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        .panel-content {
-            padding: 20px;
-            flex: 1;
-            overflow: auto;
+            gap: 10px;
         }
 
         .input-area {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+            margin-bottom: 20px;
         }
 
         textarea {
             width: 100%;
-            min-height: 120px;
-            padding: 16px;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
+            min-height: 150px;
+            padding: 18px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
             resize: vertical;
             font-size: 16px;
-            line-height: 1.5;
+            line-height: 1.6;
             transition: var(--transition);
-            background-color: var(--surface-color);
         }
 
         textarea:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
 
         .output-text {
             min-height: 300px;
             font-size: 17px;
-            line-height: 1.6;
+            line-height: 1.7;
+            background-color: var(--light-color);
         }
 
         .shortcut-preview {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin: 8px 0;
+            gap: 10px;
+            margin: 15px 0;
         }
 
         .shortcut-tag {
-            background-color: var(--primary-light);
-            color: var(--primary-color);
-            padding: 6px 12px;
-            border-radius: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 8px 15px;
+            border-radius: 30px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             font-size: 14px;
             font-weight: 500;
-            border: 1px solid rgba(37, 99, 235, 0.2);
         }
 
         .shortcut-tag i {
             cursor: pointer;
-            font-size: 12px;
-            opacity: 0.7;
+            opacity: 0.8;
             transition: var(--transition);
         }
 
         .shortcut-tag i:hover {
             opacity: 1;
-            transform: scale(1.1);
+            transform: scale(1.2);
         }
 
         .button-group {
             display: flex;
-            gap: 12px;
             flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
         }
 
         button {
-            padding: 10px 16px;
+            padding: 12px 20px;
             border: none;
-            border-radius: var(--radius);
+            border-radius: var(--border-radius);
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
             transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 14px;
         }
 
         .btn-primary {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
         }
 
         .btn-primary:hover {
-            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
         }
 
         .btn-secondary {
-            background-color: #f1f5f9;
-            color: var(--text-primary);
+            background-color: var(--gray-light);
+            color: var(--dark-color);
         }
 
         .btn-secondary:hover {
-            background-color: #e2e8f0;
+            background-color: var(--gray);
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent-color), var(--warning-color));
+            color: white;
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(114, 9, 183, 0.4);
         }
 
         .btn-success {
-            background-color: var(--success-color);
+            background: linear-gradient(135deg, var(--success-color), #2a9d8f);
             color: white;
         }
 
         .btn-success:hover {
-            background-color: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
         }
 
         .shortcuts-management {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+            margin-top: 20px;
         }
 
         .shortcut-form {
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 1fr 2fr auto;
             gap: 12px;
+            margin-bottom: 20px;
             align-items: end;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 6px;
         }
 
-        label {
-            font-size: 14px;
+        .form-group label {
+            margin-bottom: 8px;
             font-weight: 500;
-            color: var(--text-secondary);
+            color: var(--secondary-color);
         }
 
         input {
-            padding: 10px 14px;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            font-size: 14px;
+            padding: 12px 15px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            font-size: 16px;
             transition: var(--transition);
         }
 
         input:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
 
         .shortcuts-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
             max-height: 300px;
             overflow-y: auto;
-            padding: 4px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 10px;
         }
 
         .shortcut-item {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
-            border-radius: var(--radius);
-            background-color: #f8fafc;
-            border: 1px solid var(--border-color);
-            gap: 12px;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--gray-light);
             transition: var(--transition);
         }
 
         .shortcut-item:hover {
-            background-color: #f1f5f9;
+            background-color: var(--gray-light);
+        }
+
+        .shortcut-item:last-child {
+            border-bottom: none;
         }
 
         .shortcut-key {
-            font-weight: 600;
+            font-weight: bold;
             color: var(--primary-color);
-            background-color: rgba(37, 99, 235, 0.1);
+            background-color: rgba(67, 97, 238, 0.1);
             padding: 4px 10px;
             border-radius: 4px;
-            min-width: 60px;
-            text-align: center;
-            font-size: 14px;
+            min-width: 80px;
         }
 
         .shortcut-value {
-            flex: 1;
-            font-size: 14px;
-            padding: 6px 0;
-            border: none;
-            background: transparent;
-            color: var(--text-primary);
+            flex-grow: 1;
+            margin: 0 15px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px dashed transparent;
+            font-size: 15px;
         }
 
         .shortcut-value:focus {
             outline: none;
+            border: 1px dashed var(--primary-color);
             background-color: white;
-            border-radius: 4px;
-            padding: 6px 10px;
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
         }
 
         .actions {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
 
         .action-btn {
-            padding: 6px;
+            padding: 8px;
             border-radius: 4px;
             cursor: pointer;
             transition: var(--transition);
-            color: var(--text-secondary);
-            font-size: 14px;
         }
 
-        .action-btn:hover {
-            background-color: #e2e8f0;
-            color: var(--text-primary);
+        .edit-btn {
+            color: var(--primary-color);
+        }
+
+        .edit-btn:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .delete-btn {
+            color: var(--warning-color);
+        }
+
+        .delete-btn:hover {
+            background-color: rgba(247, 37, 133, 0.1);
         }
 
         .stats {
             display: flex;
             justify-content: space-between;
-            margin-top: 12px;
-            color: var(--text-secondary);
+            margin-top: 15px;
+            color: var(--gray);
             font-size: 14px;
-            padding: 8px 0;
+            padding: 10px 0;
         }
 
-        .text-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border-color);
+        .backup-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid var(--gray-light);
         }
 
-        .saved-texts-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 24px;
+        .file-input {
+            display: none;
         }
 
-        .saved-text-item {
-            padding: 16px;
-            border-radius: var(--radius);
-            background-color: #f8fafc;
-            border: 1px solid var(--border-color);
+        .file-label {
+            display: inline-block;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--success-color), #2a9d8f);
+            color: white;
+            border-radius: var(--border-radius);
             cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .saved-text-item:hover {
-            background-color: #f1f5f9;
-            border-color: var(--primary-color);
-        }
-
-        .saved-text-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .saved-text-title {
             font-weight: 600;
-            color: var(--text-primary);
+            transition: var(--transition);
+            text-align: center;
+            margin-bottom: 15px;
+            width: 100%;
         }
 
-        .saved-text-date {
-            font-size: 12px;
-            color: var(--text-tertiary);
-        }
-
-        .saved-text-preview {
-            font-size: 14px;
-            color: var(--text-secondary);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+        .file-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
         }
 
         .notification {
             position: fixed;
-            top: 24px;
-            right: 24px;
-            padding: 16px 20px;
-            border-radius: var(--radius);
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
             color: white;
-            background-color: var(--primary-color);
-            box-shadow: var(--shadow-lg);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: var(--box-shadow);
             opacity: 0;
             transform: translateY(-20px);
-            transition: var(--transition);
+            transition: opacity 0.3s, transform 0.3s;
             z-index: 1000;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .notification.show {
@@ -424,20 +406,52 @@
             transform: translateY(0);
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-tertiary);
+        .saved-texts {
+            margin-top: 25px;
         }
 
-        .empty-state i {
-            font-size: 48px;
-            margin-bottom: 16px;
-            opacity: 0.5;
+        .saved-texts-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 10px;
         }
 
-        @media (max-width: 1024px) {
-            .main-content {
+        .saved-text-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .saved-text-item:hover {
+            background-color: var(--gray-light);
+        }
+
+        .saved-text-item:last-child {
+            border-bottom: none;
+        }
+
+        .saved-text-content {
+            flex-grow: 1;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-right: 15px;
+        }
+
+        .text-date {
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        @media (max-width: 1200px) {
+            .app-container {
                 grid-template-columns: 1fr;
             }
             
@@ -446,7 +460,7 @@
             }
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
             .button-group {
                 flex-direction: column;
             }
@@ -455,118 +469,166 @@
                 width: 100%;
             }
             
-            .text-actions {
+            .header {
                 flex-direction: column;
-                gap: 12px;
-                align-items: flex-start;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .header-actions button {
+                width: 100%;
             }
         }
 
-        /* Estilos para melhorar a legibilidade do texto */
-        .readable-text {
-            font-size: 17px;
-            line-height: 1.7;
-            color: var(--text-primary);
+        .import-export-info {
+            background-color: var(--primary-light);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 15px;
+            font-size: 14px;
         }
 
-        .readable-text p {
-            margin-bottom: 1em;
+        .import-export-info h4 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
         }
 
-        /* Estilo para modo de edição melhorado */
-        .edit-mode .output-text {
-            padding: 20px;
-            border-left: 4px solid var(--primary-color);
-            background-color: #fafafa;
-            min-height: 400px;
+        .import-export-info ul {
+            padding-left: 20px;
+        }
+
+        .import-export-info li {
+            margin-bottom: 8px;
         }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <header>
+        <header class="header">
             <div class="logo">
                 <i class="fas fa-text-height"></i>
-                <span>TextFlow</span>
+                <div>
+                    <h1>TextMaster Pro <span class="app-version">v2.0</span></h1>
+                    <p>Plataforma completa de gerenciamento de atalhos de texto</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button id="exportAllBtn" class="btn-success">
+                    <i class="fas fa-file-export"></i> Exportar Tudo
+                </button>
+                <button id="importBtn" class="btn-accent">
+                    <i class="fas fa-file-import"></i> Importar
+                </button>
             </div>
         </header>
 
-        <div class="main-content">
-            <div class="panel">
-                <div class="panel-header">
-                    <h2 class="panel-title"><i class="fas fa-keyboard"></i> Atalhos de Texto</h2>
-                </div>
-                <div class="panel-content">
-                    <div class="input-area">
-                        <label for="inputText">Digite seus atalhos</label>
-                        <textarea id="inputText" placeholder="Digite os atalhos separados por espaço (ex: saudação despedida)"></textarea>
-                        
-                        <div class="shortcut-preview" id="shortcutPreview">
-                            <!-- Os atalhos detectados aparecerão aqui -->
-                        </div>
-                        
-                        <div class="button-group">
-                            <button id="expandBtn" class="btn-primary">
-                                <i class="fas fa-expand-arrows-alt"></i> Gerar Protocolo
-                            </button>
-                            <button id="clearBtn" class="btn-secondary">
-                                <i class="fas fa-eraser"></i> Limpar
-                            </button>
-                        </div>
+        <div class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title"><i class="fas fa-keyboard"></i> Gerenciamento de Atalhos</h2>
+            </div>
+            <div class="panel-content">
+                <div class="input-area">
+                    <h3><i class="fas fa-pencil-alt"></i> Digite seus atalhos</h3>
+                    <textarea id="inputText" placeholder="Digite os atalhos separados por espaço (ex: saudacao despedida)"></textarea>
+                    
+                    <div class="shortcut-preview" id="shortcutPreview">
+                        <!-- Os atalhos detectados aparecerão aqui -->
                     </div>
-
-                    <div class="shortcuts-management">
-                        <h3 class="panel-title"><i class="fas fa-sliders-h"></i> Adicione um novo atalho</h3>
-                        
-                        <div class="shortcut-form">
-                            <div class="form-group">
-                                <label for="shortcutKey">Atalho</label>
-                                <input type="text" id="shortcutKey" placeholder="Ex: saudacao">
-                            </div>
-                            <div class="form-group">
-                                <label for="shortcutValue">Campo do protocolo</label>
-                                <input type="text" id="shortcutValue" placeholder="Ex: Olá, seja bem-vindo! Todos os textos adicionados aqui, serão editaveis para o adequar ao atendimento atual">
-                            </div>
-                        </div>
-                        <button id="addShortcut" class="btn-success">
-                            <i class="fas fa-plus"></i> Adicionar Atalho
+                    
+                    <div class="button-group">
+                        <button id="expandBtn" class="btn-primary">
+                            <i class="fas fa-expand-arrows-alt"></i> Expandir Atalhos
                         </button>
+                        <button id="clearBtn" class="btn-secondary">
+                            <i class="fas fa-broom"></i> Limpar Tudo
+                        </button>
+                    </div>
+                </div>
 
-                        <div class="shortcuts-list" id="shortcutsList">
-                            <!-- Lista de atalhos será inserida aqui -->
+                <div class="shortcuts-management">
+                    <h3><i class="fas fa-sliders-h"></i> Gerenciar Atalhos</h3>
+                    
+                    <div class="shortcut-form">
+                        <div class="form-group">
+                            <label for="shortcutKey">Atalho</label>
+                            <input type="text" id="shortcutKey" placeholder="Ex: saudacao">
                         </div>
+                        <div class="form-group">
+                            <label for="shortcutValue">Texto Expandido</label>
+                            <input type="text" id="shortcutValue" placeholder="Ex: Olá, seja bem-vindo!">
+                        </div>
+                        <button id="addShortcut" class="btn-accent">
+                            <i class="fas fa-plus"></i> Adicionar
+                        </button>
+                    </div>
+                    
+                    <div class="shortcuts-list" id="shortcutsList">
+                        <!-- Lista de atalhos será inserida aqui -->
+                    </div>
+                </div>
+
+                <div class="backup-section">
+                    <h3><i class="fas fa-database"></i> Backup e Restauração</h3>
+                    
+                    <div class="button-group">
+                        <button id="exportShortcutsBtn" class="btn-success">
+                            <i class="fas fa-download"></i> Exportar Atalhos
+                        </button>
+                        <button id="importShortcutsBtn" class="btn-accent">
+                            <i class="fas fa-upload"></i> Importar Atalhos
+                        </button>
+                    </div>
+                    
+                    <input type="file" id="importFile" class="file-input" accept=".json">
+                    <label for="importFile" class="file-label">
+                        <i class="fas fa-file-import"></i> Selecionar Arquivo JSON
+                    </label>
+                    
+                    <div class="import-export-info">
+                        <h4><i class="fas fa-info-circle"></i> Como usar importação/exportação</h4>
+                        <ul>
+                            <li>Exporte seus atalhos para fazer backup ou transferir para outro dispositivo</li>
+                            <li>Importe arquivos JSON previamente exportados para restaurar seus atalhos</li>
+                            <li>Mantenha seus arquivos de backup em um local seguro</li>
+                        </ul>
                     </div>
                 </div>
             </div>
-
-            <div class="panel edit-mode">
-                <div class="panel-header">
-                    <h2 class="panel-title"><i class="fas fa-edit"></i> Campo do protocolo</h2>
+        </div>
+        
+        <div class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title"><i class="fas fa-file-alt"></i> Texto Expandido e Editável</h2>
+            </div>
+            <div class="panel-content">
+                <textarea id="outputText" class="output-text" placeholder="O texto com os atalhos expandidos aparecerá aqui..."></textarea>
+                
+                <div class="stats">
+                    <span id="wordCount">0 palavras</span>
+                    <span id="charCount">0 caracteres</span>
                 </div>
-                <div class="panel-content">
-                    <textarea id="outputText" class="output-text readable-text" placeholder="O texto com os atalhos expandidos aparecerá aqui..."></textarea>
-                    
-                    <div class="stats">
-                        <span id="wordCount">0 palavras</span>
-                        <span id="charCount">0 caracteres</span>
-                    </div>
-                    
-                    <div class="text-actions">
-                        <div class="button-group">
-                            <button id="copyBtn" class="btn-primary">
-                                <i class="fas fa-copy"></i> Copiar
-                            </button>
-                            <button id="saveTextBtn" class="btn-secondary">
-                                <i class="fas fa-save"></i> Salvar Texto
-                            </button>
-                        </div>
-                    </div>
+                
+                <div class="button-group">
+                    <button id="copyBtn" class="btn-primary">
+                        <i class="fas fa-copy"></i> Copiar Texto
+                    </button>
+                    <button id="saveTextBtn" class="btn-secondary">
+                        <i class="fas fa-save"></i> Salvar Texto
+                    </button>
+                    <button id="exportTextBtn" class="btn-success">
+                        <i class="fas fa-download"></i> Exportar Texto
+                    </button>
+                </div>
 
-                    <div class="saved-texts-container">
-                        <h3 class="panel-title"><i class="fas fa-history"></i> Textos Salvos</h3>
-                        <div id="savedTextsList">
-                            <!-- Textos salvos aparecerão aqui -->
-                        </div>
+                <div class="saved-texts">
+                    <h3><i class="fas fa-history"></i> Textos Salvos</h3>
+                    <div id="savedTextsList" class="saved-texts-list">
+                        <!-- Textos salvos aparecerão aqui -->
                     </div>
                 </div>
             </div>
@@ -592,11 +654,17 @@
             const clearBtn = document.getElementById('clearBtn');
             const copyBtn = document.getElementById('copyBtn');
             const saveTextBtn = document.getElementById('saveTextBtn');
+            const exportTextBtn = document.getElementById('exportTextBtn');
             const savedTextsList = document.getElementById('savedTextsList');
             const notification = document.getElementById('notification');
             const notificationText = document.getElementById('notificationText');
             const wordCount = document.getElementById('wordCount');
             const charCount = document.getElementById('charCount');
+            const exportShortcutsBtn = document.getElementById('exportShortcutsBtn');
+            const importShortcutsBtn = document.getElementById('importShortcutsBtn');
+            const importFile = document.getElementById('importFile');
+            const exportAllBtn = document.getElementById('exportAllBtn');
+            const importBtn = document.getElementById('importBtn');
             
             // Carregar atalhos e textos salvos do localStorage
             let shortcuts = JSON.parse(localStorage.getItem('textShortcuts')) || {
@@ -613,7 +681,9 @@
             // Função para mostrar notificação
             function showNotification(message, isSuccess = true) {
                 notificationText.textContent = message;
-                notification.style.backgroundColor = isSuccess ? 'var(--success-color)' : 'var(--error-color)';
+                notification.style.background = isSuccess 
+                    ? 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))'
+                    : 'linear-gradient(135deg, var(--warning-color), #c1121f)';
                 
                 notification.classList.add('show');
                 
@@ -637,12 +707,7 @@
                 shortcutsList.innerHTML = '';
                 
                 if (Object.keys(shortcuts).length === 0) {
-                    shortcutsList.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-clipboard-list"></i>
-                            <p>Nenhum atalho cadastrado</p>
-                        </div>
-                    `;
+                    shortcutsList.innerHTML = '<p class="empty-message">Nenhum atalho cadastrado. Adicione seu primeiro atalho acima.</p>';
                     return;
                 }
                 
@@ -653,8 +718,8 @@
                         <span class="shortcut-key">${key}</span>
                         <input class="shortcut-value" value="${value}" data-key="${key}">
                         <div class="actions">
-                            <i class="fas fa-save action-btn" data-key="${key}" title="Salvar alterações"></i>
-                            <i class="fas fa-trash action-btn" data-key="${key}" title="Remover atalho"></i>
+                            <i class="fas fa-save action-btn edit-btn" data-key="${key}" title="Salvar alterações"></i>
+                            <i class="fas fa-trash action-btn delete-btn" data-key="${key}" title="Remover atalho"></i>
                         </div>
                     `;
                     
@@ -672,7 +737,7 @@
                 });
                 
                 // Adicionar event listeners para salvar
-                document.querySelectorAll('.actions .fa-save').forEach(btn => {
+                document.querySelectorAll('.edit-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const key = this.getAttribute('data-key');
                         const input = document.querySelector(`.shortcut-value[data-key="${key}"]`);
@@ -683,7 +748,7 @@
                 });
                 
                 // Adicionar event listeners para remover
-                document.querySelectorAll('.actions .fa-trash').forEach(btn => {
+                document.querySelectorAll('.delete-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const keyToRemove = this.getAttribute('data-key');
                         delete shortcuts[keyToRemove];
@@ -699,12 +764,7 @@
                 savedTextsList.innerHTML = '';
                 
                 if (savedTexts.length === 0) {
-                    savedTextsList.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-inbox"></i>
-                            <p>Nenhum texto salvo</p>
-                        </div>
-                    `;
+                    savedTextsList.innerHTML = '<p class="empty-message">Nenhum texto salvo ainda.</p>';
                     return;
                 }
                 
@@ -713,22 +773,38 @@
                     const textItem = document.createElement('div');
                     textItem.className = 'saved-text-item';
                     textItem.innerHTML = `
-                        <div class="saved-text-header">
-                            <div class="saved-text-title">Texto ${index + 1}</div>
-                            <div class="saved-text-date">${date}</div>
+                        <div>
+                            <div class="saved-text-content">${text.substring(0, 60)}${text.length > 60 ? '...' : ''}</div>
+                            <div class="text-date">Salvo em: ${date}</div>
                         </div>
-                        <div class="saved-text-preview">
-                            ${text.substring(0, 100)}${text.length > 100 ? '...' : ''}
+                        <div class="actions">
+                            <i class="fas fa-upload action-btn edit-btn" data-index="${index}" title="Carregar texto"></i>
+                            <i class="fas fa-trash action-btn delete-btn" data-index="${index}" title="Excluir texto"></i>
                         </div>
                     `;
                     
-                    textItem.addEventListener('click', () => {
-                        outputText.value = text;
-                        updateCounters();
-                        showNotification(`Texto ${index + 1} carregado!`);
-                    });
-                    
                     savedTextsList.appendChild(textItem);
+                });
+                
+                // Adicionar event listeners para carregar textos
+                document.querySelectorAll('.saved-texts .edit-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = this.getAttribute('data-index');
+                        outputText.value = savedTexts[index];
+                        updateCounters();
+                        showNotification(`Texto #${parseInt(index) + 1} carregado!`);
+                    });
+                });
+                
+                // Adicionar event listeners para remover textos
+                document.querySelectorAll('.saved-texts .delete-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = this.getAttribute('data-index');
+                        savedTexts.splice(index, 1);
+                        localStorage.setItem('savedTexts', JSON.stringify(savedTexts));
+                        renderSavedTexts();
+                        showNotification(`Texto removido!`);
+                    });
                 });
             }
             
@@ -747,6 +823,7 @@
                 shortcutPreview.innerHTML = '';
                 
                 if (detectedShortcuts.length === 0) {
+                    shortcutPreview.innerHTML = '<p>Nenhum atalho detectado. Digite algum atalho ou adicione novos abaixo.</p>';
                     return;
                 }
                 
@@ -785,6 +862,99 @@
                 
                 outputText.value = text;
                 updateCounters();
+            }
+            
+            // Função para exportar atalhos para um arquivo JSON
+            function exportShortcuts() {
+                const dataStr = JSON.stringify(shortcuts, null, 2);
+                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                
+                const exportFileDefaultName = `textmaster-atalhos-${new Date().toISOString().slice(0,10)}.json`;
+                
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', exportFileDefaultName);
+                linkElement.click();
+                
+                showNotification('Atalhos exportados com sucesso!');
+            }
+            
+            // Função para exportar todos os dados (atalhos e textos)
+            function exportAllData() {
+                const allData = {
+                    shortcuts: shortcuts,
+                    savedTexts: savedTexts,
+                    exportDate: new Date().toISOString()
+                };
+                
+                const dataStr = JSON.stringify(allData, null, 2);
+                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                
+                const exportFileDefaultName = `textmaster-backup-${new Date().toISOString().slice(0,10)}.json`;
+                
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', exportFileDefaultName);
+                linkElement.click();
+                
+                showNotification('Backup completo exportado com sucesso!');
+            }
+            
+            // Função para exportar o texto atual
+            function exportText() {
+                if (!outputText.value.trim()) {
+                    showNotification('Nenhum texto para exportar.', false);
+                    return;
+                }
+                
+                const text = outputText.value;
+                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(text);
+                
+                const exportFileDefaultName = `textmaster-texto-${new Date().toISOString().slice(0,10)}.txt`;
+                
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', exportFileDefaultName);
+                linkElement.click();
+                
+                showNotification('Texto exportado com sucesso!');
+            }
+            
+            // Função para importar dados de um arquivo JSON
+            function importData(file) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        const importedData = JSON.parse(e.target.result);
+                        
+                        if (importedData.shortcuts) {
+                            // É um arquivo completo de backup
+                            shortcuts = importedData.shortcuts;
+                            if (importedData.savedTexts) {
+                                savedTexts = importedData.savedTexts;
+                            }
+                            localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
+                            localStorage.setItem('savedTexts', JSON.stringify(savedTexts));
+                            
+                            renderShortcutsList();
+                            renderSavedTexts();
+                            showNotification('Backup completo importado com sucesso!');
+                        } else {
+                            // É apenas um arquivo de atalhos
+                            shortcuts = importedData;
+                            localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
+                            
+                            renderShortcutsList();
+                            showNotification('Atalhos importados com sucesso!');
+                        }
+                    } catch (error) {
+                        showNotification('Erro ao importar arquivo. Verifique se o formato está correto.', false);
+                        console.error('Erro na importação:', error);
+                    }
+                };
+                
+                reader.readAsText(file);
             }
             
             // Event listeners
@@ -843,6 +1013,26 @@
                 localStorage.setItem('savedTexts', JSON.stringify(savedTexts));
                 renderSavedTexts();
                 showNotification('Texto salvo com sucesso!');
+            });
+            
+            exportTextBtn.addEventListener('click', exportText);
+            
+            exportShortcutsBtn.addEventListener('click', exportShortcuts);
+            
+            exportAllBtn.addEventListener('click', exportAllData);
+            
+            importShortcutsBtn.addEventListener('click', function() {
+                importFile.click();
+            });
+            
+            importBtn.addEventListener('click', function() {
+                importFile.click();
+            });
+            
+            importFile.addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    importData(e.target.files[0]);
+                }
             });
             
             outputText.addEventListener('input', updateCounters);
