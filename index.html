@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TextMaster - Plataforma de Atalhos de Texto</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #7209b7;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --gray-light: #e9ecef;
+            --gray: #adb5bd;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 28px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 20px;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gray-light);
+        }
+
+        .description {
+            color: var(--gray);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            resize: vertical;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .input-area {
+            margin-bottom: 20px;
+        }
+
+        .shortcut-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .shortcut-tag {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .shortcut-tag i {
+            cursor: pointer;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .shortcut-tag i:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .output-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .output-text {
+            flex-grow: 1;
+            min-height: 200px;
+            background-color: var(--light-color);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: var(--gray-light);
+            color: var(--dark-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gray);
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent-color), var(--warning-color));
+            color: white;
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(114, 9, 183, 0.4);
+        }
+
+        .shortcuts-management {
+            margin-top: 20px;
+        }
+
+        .shortcut-form {
+            display: grid;
+            grid-template-columns: 1fr 2fr auto;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 12px 15px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .shortcuts-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 10px;
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .shortcut-item:hover {
+            background-color: var(--gray-light);
+        }
+
+        .shortcut-item:last-child {
+            border-bottom: none;
+        }
+
+        .shortcut-key {
+            font-weight: bold;
+            color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.1);
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .shortcut-value {
+            flex-grow: 1;
+            margin: 0 15px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px dashed transparent;
+        }
+
+        .shortcut-value:focus {
+            outline: none;
+            border: 1px dashed var(--primary-color);
+            background-color: white;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .edit-btn {
+            color: var(--primary-color);
+        }
+
+        .edit-btn:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .delete-btn {
+            color: var(--warning-color);
+        }
+
+        .delete-btn:hover {
+            background-color: rgba(247, 37, 133, 0.1);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            color: white;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: var(--box-shadow);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .shortcut-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <div class="header">
+                <div class="logo">
+                    <i class="fas fa-code fa-2x"></i>
+                    <h1>TextMaster</h1>
+                </div>
+                <p class="description">Sistema de atalhos para texto com edição em tempo real</p>
+            </div>
+            
+            <div class="input-area">
+                <h2><i class="fas fa-keyboard"></i> Digite seus atalhos</h2>
+                <textarea id="inputText" placeholder="Digite os atalhos separados por espaço (ex: cid sauda encerra)"></textarea>
+                
+                <div class="shortcut-preview" id="shortcutPreview">
+                    <!-- Os atalhos detectados aparecerão aqui -->
+                </div>
+                
+                <div class="button-group">
+                    <button id="expandBtn" class="btn-primary">
+                        <i class="fas fa-expand"></i> Expandir Atalhos
+                    </button>
+                    <button id="clearBtn" class="btn-secondary">
+                        <i class="fas fa-broom"></i> Limpar Tudo
+                    </button>
+                </div>
+            </div>
+            
+            <div class="shortcuts-management">
+                <h2><i class="fas fa-sliders-h"></i> Gerenciar Atalhos</h2>
+                
+                <div class="shortcut-form">
+                    <input type="text" id="shortcutKey" placeholder="Atalho (ex: cid)">
+                    <input type="text" id="shortcutValue" placeholder="Texto expandido (ex: Cidade)">
+                    <button id="addShortcut" class="btn-accent">
+                        <i class="fas fa-plus"></i> Adicionar
+                    </button>
+                </div>
+                
+                <div class="shortcuts-list" id="shortcutsList">
+                    <!-- Lista de atalhos será inserida aqui -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <div class="output-area">
+                <h2><i class="fas fa-file-alt"></i> Texto Expandido e Editável</h2>
+                <textarea id="outputText" class="output-text" placeholder="O texto com os atalhos expandidos aparecerá aqui..."></textarea>
+                
+                <div class="stats">
+                    <span id="wordCount">0 palavras</span>
+                    <span id="charCount">0 caracteres</span>
+                </div>
+                
+                <div class="button-group">
+                    <button id="copyBtn" class="btn-primary">
+                        <i class="fas fa-copy"></i> Copiar Texto
+                    </button>
+                    <button id="saveTextBtn" class="btn-secondary">
+                        <i class="fas fa-save"></i> Salvar Texto
+                    </button>
+                </div>
+            </div>
+            
+            <div class="saved-texts">
+                <h2><i class="fas fa-history"></i> Textos Salvos</h2>
+                <div id="savedTextsList">
+                    <!-- Textos salvos aparecerão aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText"></span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos do DOM
+            const inputText = document.getElementById('inputText');
+            const outputText = document.getElementById('outputText');
+            const shortcutKey = document.getElementById('shortcutKey');
+            const shortcutValue = document.getElementById('shortcutValue');
+            const addShortcutBtn = document.getElementById('addShortcut');
+            const shortcutsList = document.getElementById('shortcutsList');
+            const shortcutPreview = document.getElementById('shortcutPreview');
+            const expandBtn = document.getElementById('expandBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const saveTextBtn = document.getElementById('saveTextBtn');
+            const savedTextsList = document.getElementById('savedTextsList');
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            const wordCount = document.getElementById('wordCount');
+            const charCount = document.getElementById('charCount');
+            
+            // Carregar atalhos e textos salvos do localStorage
+            let shortcuts = JSON.parse(localStorage.getItem('textShortcuts')) || {
+                'cid': 'Cidade',
+                'sauda': 'Atenciosamente,',
+                'encerra': 'Agradecemos pelo contato!',
+                'tel': 'Telefone:',
+                'email': 'E-mail:',
+                'att': 'Atenciosamente,\n[Nome]\n[Empresa]'
+            };
+            
+            let savedTexts = JSON.parse(localStorage.getItem('savedTexts')) || [];
+            
+            // Função para mostrar notificação
+            function showNotification(message, isSuccess = true) {
+                notificationText.textContent = message;
+                notification.style.background = isSuccess 
+                    ? 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))'
+                    : 'linear-gradient(135deg, var(--warning-color), #c1121f)';
+                
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Função para atualizar contadores
+            function updateCounters() {
+                const text = outputText.value;
+                const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+                const characters = text.length;
+                
+                wordCount.textContent = `${words} palavra${words !== 1 ? 's' : ''}`;
+                charCount.textContent = `${characters} caractere${characters !== 1 ? 's' : ''}`;
+            }
+            
+            // Função para renderizar a lista de atalhos
+            function renderShortcutsList() {
+                shortcutsList.innerHTML = '';
+                
+                if (Object.keys(shortcuts).length === 0) {
+                    shortcutsList.innerHTML = '<p class="empty-message">Nenhum atalho cadastrado. Adicione seu primeiro atalho acima.</p>';
+                    return;
+                }
+                
+                for (const [key, value] of Object.entries(shortcuts)) {
+                    const shortcutItem = document.createElement('div');
+                    shortcutItem.className = 'shortcut-item';
+                    shortcutItem.innerHTML = `
+                        <span class="shortcut-key">${key}</span>
+                        <input class="shortcut-value" value="${value}" data-key="${key}">
+                        <div class="actions">
+                            <i class="fas fa-save action-btn edit-btn" data-key="${key}"></i>
+                            <i class="fas fa-trash action-btn delete-btn" data-key="${key}"></i>
+                        </div>
+                    `;
+                    
+                    shortcutsList.appendChild(shortcutItem);
+                }
+                
+                // Adicionar event listeners para edição
+                document.querySelectorAll('.shortcut-value').forEach(input => {
+                    input.addEventListener('change', function() {
+                        const key = this.getAttribute('data-key');
+                        shortcuts[key] = this.value;
+                        localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
+                        showNotification(`Atalho "${key}" atualizado!`);
+                    });
+                });
+                
+                // Adicionar event listeners para salvar
+                document.querySelectorAll('.edit-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const key = this.getAttribute('data-key');
+                        const input = document.querySelector(`.shortcut-value[data-key="${key}"]`);
+                        shortcuts[key] = input.value;
+                        localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
+                        showNotification(`Atalho "${key}" atualizado!`);
+                    });
+                });
+                
+                // Adicionar event listeners para remover
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const keyToRemove = this.getAttribute('data-key');
+                        delete shortcuts[keyToRemove];
+                        localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
+                        renderShortcutsList();
+                        showNotification(`Atalho "${keyToRemove}" removido!`);
+                    });
+                });
+            }
+            
+            // Função para renderizar textos salvos
+            function renderSavedTexts() {
+                savedTextsList.innerHTML = '';
+                
+                if (savedTexts.length === 0) {
+                    savedTextsList.innerHTML = '<p class="empty-message">Nenhum texto salvo ainda.</p>';
+                    return;
+                }
+                
+                savedTexts.forEach((text, index) => {
+                    const textItem = document.createElement('div');
+                    textItem.className = 'shortcut-item';
+                    textItem.innerHTML = `
+                        <div style="flex-grow: 1;">
+                            <div style="font-weight: bold;">Texto #${index + 1}</div>
+                            <div style="font-size: 0.9em; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                ${text.substring(0, 60)}${text.length > 60 ? '...' : ''}
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <i class="fas fa-upload action-btn edit-btn" data-index="${index}"></i>
+                            <i class="fas fa-trash action-btn delete-btn" data-index="${index}"></i>
+                        </div>
+                    `;
+                    
+                    savedTextsList.appendChild(textItem);
+                });
+                
+                // Adicionar event listeners para carregar textos
+                document.querySelectorAll('.saved-texts .edit-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = this.getAttribute('data-index');
+                        outputText.value = savedTexts[index];
+                        updateCounters();
+                        showNotification(`Texto #${parseInt(index) + 1} carregado!`);
+                    });
+                });
+                
+                // Adicionar event listeners para remover textos
+                document.querySelectorAll('.saved-texts .delete-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = this.getAttribute('data-index');
+                        savedTexts.splice(index, 1);
+                        localStorage.setItem('savedTexts', JSON.stringify(savedTexts));
+                        renderSavedTexts();
+                        showNotification(`Texto removido!`);
+                    });
+                });
+            }
+            
+            // Função para detectar atalhos no texto de entrada
+            function detectShortcuts() {
+                const text = inputText.value;
+                const words = text.split(/\s+/);
+                const detectedShortcuts = [];
+                
+                for (const word of words) {
+                    if (shortcuts[word] && !detectedShortcuts.includes(word)) {
+                        detectedShortcuts.push(word);
+                    }
+                }
+                
+                shortcutPreview.innerHTML = '';
+                
+                if (detectedShortcuts.length === 0) {
+                    shortcutPreview.innerHTML = '<p>Nenhum atalho detectado. Digite algum atalho ou adicone novos abaixo.</p>';
+                    return;
+                }
+                
+                for (const shortcut of detectedShortcuts) {
+                    const tag = document.createElement('div');
+                    tag.className = 'shortcut-tag';
+                    tag.innerHTML = `
+                        <span>${shortcut}</span>
+                        <i class="fas fa-times" data-shortcut="${shortcut}"></i>
+                    `;
+                    shortcutPreview.appendChild(tag);
+                }
+                
+                // Adicionar event listeners para remover atalhos do texto
+                document.querySelectorAll('.shortcut-tag i').forEach(icon => {
+                    icon.addEventListener('click', function() {
+                        const shortcut = this.getAttribute('data-shortcut');
+                        const regex = new RegExp(`\\b${shortcut}\\b`, 'g');
+                        inputText.value = inputText.value.replace(regex, '').replace(/\s+/g, ' ').trim();
+                        detectShortcuts();
+                    });
+                });
+            }
+            
+            // Função para expandir atalhos no texto
+            function expandShortcuts() {
+                let text = inputText.value;
+                
+                // Ordenar atalhos por tamanho (do maior para o menor) para evitar substituições parciais
+                const sortedKeys = Object.keys(shortcuts).sort((a, b) => b.length - a.length);
+                
+                for (const key of sortedKeys) {
+                    const regex = new RegExp(`\\b${key}\\b`, 'g');
+                    text = text.replace(regex, shortcuts[key]);
+                }
+                
+                outputText.value = text;
+                updateCounters();
+            }
+            
+            // Event listeners
+            inputText.addEventListener('input', detectShortcuts);
+            
+            expandBtn.addEventListener('click', expandShortcuts);
+            
+            clearBtn.addEventListener('click', function() {
+                inputText.value = '';
+                outputText.value = '';
+                shortcutPreview.innerHTML = '';
+                updateCounters();
+                showNotification('Campos limpos!');
+            });
+            
+            addShortcutBtn.addEventListener('click', function() {
+                const key = shortcutKey.value.trim();
+                const value = shortcutValue.value.trim();
+                
+                if (!key || !value) {
+                    showNotification('Por favor, preencha ambos os campos.', false);
+                    return;
+                }
+                
+                if (key.includes(' ')) {
+                    showNotification('O atalho não pode conter espaços.', false);
+                    return;
+                }
+                
+                shortcuts[key] = value;
+                localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
+                
+                shortcutKey.value = '';
+                shortcutValue.value = '';
+                
+                renderShortcutsList();
+                showNotification(`Atalho "${key}" adicionado com sucesso!`);
+                
+                // Atualizar a detecção de atalhos
+                detectShortcuts();
+            });
+            
+            copyBtn.addEventListener('click', function() {
+                outputText.select();
+                document.execCommand('copy');
+                showNotification('Texto copiado para a área de transferência!');
+            });
+            
+            saveTextBtn.addEventListener('click', function() {
+                if (!outputText.value.trim()) {
+                    showNotification('Nenhum texto para salvar.', false);
+                    return;
+                }
+                
+                savedTexts.push(outputText.value);
+                localStorage.setItem('savedTexts', JSON.stringify(savedTexts));
+                renderSavedTexts();
+                showNotification('Texto salvo com sucesso!');
+            });
+            
+            outputText.addEventListener('input', updateCounters);
+            
+            // Inicializar a aplicação
+            renderShortcutsList();
+            renderSavedTexts();
+            updateCounters();
+            detectShortcuts();
+            
+            // Adicionar alguns atalhos iniciais se não existirem
+            if (Object.keys(shortcuts).length === 0) {
+                shortcuts = {
+                    'cid': 'Cidade',
+                    'sauda': 'Atenciosamente,',
+                    'encerra': 'Agradecemos pelo contato!',
+                    'tel': 'Telefone:',
+                    'email': 'E-mail:',
+                    'att': 'Atenciosamente,\n[Nome]\n[Empresa]'
+                };
+                localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
+                renderShortcutsList();
+            }
+        });
+    </script>
+</body>
+</html>
