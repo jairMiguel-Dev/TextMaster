@@ -513,10 +513,97 @@
         }
 
         .logo-img {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-}
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        /* Novos estilos para melhorias */
+        .editable-text {
+            border: 1px dashed transparent;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .editable-text:hover {
+            border-color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+        
+        .edit-mode .editable-text {
+            border: 1px dashed var(--primary-color);
+            background-color: white;
+        }
+        
+        .edit-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            justify-content: flex-end;
+        }
+        
+        .search-box {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+        
+        .search-box input {
+            padding-left: 40px;
+            width: 100%;
+        }
+        
+        .empty-message {
+            text-align: center;
+            color: var(--gray);
+            padding: 20px;
+            font-style: italic;
+        }
+        
+        .confirm-dialog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+        
+        .confirm-dialog.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .confirm-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            max-width: 400px;
+            width: 90%;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .confirm-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -528,6 +615,15 @@
                     <h1>TextMaster Pro <span class="app-version">v2.0</span></h1>
                     <p>Plataforma completa de gerenciamento de atalhos para suporte no protocolo de atendimento.</p>
                 </div>
+            </div>
+            <div class="header-actions">
+                <button id="exportAllBtn" class="btn-success">
+                    <i class="fas fa-file-export"></i> Exportar Tudo
+                </button>
+                <button id="importBtn" class="btn-accent">
+                    <i class="fas fa-file-import"></i> Importar
+                </button>
+                <input type="file" id="importFile" class="file-input" accept=".json">
             </div>
         </header>
 
@@ -557,6 +653,11 @@
                 <div class="shortcuts-management">
                     <h3><i class="fas fa-sliders-h"></i> Gerenciar Atalhos</h3>
                     
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchShortcuts" placeholder="Buscar atalhos...">
+                    </div>
+                    
                     <div class="shortcut-form">
                         <div class="form-group">
                             <label for="shortcutKey">Atalho</label>
@@ -576,6 +677,17 @@
                     </div>
                 </div>
 
+                <div class="backup-section">
+                    <h3><i class="fas fa-database"></i> Backup de Atalhos</h3>
+                    <p class="import-export-info">
+                        Exporte seus atalhos para um arquivo JSON para fazer backup ou importe um arquivo anteriormente exportado.
+                    </p>
+                    <div class="button-group">
+                        <button id="exportShortcutsBtn" class="btn-success">
+                            <i class="fas fa-file-export"></i> Exportar Atalhos
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -595,7 +707,19 @@
                     <button id="copyBtn" class="btn-primary">
                         <i class="fas fa-copy"></i> Copiar Texto
                     </button>
-                   
+                    <button id="saveTextBtn" class="btn-success">
+                        <i class="fas fa-save"></i> Salvar Texto
+                    </button>
+                    <button id="exportTextBtn" class="btn-accent">
+                        <i class="fas fa-file-export"></i> Exportar Texto
+                    </button>
+                </div>
+                
+                <div class="saved-texts">
+                    <h3><i class="fas fa-history"></i> Textos Salvos</h3>
+                    <div class="saved-texts-list" id="savedTextsList">
+                        <!-- Lista de textos salvos será inserida aqui -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -604,6 +728,17 @@
     <div id="notification" class="notification">
         <i class="fas fa-check-circle"></i>
         <span id="notificationText"></span>
+    </div>
+    
+    <div id="confirmDialog" class="confirm-dialog">
+        <div class="confirm-content">
+            <h3 id="confirmTitle">Confirmar ação</h3>
+            <p id="confirmMessage">Tem certeza que deseja realizar esta ação?</p>
+            <div class="confirm-buttons">
+                <button id="confirmCancel" class="btn-secondary">Cancelar</button>
+                <button id="confirmAction" class="btn-accent">Confirmar</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -631,6 +766,12 @@
             const importFile = document.getElementById('importFile');
             const exportAllBtn = document.getElementById('exportAllBtn');
             const importBtn = document.getElementById('importBtn');
+            const searchShortcuts = document.getElementById('searchShortcuts');
+            const confirmDialog = document.getElementById('confirmDialog');
+            const confirmTitle = document.getElementById('confirmTitle');
+            const confirmMessage = document.getElementById('confirmMessage');
+            const confirmCancel = document.getElementById('confirmCancel');
+            const confirmAction = document.getElementById('confirmAction');
             
             // Carregar atalhos e textos salvos do localStorage
             let shortcuts = JSON.parse(localStorage.getItem('textShortcuts')) || {
@@ -643,6 +784,8 @@
             };
             
             let savedTexts = JSON.parse(localStorage.getItem('savedTexts')) || [];
+            let currentEditIndex = null;
+            let pendingAction = null;
             
             // Função para mostrar notificação
             function showNotification(message, isSuccess = true) {
@@ -656,6 +799,34 @@
                 setTimeout(() => {
                     notification.classList.remove('show');
                 }, 3000);
+            }
+            
+            // Função para mostrar diálogo de confirmação
+            function showConfirm(title, message, callback) {
+                confirmTitle.textContent = title;
+                confirmMessage.textContent = message;
+                confirmDialog.classList.add('show');
+                
+                const handleConfirm = () => {
+                    confirmDialog.classList.remove('show');
+                    callback(true);
+                    document.removeEventListener('keydown', handleKeyDown);
+                };
+                
+                const handleCancel = () => {
+                    confirmDialog.classList.remove('show');
+                    callback(false);
+                    document.removeEventListener('keydown', handleKeyDown);
+                };
+                
+                const handleKeyDown = (e) => {
+                    if (e.key === 'Escape') handleCancel();
+                    if (e.key === 'Enter') handleConfirm();
+                };
+                
+                confirmAction.onclick = handleConfirm;
+                confirmCancel.onclick = handleCancel;
+                document.addEventListener('keydown', handleKeyDown);
             }
             
             // Função para atualizar contadores
@@ -672,19 +843,28 @@
             function renderShortcutsList() {
                 shortcutsList.innerHTML = '';
                 
-                if (Object.keys(shortcuts).length === 0) {
-                    shortcutsList.innerHTML = '<p class="empty-message">Nenhum atalho cadastrado. Adicione seu primeiro atalho acima.</p>';
+                const searchTerm = searchShortcuts.value.toLowerCase();
+                let filteredShortcuts = Object.entries(shortcuts);
+                
+                if (searchTerm) {
+                    filteredShortcuts = filteredShortcuts.filter(([key, value]) => 
+                        key.toLowerCase().includes(searchTerm) || value.toLowerCase().includes(searchTerm)
+                    );
+                }
+                
+                if (filteredShortcuts.length === 0) {
+                    shortcutsList.innerHTML = '<p class="empty-message">Nenhum atalho encontrado.</p>';
                     return;
                 }
                 
-                for (const [key, value] of Object.entries(shortcuts)) {
+                for (const [key, value] of filteredShortcuts) {
                     const shortcutItem = document.createElement('div');
                     shortcutItem.className = 'shortcut-item';
                     shortcutItem.innerHTML = `
                         <span class="shortcut-key">${key}</span>
-                        <input class="shortcut-value" value="${value}" data-key="${key}">
+                        <span class="shortcut-value editable-text" data-key="${key}">${value}</span>
                         <div class="actions">
-                            <i class="fas fa-save action-btn edit-btn" data-key="${key}" title="Salvar alterações"></i>
+                            <i class="fas fa-edit action-btn edit-btn" data-key="${key}" title="Editar atalho"></i>
                             <i class="fas fa-trash action-btn delete-btn" data-key="${key}" title="Remover atalho"></i>
                         </div>
                     `;
@@ -693,23 +873,37 @@
                 }
                 
                 // Adicionar event listeners para edição
-                document.querySelectorAll('.shortcut-value').forEach(input => {
-                    input.addEventListener('blur', function() {
+                document.querySelectorAll('.editable-text').forEach(span => {
+                    span.addEventListener('dblclick', function() {
                         const key = this.getAttribute('data-key');
-                        shortcuts[key] = this.value;
-                        localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
-                        showNotification(`Atalho "${key}" atualizado!`);
-                    });
-                });
-                
-                // Adicionar event listeners para salvar
-                document.querySelectorAll('.edit-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const key = this.getAttribute('data-key');
-                        const input = document.querySelector(`.shortcut-value[data-key="${key}"]`);
-                        shortcuts[key] = input.value;
-                        localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
-                        showNotification(`Atalho "${key}" atualizado!`);
+                        const currentValue = shortcuts[key];
+                        
+                        this.innerHTML = `
+                            <input type="text" class="edit-input" value="${currentValue}" style="width: 100%">
+                            <div class="edit-actions">
+                                <button class="btn-primary save-edit-btn" data-key="${key}">Salvar</button>
+                                <button class="btn-secondary cancel-edit-btn">Cancelar</button>
+                            </div>
+                        `;
+                        
+                        const input = this.querySelector('.edit-input');
+                        input.focus();
+                        
+                        // Salvar edição
+                        this.querySelector('.save-edit-btn').addEventListener('click', function() {
+                            const newValue = input.value.trim();
+                            if (newValue) {
+                                shortcuts[key] = newValue;
+                                localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
+                                renderShortcutsList();
+                                showNotification(`Atalho "${key}" atualizado!`);
+                            }
+                        });
+                        
+                        // Cancelar edição
+                        this.querySelector('.cancel-edit-btn').addEventListener('click', function() {
+                            renderShortcutsList();
+                        });
                     });
                 });
                 
@@ -717,10 +911,20 @@
                 document.querySelectorAll('.delete-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const keyToRemove = this.getAttribute('data-key');
-                        delete shortcuts[keyToRemove];
-                        localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
-                        renderShortcutsList();
-                        showNotification(`Atalho "${keyToRemove}" removido!`);
+                        
+                        showConfirm(
+                            'Confirmar exclusão',
+                            `Tem certeza que deseja excluir o atalho "${keyToRemove}"?`,
+                            function(confirmed) {
+                                if (confirmed) {
+                                    delete shortcuts[keyToRemove];
+                                    localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
+                                    renderShortcutsList();
+                                    detectShortcuts();
+                                    showNotification(`Atalho "${keyToRemove}" removido!`);
+                                }
+                            }
+                        );
                     });
                 });
             }
@@ -740,7 +944,7 @@
                     textItem.className = 'saved-text-item';
                     textItem.innerHTML = `
                         <div>
-                            <div class="saved-text-content">${text.substring(0, 60)}${text.length > 60 ? '...' : ''}</div>
+                            <div class="saved-text-content editable-text" data-index="${index}">${text.substring(0, 60)}${text.length > 60 ? '...' : ''}</div>
                             <div class="text-date">Salvo em: ${date}</div>
                         </div>
                         <div class="actions">
@@ -750,6 +954,41 @@
                     `;
                     
                     savedTextsList.appendChild(textItem);
+                });
+                
+                // Adicionar event listeners para edição de textos salvos
+                document.querySelectorAll('.saved-texts .editable-text').forEach(span => {
+                    span.addEventListener('dblclick', function() {
+                        const index = this.getAttribute('data-index');
+                        const currentText = savedTexts[index];
+                        
+                        this.innerHTML = `
+                            <textarea class="edit-textarea" style="width: 100%; min-height: 80px;">${currentText}</textarea>
+                            <div class="edit-actions">
+                                <button class="btn-primary save-text-edit-btn" data-index="${index}">Salvar</button>
+                                <button class="btn-secondary cancel-text-edit-btn">Cancelar</button>
+                            </div>
+                        `;
+                        
+                        const textarea = this.querySelector('.edit-textarea');
+                        textarea.focus();
+                        
+                        // Salvar edição
+                        this.querySelector('.save-text-edit-btn').addEventListener('click', function() {
+                            const newText = textarea.value.trim();
+                            if (newText) {
+                                savedTexts[index] = newText;
+                                localStorage.setItem('savedTexts', JSON.stringify(savedTexts));
+                                renderSavedTexts();
+                                showNotification(`Texto #${parseInt(index) + 1} atualizado!`);
+                            }
+                        });
+                        
+                        // Cancelar edição
+                        this.querySelector('.cancel-text-edit-btn').addEventListener('click', function() {
+                            renderSavedTexts();
+                        });
+                    });
                 });
                 
                 // Adicionar event listeners para carregar textos
@@ -766,10 +1005,19 @@
                 document.querySelectorAll('.saved-texts .delete-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const index = this.getAttribute('data-index');
-                        savedTexts.splice(index, 1);
-                        localStorage.setItem('savedTexts', JSON.stringify(savedTexts));
-                        renderSavedTexts();
-                        showNotification(`Texto removido!`);
+                        
+                        showConfirm(
+                            'Confirmar exclusão',
+                            'Tem certeza que deseja excluir este texto salvo?',
+                            function(confirmed) {
+                                if (confirmed) {
+                                    savedTexts.splice(index, 1);
+                                    localStorage.setItem('savedTexts', JSON.stringify(savedTexts));
+                                    renderSavedTexts();
+                                    showNotification(`Texto removido!`);
+                                }
+                            }
+                        );
                     });
                 });
             }
@@ -833,7 +1081,7 @@
             // Função para exportar atalhos para um arquivo JSON
             function exportShortcuts() {
                 const dataStr = JSON.stringify(shortcuts, null, 2);
-                const dataUri = 'application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
                 
                 const exportFileDefaultName = `textmaster-atalhos-${new Date().toISOString().slice(0,10)}.json`;
                 
@@ -854,7 +1102,7 @@
                 };
                 
                 const dataStr = JSON.stringify(allData, null, 2);
-                const dataUri = 'application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
                 
                 const exportFileDefaultName = `textmaster-backup-${new Date().toISOString().slice(0,10)}.json`;
                 
@@ -874,7 +1122,7 @@
                 }
                 
                 const text = outputText.value;
-                const dataUri = 'application/json;charset=utf-8,'+ encodeURIComponent(text);
+                const dataUri = 'data:text/plain;charset=utf-8,'+ encodeURIComponent(text);
                 
                 const exportFileDefaultName = `textmaster-texto-${new Date().toISOString().slice(0,10)}.txt`;
                 
@@ -894,26 +1142,34 @@
                     try {
                         const importedData = JSON.parse(e.target.result);
                         
-                        if (importedData.shortcuts) {
-                            // É um arquivo completo de backup
-                            shortcuts = importedData.shortcuts;
-                            if (importedData.savedTexts) {
-                                savedTexts = importedData.savedTexts;
+                        showConfirm(
+                            'Confirmar importação',
+                            'Esta ação substituirá seus atalhos atuais. Tem certeza que deseja continuar?',
+                            function(confirmed) {
+                                if (confirmed) {
+                                    if (importedData.shortcuts) {
+                                        // É um arquivo completo de backup
+                                        shortcuts = importedData.shortcuts;
+                                        if (importedData.savedTexts) {
+                                            savedTexts = importedData.savedTexts;
+                                        }
+                                        localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
+                                        localStorage.setItem('savedTexts', JSON.stringify(savedTexts));
+                                        
+                                        renderShortcutsList();
+                                        renderSavedTexts();
+                                        showNotification('Backup completo importado com sucesso!');
+                                    } else {
+                                        // É apenas um arquivo de atalhos
+                                        shortcuts = importedData;
+                                        localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
+                                        
+                                        renderShortcutsList();
+                                        showNotification('Atalhos importados com sucesso!');
+                                    }
+                                }
                             }
-                            localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
-                            localStorage.setItem('savedTexts', JSON.stringify(savedTexts));
-                            
-                            renderShortcutsList();
-                            renderSavedTexts();
-                            showNotification('Backup completo importado com sucesso!');
-                        } else {
-                            // É apenas um arquivo de atalhos
-                            shortcuts = importedData;
-                            localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
-                            
-                            renderShortcutsList();
-                            showNotification('Atalhos importados com sucesso!');
-                        }
+                        );
                     } catch (error) {
                         showNotification('Erro ao importar arquivo. Verifique se o formato está correto.', false);
                         console.error('Erro na importação:', error);
@@ -950,17 +1206,39 @@
                     return;
                 }
                 
-                shortcuts[key] = value;
-                localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
-                
-                shortcutKey.value = '';
-                shortcutValue.value = '';
-                
-                renderShortcutsList();
-                showNotification(`Atalho "${key}" adicionado com sucesso!`);
-                
-                // Atualizar a detecção de atalhos
-                detectShortcuts();
+                if (shortcuts[key]) {
+                    showConfirm(
+                        'Atalho existente',
+                        `Já existe um atalho com a chave "${key}". Deseja substituí-lo?`,
+                        function(confirmed) {
+                            if (confirmed) {
+                                shortcuts[key] = value;
+                                localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
+                                
+                                shortcutKey.value = '';
+                                shortcutValue.value = '';
+                                
+                                renderShortcutsList();
+                                showNotification(`Atalho "${key}" atualizado com sucesso!`);
+                                
+                                // Atualizar a detecção de atalhos
+                                detectShortcuts();
+                            }
+                        }
+                    );
+                } else {
+                    shortcuts[key] = value;
+                    localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
+                    
+                    shortcutKey.value = '';
+                    shortcutValue.value = '';
+                    
+                    renderShortcutsList();
+                    showNotification(`Atalho "${key}" adicionado com sucesso!`);
+                    
+                    // Atualizar a detecção de atalhos
+                    detectShortcuts();
+                }
             });
             
             copyBtn.addEventListener('click', function() {
@@ -987,10 +1265,6 @@
             
             exportAllBtn.addEventListener('click', exportAllData);
             
-            importShortcutsBtn.addEventListener('click', function() {
-                importFile.click();
-            });
-            
             importBtn.addEventListener('click', function() {
                 importFile.click();
             });
@@ -1002,6 +1276,8 @@
             });
             
             outputText.addEventListener('input', updateCounters);
+            
+            searchShortcuts.addEventListener('input', renderShortcutsList);
             
             // Inicializar a aplicação
             renderShortcutsList();
