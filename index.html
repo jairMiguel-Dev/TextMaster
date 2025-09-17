@@ -526,16 +526,8 @@
                 <img src="logo.icon.png" alt="TextMaster Pro Logo" class="logo-img">
                 <div>
                     <h1>TextMaster Pro <span class="app-version">v2.0</span></h1>
-                    <p>Plataforma completa de gerenciamento de atalhos de texto</p>
+                    <p>Plataforma completa de gerenciamento de atalhos para suporte no protocolo de atendimento.</p>
                 </div>
-            </div>
-            <div class="header-actions">
-                <button id="exportAllBtn" class="btn-success">
-                    <i class="fas fa-file-export"></i> Exportar Tudo
-                </button>
-                <button id="importBtn" class="btn-accent">
-                    <i class="fas fa-file-import"></i> Importar
-                </button>
             </div>
         </header>
 
@@ -554,10 +546,10 @@
                     
                     <div class="button-group">
                         <button id="expandBtn" class="btn-primary">
-                            <i class="fas fa-expand-arrows-alt"></i> Expandir Atalhos
+                            <i class="fas fa-expand-arrows-alt"></i> Criar Protocólo
                         </button>
                         <button id="clearBtn" class="btn-secondary">
-                            <i class="fas fa-broom"></i> Limpar Tudo
+                            <i class="fas fa-broom"></i> Limpar Area de texto
                         </button>
                     </div>
                 </div>
@@ -571,7 +563,7 @@
                             <input type="text" id="shortcutKey" placeholder="Ex: saudacao">
                         </div>
                         <div class="form-group">
-                            <label for="shortcutValue">Texto Expandido</label>
+                            <label for="shortcutValue">Protocolo</label>
                             <input type="text" id="shortcutValue" placeholder="Ex: Olá, seja bem-vindo!">
                         </div>
                         <button id="addShortcut" class="btn-accent">
@@ -584,41 +576,15 @@
                     </div>
                 </div>
 
-                <div class="backup-section">
-                    <h3><i class="fas fa-database"></i> Backup e Restauração</h3>
-                    
-                    <div class="button-group">
-                        <button id="exportShortcutsBtn" class="btn-success">
-                            <i class="fas fa-download"></i> Exportar Atalhos
-                        </button>
-                        <button id="importShortcutsBtn" class="btn-accent">
-                            <i class="fas fa-upload"></i> Importar Atalhos
-                        </button>
-                    </div>
-                    
-                    <input type="file" id="importFile" class="file-input" accept=".json">
-                    <label for="importFile" class="file-label">
-                        <i class="fas fa-file-import"></i> Selecionar Arquivo JSON
-                    </label>
-                    
-                    <div class="import-export-info">
-                        <h4><i class="fas fa-info-circle"></i> Como usar importação/exportação</h4>
-                        <ul>
-                            <li>Exporte seus atalhos para fazer backup ou transferir para outro dispositivo</li>
-                            <li>Importe arquivos JSON previamente exportados para restaurar seus atalhos</li>
-                            <li>Mantenha seus arquivos de backup em um local seguro</li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
         
         <div class="panel">
             <div class="panel-header">
-                <h2 class="panel-title"><i class="fas fa-file-alt"></i> Texto Expandido e Editável</h2>
+                <h2 class="panel-title"><i class="fas fa-file-alt"></i> Protocolo Gerado e Editável</h2>
             </div>
             <div class="panel-content">
-                <textarea id="outputText" class="output-text" placeholder="O texto com os atalhos expandidos aparecerá aqui..."></textarea>
+                <textarea id="outputText" class="output-text" placeholder="O Protocolo irá aparecer aqui, após aplicar os atalhos no campo da esquerda, não esqueça de editar para cada atendimento..."></textarea>
                 
                 <div class="stats">
                     <span id="wordCount">0 palavras</span>
@@ -629,19 +595,7 @@
                     <button id="copyBtn" class="btn-primary">
                         <i class="fas fa-copy"></i> Copiar Texto
                     </button>
-                    <button id="saveTextBtn" class="btn-secondary">
-                        <i class="fas fa-save"></i> Salvar Texto
-                    </button>
-                    <button id="exportTextBtn" class="btn-success">
-                        <i class="fas fa-download"></i> Exportar Texto
-                    </button>
-                </div>
-
-                <div class="saved-texts">
-                    <h3><i class="fas fa-history"></i> Textos Salvos</h3>
-                    <div id="savedTextsList" class="saved-texts-list">
-                        <!-- Textos salvos aparecerão aqui -->
-                    </div>
+                   
                 </div>
             </div>
         </div>
