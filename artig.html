@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.icon.png" type="image/png">
+    <title>TextMaster Pro - Sistema de Recomendação de Artigos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #e6eeff;
+            --secondary-color: #3a0ca3;
+            --accent-color: #7209b7;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-light: #e9ecef;
+            --gray: #adb5bd;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.8fr;
+            gap: 24px;
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo i {
+            font-size: 32px;
+            color: var(--primary-color);
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+
+        .app-version {
+            font-size: 14px;
+            color: var(--gray);
+            margin-left: 10px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .panel {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--gray-light);
+        }
+
+        .panel-title {
+            font-size: 20px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-area {
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 18px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            resize: vertical;
+            font-size: 16px;
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .output-text {
+            min-height: 300px;
+            font-size: 17px;
+            line-height: 1.7;
+            background-color: var(--light-color);
+        }
+
+        .shortcut-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .shortcut-tag {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .shortcut-tag i {
+            cursor: pointer;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .shortcut-tag i:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: var(--gray-light);
+            color: var(--dark-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gray);
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent-color), var(--warning-color));
+            color: white;
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(114, 9, 183, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color), #2a9d8f);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
+        }
+
+        .shortcuts-management {
+            margin-top: 20px;
+        }
+
+        .shortcut-form {
+            display: grid;
+            grid-template-columns: 1fr 2fr auto;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+
+        input {
+            padding: 12px 15px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .shortcuts-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 10px;
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .shortcut-item:hover {
+            background-color: var(--gray-light);
+        }
+
+        .shortcut-item:last-child {
+            border-bottom: none;
+        }
+
+        .shortcut-key {
+            font-weight: bold;
+            color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.1);
+            padding: 4px 10px;
+            border-radius: 4px;
+            min-width: 80px;
+        }
+
+        .shortcut-value {
+            flex-grow: 1;
+            margin: 0 15px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px dashed transparent;
+            font-size: 15px;
+        }
+
+        .shortcut-value:focus {
+            outline: none;
+            border: 1px dashed var(--primary-color);
+            background-color: white;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .edit-btn {
+            color: var(--primary-color);
+        }
+
+        .edit-btn:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .delete-btn {
+            color: var(--warning-color);
+        }
+
+        .delete-btn:hover {
+            background-color: rgba(247, 37, 133, 0.1);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            color: var(--gray);
+            font-size: 14px;
+            padding: 10px 0;
+        }
+
+        .saved-texts {
+            margin-top: 25px;
+        }
+
+        .saved-texts-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 10px;
+        }
+
+        .saved-text-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .saved-text-item:hover {
+            background-color: var(--gray-light);
+        }
+
+        .saved-text-item:last-child {
+            border-bottom: none;
+        }
+
+        .saved-text-content {
+            flex-grow: 1;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-right: 15px;
+        }
+
+        .text-date {
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        /* Estilos específicos para a página de artigos */
+        .article-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: var(--transition);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-header {
+            padding: 20px;
+            background-color: var(--primary-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .article-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .article-meta {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .article-content {
+            padding: 20px;
+        }
+
+        .article-description {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .article-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .keyword-tag {
+            background-color: var(--gray-light);
+            color: var(--dark-color);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .article-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .relevance-score {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .relevance-stars {
+            color: #ffc107;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: var(--gray-light);
+        }
+
+        .search-results-info {
+            margin-bottom: 20px;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        @media (max-width: 1200px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .shortcut-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .button-group button {
+                width: 100%;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .header-actions button {
+                width: 100%;
+            }
+            
+            .article-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
+        /* Estilos para modo de edição */
+        .editing {
+            background-color: #fff8e1;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .edit-shortcut-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 15px;
+            background-color: var(--primary-light);
+            border-radius: var(--border-radius);
+        }
+
+        .edit-text-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 15px;
+            background-color: var(--primary-light);
+            border-radius: var(--border-radius);
+        }
+
+        /* Notificação */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            color: white;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="logo">
+                <img src="logo.icon.png" alt="TextMaster Pro Logo" class="logo-img">
+                <div>
+                    <h1>TextMaster Pro - Recomendador de Artigos <span class="app-version">v2.0</span></h1>
+                    <p>Sistema inteligente de recomendação de artigos baseado em prompts de texto.</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn-secondary" onclick="window.location.href='index.html'">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Editor
+                </button>
+            </div>
+        </header>
+
+        <div class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title"><i class="fas fa-search"></i> Buscar Artigos</h2>
+            </div>
+            <div class="panel-content">
+                <div class="input-area">
+                    <h3><i class="fas fa-pencil-alt"></i> Descreva o que você precisa</h3>
+                    <textarea id="searchPrompt" placeholder="Ex: Preciso de informações sobre como configurar um servidor Linux para hospedagem de sites..."></textarea>
+                    
+                    <div class="button-group">
+                        <button id="searchBtn" class="btn-primary">
+                            <i class="fas fa-search"></i> Buscar Artigos Recomendados
+                        </button>
+                        <button id="clearBtn" class="btn-secondary">
+                            <i class="fas fa-broom"></i> Limpar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="shortcuts-management">
+                    <h3><i class="fas fa-sliders-h"></i> Filtros de Busca</h3>
+                    
+                    <div class="shortcut-form">
+                        <div class="form-group">
+                            <label for="categoryFilter">Categoria</label>
+                            <select id="categoryFilter" class="form-control">
+                                <option value="">Todas as categorias</option>
+                                <option value="tecnologia">Tecnologia</option>
+                                <option value="programacao">Programação</option>
+                                <option value="design">Design</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="gestao">Gestão</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dateFilter">Data de Publicação</label>
+                            <select id="dateFilter" class="form-control">
+                                <option value="">Qualquer data</option>
+                                <option value="last-week">Última semana</option>
+                                <option value="last-month">Último mês</option>
+                                <option value="last-year">Último ano</option>
+                            </select>
+                        </div>
+                        <button id="applyFilters" class="btn-accent">
+                            <i class="fas fa-filter"></i> Aplicar Filtros
+                        </button>
+                    </div>
+                </div>
+
+                <div class="saved-texts">
+                    <h3><i class="fas fa-history"></i> Pesquisas Recentes</h3>
+                    <div class="saved-texts-list" id="recentSearches">
+                        <!-- Lista de pesquisas recentes será inserida aqui -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title"><i class="fas fa-newspaper"></i> Artigos Recomendados</h2>
+                <div class="search-results-info" id="resultsInfo">
+                    <!-- Informações sobre os resultados serão inseridas aqui -->
+                </div>
+            </div>
+            <div class="panel-content">
+                <div id="articlesContainer">
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>Nenhuma busca realizada</h3>
+                        <p>Digite um prompt de busca acima para encontrar artigos relevantes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText"></span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos do DOM
+            const searchPrompt = document.getElementById('searchPrompt');
+            const searchBtn = document.getElementById('searchBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const dateFilter = document.getElementById('dateFilter');
+            const applyFilters = document.getElementById('applyFilters');
+            const articlesContainer = document.getElementById('articlesContainer');
+            const resultsInfo = document.getElementById('resultsInfo');
+            const recentSearches = document.getElementById('recentSearches');
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            // Base de dados de artigos (você pode adicionar/editar manualmente aqui)
+            const articlesDatabase = [
+                {
+                    id: 1,
+                    title: "Guia Completo de Configuração de Servidores Linux",
+                    description: "Aprenda a configurar um servidor Linux do zero para hospedagem de sites, incluindo instalação de Apache, MySQL e PHP.",
+                    category: "tecnologia",
+                    keywords: ["linux", "servidor", "hospedagem", "apache", "mysql", "php", "configuração"],
+                    url: "https://exemplo.com/artigos/guia-servidor-linux",
+                    author: "Carlos Silva",
+                    date: "2023-10-15",
+                    readingTime: "12 min",
+                    relevance: 5
+                },
+                {
+                    id: 2,
+                    title: "Melhores Práticas de Segurança em Servidores Web",
+                    description: "Descubra as principais medidas de segurança para proteger seu servidor web contra ataques e vulnerabilidades.",
+                    category: "tecnologia",
+                    keywords: ["segurança", "servidor", "web", "firewall", "ssl", "proteção"],
+                    url: "https://exemplo.com/artigos/seguranca-servidores-web",
+                    author: "Ana Rodrigues",
+                    date: "2023-09-22",
+                    readingTime: "8 min",
+                    relevance: 4
+                },
+                {
+                    id: 3,
+                    title: "Otimização de Performance em Aplicações Web",
+                    description: "Técnicas avançadas para melhorar o desempenho de suas aplicações web e proporcionar uma melhor experiência ao usuário.",
+                    category: "programacao",
+                    keywords: ["performance", "otimização", "web", "aplicações", "desempenho"],
+                    url: "https://exemplo.com/artigos/otimizacao-performance-web",
+                    author: "Roberto Almeida",
+                    date: "2023-11-05",
+                    readingTime: "15 min",
+                    relevance: 4
+                },
+                {
+                    id: 4,
+                    title: "Introdução ao Docker para Desenvolvedores",
+                    description: "Aprenda os conceitos básicos do Docker e como containerizar suas aplicações para facilitar o desenvolvimento e deploy.",
+                    category: "programacao",
+                    keywords: ["docker", "containers", "devops", "deploy", "aplicações"],
+                    url: "https://exemplo.com/artigos/introducao-docker",
+                    author: "Mariana Costa",
+                    date: "2023-08-30",
+                    readingTime: "10 min",
+                    relevance: 3
+                },
+                {
+                    id: 5,
+                    title: "Design Responsivo: Criando Interfaces para Todos os Dispositivos",
+                    description: "Princípios e técnicas para criar designs que se adaptam perfeitamente a diferentes tamanhos de tela.",
+                    category: "design",
+                    keywords: ["design", "responsivo", "interface", "dispositivos", "mobile"],
+                    url: "https://exemplo.com/artigos/design-responsivo",
+                    author: "Fernanda Lima",
+                    date: "2023-07-18",
+                    readingTime: "14 min",
+                    relevance: 5
+                },
+                {
+                    id: 6,
+                    title: "Estratégias de Marketing Digital para Pequenas Empresas",
+                    description: "Como pequenas empresas podem utilizar o marketing digital para aumentar sua visibilidade e atrair mais clientes.",
+                    category: "marketing",
+                    keywords: ["marketing", "digital", "empresas", "estratégias", "visibilidade"],
+                    url: "https://exemplo.com/artigos/marketing-digital-empresas",
+                    author: "Paulo Mendes",
+                    date: "2023-06-12",
+                    readingTime: "11 min",
+                    relevance: 4
+                },
+                {
+                    id: 7,
+                    title: "Gestão Ágil de Projetos: Metodologias e Ferramentas",
+                    description: "Conheça as principais metodologias ágeis e ferramentas para gerenciar projetos de forma eficiente.",
+                    category: "gestao",
+                    keywords: ["gestão", "ágil", "projetos", "metodologias", "ferramentas"],
+                    url: "https://exemplo.com/artigos/gestao-agil-projetos",
+                    author: "Juliana Santos",
+                    date: "2023-05-25",
+                    readingTime: "16 min",
+                    relevance: 4
+                },
+                {
+                    id: 8,
+                    title: "Como Implementar SSL/TLS em Seu Site",
+                    description: "Guia passo a passo para implementar certificados SSL/TLS e garantir a segurança das comunicações em seu site.",
+                    category: "tecnologia",
+                    keywords: ["ssl", "tls", "segurança", "certificado", "https"],
+                    url: "https://exemplo.com/artigos/implementar-ssl-tls",
+                    author: "Ricardo Oliveira",
+                    date: "2023-04-14",
+                    readingTime: "9 min",
+                    relevance: 3
+                }
+            ];
+            
+            // Pesquisas recentes
+            let recentSearchesList = JSON.parse(localStorage.getItem('recentSearches')) || [];
+            
+            // Função para mostrar notificação
+            function showNotification(message, isSuccess = true) {
+                notificationText.textContent = message;
+                notification.style.background = isSuccess 
+                    ? 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))'
+                    : 'linear-gradient(135deg, var(--warning-color), #c1121f)';
+                
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Função para renderizar artigos
+            function renderArticles(articles) {
+                articlesContainer.innerHTML = '';
+                
+                if (articles.length === 0) {
+                    articlesContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-search"></i>
+                            <h3>Nenhum artigo encontrado</h3>
+                            <p>Tente ajustar seus critérios de busca ou usar palavras-chave diferentes.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Ordenar artigos por relevância (mais relevantes primeiro)
+                articles.sort((a, b) => b.relevance - a.relevance);
+                
+                articles.forEach(article => {
+                    const articleCard = document.createElement('div');
+                    articleCard.className = 'article-card';
+                    
+                    // Gerar estrelas de relevância
+                    const stars = '★'.repeat(article.relevance) + '☆'.repeat(5 - article.relevance);
+                    
+                    articleCard.innerHTML = `
+                        <div class="article-header">
+                            <div>
+                                <div class="article-title">${article.title}</div>
+                                <div class="article-meta">Por ${article.author} | ${formatDate(article.date)} | ${article.readingTime} de leitura</div>
+                            </div>
+                            <div class="relevance-score">
+                                <span>Relevância:</span>
+                                <span class="relevance-stars">${stars}</span>
+                            </div>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-description">${article.description}</div>
+                            <div class="article-keywords">
+                                ${article.keywords.map(keyword => `<span class="keyword-tag">${keyword}</span>`).join('')}
+                            </div>
+                            <div class="article-actions">
+                                <button class="btn-primary open-article-btn" data-url="${article.url}">
+                                    <i class="fas fa-external-link-alt"></i> Abrir Artigo
+                                </button>
+                                <button class="btn-secondary save-article-btn" data-id="${article.id}">
+                                    <i class="fas fa-bookmark"></i> Salvar
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    articlesContainer.appendChild(articleCard);
+                });
+                
+                // Adicionar event listeners para os botões
+                document.querySelectorAll('.open-article-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const url = this.getAttribute('data-url');
+                        window.open(url, '_blank');
+                    });
+                });
+                
+                document.querySelectorAll('.save-article-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const articleId = this.getAttribute('data-id');
+                        const article = articles.find(a => a.id == articleId);
+                        
+                        // Salvar artigo no localStorage
+                        let savedArticles = JSON.parse(localStorage.getItem('savedArticles')) || [];
+                        
+                        // Verificar se o artigo já está salvo
+                        if (!savedArticles.find(a => a.id == articleId)) {
+                            savedArticles.push(article);
+                            localStorage.setItem('savedArticles', JSON.stringify(savedArticles));
+                            showNotification(`Artigo "${article.title}" salvo com sucesso!`);
+                        } else {
+                            showNotification('Este artigo já está salvo.', false);
+                        }
+                    });
+                });
+            }
+            
+            // Função para formatar data
+            function formatDate(dateString) {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString('pt-BR', options);
+            }
+            
+            // Função para buscar artigos
+            function searchArticles() {
+                const prompt = searchPrompt.value.trim().toLowerCase();
+                
+                if (!prompt) {
+                    showNotification('Por favor, digite um prompt de busca.', false);
+                    return;
+                }
+                
+                // Adicionar à lista de pesquisas recentes
+                if (!recentSearchesList.includes(prompt)) {
+                    recentSearchesList.unshift(prompt);
+                    // Manter apenas as 5 pesquisas mais recentes
+                    if (recentSearchesList.length > 5) {
+                        recentSearchesList.pop();
+                    }
+                    localStorage.setItem('recentSearches', JSON.stringify(recentSearchesList));
+                    renderRecentSearches();
+                }
+                
+                // Aplicar filtros
+                const category = categoryFilter.value;
+                const date = dateFilter.value;
+                
+                // Filtrar artigos
+                let filteredArticles = articlesDatabase.filter(article => {
+                    // Verificar se o artigo corresponde ao prompt
+                    const matchesPrompt = 
+                        article.title.toLowerCase().includes(prompt) ||
+                        article.description.toLowerCase().includes(prompt) ||
+                        article.keywords.some(keyword => keyword.toLowerCase().includes(prompt));
+                    
+                    // Verificar categoria
+                    const matchesCategory = !category || article.category === category;
+                    
+                    // Verificar data
+                    const matchesDate = !date || filterByDate(article.date, date);
+                    
+                    return matchesPrompt && matchesCategory && matchesDate;
+                });
+                
+                // Atualizar informações de resultados
+                resultsInfo.textContent = `Encontrados ${filteredArticles.length} artigo(s) para "${prompt}"`;
+                
+                // Renderizar artigos
+                renderArticles(filteredArticles);
+                
+                showNotification(`Busca realizada com sucesso! ${filteredArticles.length} artigo(s) encontrado(s).`);
+            }
+            
+            // Função para filtrar por data
+            function filterByDate(articleDate, filter) {
+                const articleDateObj = new Date(articleDate);
+                const now = new Date();
+                
+                switch(filter) {
+                    case 'last-week':
+                        const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                        return articleDateObj >= oneWeekAgo;
+                    case 'last-month':
+                        const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                        return articleDateObj >= oneMonthAgo;
+                    case 'last-year':
+                        const oneYearAgo = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+                        return articleDateObj >= oneYearAgo;
+                    default:
+                        return true;
+                }
+            }
+            
+            // Função para renderizar pesquisas recentes
+            function renderRecentSearches() {
+                recentSearches.innerHTML = '';
+                
+                if (recentSearchesList.length === 0) {
+                    recentSearches.innerHTML = '<p class="empty-message">Nenhuma pesquisa recente.</p>';
+                    return;
+                }
+                
+                recentSearchesList.forEach(search => {
+                    const searchItem = document.createElement('div');
+                    searchItem.className = 'saved-text-item';
+                    searchItem.innerHTML = `
+                        <div class="saved-text-content">${search}</div>
+                        <div class="actions">
+                            <i class="fas fa-search action-btn search-again-btn" title="Buscar novamente"></i>
+                            <i class="fas fa-times action-btn delete-btn" title="Remover"></i>
+                        </div>
+                    `;
+                    
+                    recentSearches.appendChild(searchItem);
+                });
+                
+                // Adicionar event listeners
+                document.querySelectorAll('.search-again-btn').forEach((btn, index) => {
+                    btn.addEventListener('click', function() {
+                        searchPrompt.value = recentSearchesList[index];
+                        searchArticles();
+                    });
+                });
+                
+                document.querySelectorAll('.recent-searches .delete-btn').forEach((btn, index) => {
+                    btn.addEventListener('click', function() {
+                        recentSearchesList.splice(index, 1);
+                        localStorage.setItem('recentSearches', JSON.stringify(recentSearchesList));
+                        renderRecentSearches();
+                        showNotification('Pesquisa removida!');
+                    });
+                });
+            }
+            
+            // Event listeners
+            searchBtn.addEventListener('click', searchArticles);
+            
+            clearBtn.addEventListener('click', function() {
+                searchPrompt.value = '';
+                articlesContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>Nenhuma busca realizada</h3>
+                        <p>Digite um prompt de busca acima para encontrar artigos relevantes.</p>
+                    </div>
+                `;
+                resultsInfo.textContent = '';
+                showNotification('Campos limpos!');
+            });
+            
+            applyFilters.addEventListener('click', function() {
+                if (searchPrompt.value.trim()) {
+                    searchArticles();
+                } else {
+                    showNotification('Digite um prompt de busca antes de aplicar filtros.', false);
+                }
+            });
+            
+            // Permitir busca com Enter
+            searchPrompt.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchArticles();
+                }
+            });
+            
+            // Inicializar a aplicação
+            renderRecentSearches();
+        });
+    </script>
+</body>
+</html>
