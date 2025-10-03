@@ -636,7 +636,11 @@
                                 <option value="programacao">inclusão de dependentes</option>
                                 <option value="design">indicação de rede</option>
                                 <option value="marketing">Troca de Titularidade</option>
-                                <option value="gestao">Gestão</option>
+                                <option value="sisamil">SisAmil</option>
+                                <option value="base">Base de Conhecimento</option>
+                                <option value="avaya">Avaya - Escalas</option>
+                                <option value="ponto">Senior Ponto</option>
+                                <option value="teams">Teams</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -706,81 +710,48 @@
             const articlesDatabase = [
                 {
                     id: 1,
-                    title: "Cancelamento CNOT // Exclusão de dependente",
-                    description: "Artigo da base de conhecimento",
-                    category: "tecnologia",
-                    keywords: ["cancelamento de plano", "Exclusão de dependente"],
-                    url: "https://amil.sharepoint.com/sites/BasedeConhecimentoAtendimento/SitePages/Cancelamento---Exclus%C3%A3o-de-Plano-Dental-PF---RN-561.aspx?web=1",
-                    author: "Carlos Silva",
-                    date: "2025-09-23",
-                    readingTime: "8 min",
-                    relevance: 5
+                    title: "Plataforma - SisAmil",
+                    description: "Guia passo a passo para implementar certificados SSL/TLS e garantir a segurança das comunicações em seu site.",
+                    category: "sisamil",
+                    keywords: ["sisamil", "SisAmil", "Sisamil"],
+                    url: "https://sisamil.amil.com.br/ace/ace001a.asp?tp_cliente=",
+                    relevance: 10
                 },
                 {
-                    id: 2,
-                    title: "Melhores Práticas de Segurança em Servidores Web",
-                    description: "Descubra as principais medidas de segurança para proteger seu servidor web contra ataques e vulnerabilidades.",
-                    category: "tecnologia",
-                    keywords: ["segurança", "servidor", "web", "firewall", "ssl", "proteção"],
-                    url: "https://exemplo.com/artigos/seguranca-servidores-web",
-                    author: "Ana Rodrigues",
-                    date: "2023-09-22",
-                    readingTime: "8 min",
-                    relevance: 4
+                     id: 2,
+                    title: "Base de conhecimento",
+                    description: "Guia passo a passo para implementar certificados SSL/TLS e garantir a segurança das comunicações em seu site.",
+                    category: "base",
+                    keywords: ["base", "base de conhecimento", "Base", "Base de Conhecimento"],
+                    url: "https://amil.sharepoint.com/sites/BasedeConhecimentoAtendimento",
+                    relevance: 10
                 },
                 {
                     id: 3,
-                    title: "inclusão e removação de dependentes",
-                    description: "Descubra o passo a passo para incluir ou excluir um dependente.",
-                    category: "programacao",
-                    keywords: ["inclusao e remocao", "remoçao", "inclusao", "inclusão", "remoção"],
-                    url: "https://amil.sharepoint.com/sites/BasedeConhecimentoAtendimento/SitePages/Inclus%C3%A3o-de-Dependente---Contrato-PF-Dental.aspx?web=1",
-                    readingTime: "15 min",
-                    relevance: 4
+                    title: "Avaya - Escalas",
+                    description: "O sistema para acompanhamento de escalas, aderencia e qualidade.",
+                    category: "avaya",
+                    keywords: ["Avaya", "aderência", "aderencia", "Aderência", "Aderencia", "escala", "Escala"],
+                    url: "https://10.160.3.60/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL",
+                    relevance: 10
                 },
                 {
                     id: 4,
-                    title: "Indicação de Redes",
-                    description: "Princípios e técnicas para criar designs que se adaptam perfeitamente a diferentes tamanhos de tela.",
-                    category: "design",
-                    keywords: ["indicacao de rede", "indicação de rede", "rede de atendimento", "indicação", "indicacao"],
-                    url: "https://amil.sharepoint.com/sites/BasedeConhecimentoAtendimento/SitePages/Indica%C3%A7%C3%A3o-de-Rede-Dental---Eletivo-e-Pronto-Socorro.aspx?web=1",
-                    readingTime: "14 min",
-                    relevance: 5
+                    title: "Senior - Plataforma de pontos",
+                    description: "O sistema para bater seus pontos.",
+                    category: "ponto",
+                    keywords: ["senior", "Senior", "bater ponto", "Bater Ponto", "Ponto", "ponto"],
+                    url: "https://10.160.3.60/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL",
+                    relevance: 10
                 },
                 {
-                    id: 6,
-                    title: "Troca de Titularidade",
-                    description: "Artigo para te ajudar a como trocar a titularidade do plano dental",
-                    category: "marketing",
-                    keywords: ["troca de titular", "alteração de titular", "excluir titular", "trocar titular", "mudar o titular"],
-                    url: "https://amil.sharepoint.com/sites/BasedeConhecimentoAtendimento/SitePages/Altera%C3%A7%C3%A3o-de-Titularidade-PF.aspx?web=1",
-                    readingTime: "11 min",
-                    relevance: 4
-                },
-                {
-                    id: 7,
-                    title: "Gestão Ágil de Projetos: Metodologias e Ferramentas",
-                    description: "Conheça as principais metodologias ágeis e ferramentas para gerenciar projetos de forma eficiente.",
-                    category: "gestao",
-                    keywords: ["gestão", "ágil", "projetos", "metodologias", "ferramentas"],
-                    url: "https://exemplo.com/artigos/gestao-agil-projetos",
-                    author: "Juliana Santos",
-                    date: "2023-05-25",
-                    readingTime: "16 min",
-                    relevance: 4
-                },
-                {
-                    id: 8,
-                    title: "Como Implementar SSL/TLS em Seu Site",
-                    description: "Guia passo a passo para implementar certificados SSL/TLS e garantir a segurança das comunicações em seu site.",
-                    category: "tecnologia",
-                    keywords: ["ssl", "tls", "segurança", "certificado", "https"],
-                    url: "https://exemplo.com/artigos/implementar-ssl-tls",
-                    author: "Ricardo Oliveira",
-                    date: "2023-04-14",
-                    readingTime: "9 min",
-                    relevance: 3
+                    id: 5,
+                    title: "Teams - comunicação",
+                    description: "Sistema de comunicação interna.",
+                    category: "teams",
+                    keywords: ["teams", "Teams"],
+                    url: "https://10.160.3.60/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL",
+                    relevance: 10
                 }
             ];
             
