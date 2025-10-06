@@ -137,13 +137,6 @@
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
 
-        .output-text {
-            min-height: 300px;
-            font-size: 17px;
-            line-height: 1.7;
-            background-color: var(--light-color);
-        }
-
         .shortcut-preview {
             display: flex;
             flex-wrap: wrap;
@@ -255,7 +248,7 @@
             color: var(--secondary-color);
         }
 
-        input {
+        input, select {
             padding: 12px 15px;
             border: 2px solid var(--gray-light);
             border-radius: var(--border-radius);
@@ -263,7 +256,7 @@
             transition: var(--transition);
         }
 
-        input:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
@@ -399,7 +392,6 @@
             margin-top: 5px;
         }
 
-        /* Estilos específicos para a página de artigos */
         .article-card {
             background-color: white;
             border-radius: var(--border-radius);
@@ -535,38 +527,6 @@
             }
         }
 
-        /* Estilos para modo de edição */
-        .editing {
-            background-color: #fff8e1;
-        }
-
-        .logo-img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-        }
-
-        .edit-shortcut-form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-            padding: 15px;
-            background-color: var(--primary-light);
-            border-radius: var(--border-radius);
-        }
-
-        .edit-text-form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-            padding: 15px;
-            background-color: var(--primary-light);
-            border-radius: var(--border-radius);
-        }
-
-        /* Notificação */
         .notification {
             position: fixed;
             top: 20px;
@@ -715,15 +675,21 @@
                     category: "sisamil",
                     keywords: ["sisamil", "SisAmil", "Sisamil"],
                     url: "https://sisamil.amil.com.br/ace/ace001a.asp?tp_cliente=",
+                    date: "2024-01-15",
+                    author: "Equipe Amil",
+                    readingTime: "5 min",
                     relevance: 10
                 },
                 {
-                     id: 2,
+                    id: 2,
                     title: "Base de conhecimento",
                     description: "Guia passo a passo para implementar certificados SSL/TLS e garantir a segurança das comunicações em seu site.",
                     category: "base",
                     keywords: ["base", "base de conhecimento", "Base", "Base de Conhecimento"],
                     url: "https://amil.sharepoint.com/sites/BasedeConhecimentoAtendimento",
+                    date: "2024-01-10",
+                    author: "Equipe Suporte",
+                    readingTime: "10 min",
                     relevance: 10
                 },
                 {
@@ -733,6 +699,9 @@
                     category: "avaya",
                     keywords: ["Avaya", "aderência", "aderencia", "Aderência", "Aderencia", "escala", "Escala"],
                     url: "https://10.160.3.60/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL",
+                    date: "2024-01-05",
+                    author: "Equipe Operacional",
+                    readingTime: "8 min",
                     relevance: 10
                 },
                 {
@@ -741,7 +710,10 @@
                     description: "O sistema para bater seus pontos.",
                     category: "ponto",
                     keywords: ["senior", "Senior", "bater ponto", "Bater Ponto", "Ponto", "ponto"],
-                    url: "https://10.160.3.60/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL",
+                    url: "https://ponto.senior.com.br",
+                    date: "2024-01-01",
+                    author: "Equipe RH",
+                    readingTime: "3 min",
                     relevance: 10
                 },
                 {
@@ -750,7 +722,10 @@
                     description: "Sistema de comunicação interna.",
                     category: "teams",
                     keywords: ["teams", "Teams"],
-                    url: "https://10.160.3.60/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL",
+                    url: "https://teams.microsoft.com",
+                    date: "2023-12-20",
+                    author: "TI Amil",
+                    readingTime: "4 min",
                     relevance: 10
                 }
             ];
@@ -770,6 +745,15 @@
                 setTimeout(() => {
                     notification.classList.remove('show');
                 }, 3000);
+            }
+            
+            // Função para calcular relevância
+            function calculateRelevance(article, prompt) {
+                let score = 0;
+                if (article.title.toLowerCase().includes(prompt)) score += 3;
+                if (article.description.toLowerCase().includes(prompt)) score += 2;
+                if (article.keywords.some(k => k.toLowerCase().includes(prompt))) score += 2;
+                return Math.min(score, 5);
             }
             
             // Função para renderizar artigos
@@ -900,6 +884,14 @@
                     const matchesDate = !date || filterByDate(article.date, date);
                     
                     return matchesPrompt && matchesCategory && matchesDate;
+                });
+                
+                // Calcular relevância para cada artigo
+                filteredArticles = filteredArticles.map(article => {
+                    return {
+                        ...article,
+                        relevance: calculateRelevance(article, prompt)
+                    };
                 });
                 
                 // Atualizar informações de resultados
