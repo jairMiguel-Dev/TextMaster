@@ -42,7 +42,7 @@
             max-width: 1600px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1.8fr;
+            grid-template-columns: 1fr 1fr;
             gap: 24px;
         }
 
@@ -115,67 +115,67 @@
             gap: 10px;
         }
 
-        .input-area {
-            margin-bottom: 20px;
+        .access-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        textarea {
-            width: 100%;
-            min-height: 150px;
+        .access-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 18px;
             border: 2px solid var(--gray-light);
             border-radius: var(--border-radius);
-            resize: vertical;
-            font-size: 16px;
-            line-height: 1.6;
             transition: var(--transition);
         }
 
-        textarea:focus {
-            outline: none;
+        .access-item:hover {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.1);
+            transform: translateY(-2px);
         }
 
-        .shortcut-preview {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .shortcut-tag {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 8px 15px;
-            border-radius: 30px;
+        .item-info {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 500;
+            gap: 15px;
+            flex-grow: 1;
         }
 
-        .shortcut-tag i {
-            cursor: pointer;
-            opacity: 0.8;
-            transition: var(--transition);
-        }
-
-        .shortcut-tag i:hover {
-            opacity: 1;
-            transform: scale(1.2);
-        }
-
-        .button-group {
+        .item-icon {
+            width: 50px;
+            height: 50px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 15px;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            color: var(--primary-color);
+            font-size: 20px;
         }
 
-        button {
-            padding: 12px 20px;
+        .item-details {
+            flex-grow: 1;
+        }
+
+        .item-title {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .item-description {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .access-button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
             border: none;
             border-radius: var(--border-radius);
             cursor: pointer;
@@ -184,159 +184,12 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-        }
-
-        .btn-primary:hover {
+        .access-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
-        }
-
-        .btn-secondary {
-            background-color: var(--gray-light);
-            color: var(--dark-color);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--gray);
-        }
-
-        .btn-accent {
-            background: linear-gradient(135deg, var(--accent-color), var(--warning-color));
-            color: white;
-        }
-
-        .btn-accent:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(114, 9, 183, 0.4);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, var(--success-color), #2a9d8f);
-            color: white;
-        }
-
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
-        }
-
-        .shortcuts-management {
-            margin-top: 20px;
-        }
-
-        .shortcut-form {
-            display: grid;
-            grid-template-columns: 1fr 2fr auto;
-            gap: 12px;
-            margin-bottom: 20px;
-            align-items: end;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--secondary-color);
-        }
-
-        input, select {
-            padding: 12px 15px;
-            border: 2px solid var(--gray-light);
-            border-radius: var(--border-radius);
-            font-size: 16px;
-            transition: var(--transition);
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-        }
-
-        .shortcuts-list {
-            max-height: 300px;
-            overflow-y: auto;
-            border: 2px solid var(--gray-light);
-            border-radius: var(--border-radius);
-            padding: 10px;
-        }
-
-        .shortcut-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-            border-bottom: 1px solid var(--gray-light);
-            transition: var(--transition);
-        }
-
-        .shortcut-item:hover {
-            background-color: var(--gray-light);
-        }
-
-        .shortcut-item:last-child {
-            border-bottom: none;
-        }
-
-        .shortcut-key {
-            font-weight: bold;
-            color: var(--primary-color);
-            background-color: rgba(67, 97, 238, 0.1);
-            padding: 4px 10px;
-            border-radius: 4px;
-            min-width: 80px;
-        }
-
-        .shortcut-value {
-            flex-grow: 1;
-            margin: 0 15px;
-            padding: 8px 12px;
-            border-radius: 4px;
-            border: 1px dashed transparent;
-            font-size: 15px;
-        }
-
-        .shortcut-value:focus {
-            outline: none;
-            border: 1px dashed var(--primary-color);
-            background-color: white;
-        }
-
-        .actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .action-btn {
-            padding: 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .edit-btn {
-            color: var(--primary-color);
-        }
-
-        .edit-btn:hover {
-            background-color: rgba(67, 97, 238, 0.1);
-        }
-
-        .delete-btn {
-            color: var(--warning-color);
-        }
-
-        .delete-btn:hover {
-            background-color: rgba(247, 37, 133, 0.1);
         }
 
         .stats {
@@ -392,82 +245,6 @@
             margin-top: 5px;
         }
 
-        .article-card {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 20px;
-            overflow: hidden;
-            transition: var(--transition);
-            border-left: 4px solid var(--primary-color);
-        }
-
-        .article-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .article-header {
-            padding: 20px;
-            background-color: var(--primary-light);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .article-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--secondary-color);
-            margin-bottom: 5px;
-        }
-
-        .article-meta {
-            font-size: 14px;
-            color: var(--gray);
-        }
-
-        .article-content {
-            padding: 20px;
-        }
-
-        .article-description {
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .article-keywords {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-
-        .keyword-tag {
-            background-color: var(--gray-light);
-            color: var(--dark-color);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-
-        .article-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .relevance-score {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .relevance-stars {
-            color: #ffc107;
-        }
-
         .empty-state {
             text-align: center;
             padding: 40px 20px;
@@ -490,21 +267,9 @@
             .app-container {
                 grid-template-columns: 1fr;
             }
-            
-            .shortcut-form {
-                grid-template-columns: 1fr;
-            }
         }
 
         @media (max-width: 768px) {
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .button-group button {
-                width: 100%;
-            }
-            
             .header {
                 flex-direction: column;
                 gap: 15px;
@@ -520,10 +285,19 @@
                 width: 100%;
             }
             
-            .article-header {
+            .access-item {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
+                gap: 15px;
+            }
+            
+            .item-info {
+                width: 100%;
+            }
+            
+            .access-button {
+                width: 100%;
+                justify-content: center;
             }
         }
 
@@ -561,7 +335,7 @@
                 <img src="logo.icon.png" alt="TextMaster Pro Logo" class="logo-img">
                 <div>
                     <h1>TextMaster Pro - Acesso Rápido <span class="app-version">v2.0</span></h1>
-                    <p>Sistema inteligente de recomendação de artigos baseado em prompts de texto.</p>
+                    <p>Sistema inteligente de atalhos para acesso rápido a sistemas e plataformas.</p>
                 </div>
             </div>
             <div class="header-actions">
@@ -573,51 +347,37 @@
 
         <div class="panel">
             <div class="panel-header">
-                <h2 class="panel-title"><i class="fas fa-search"></i> Buscar Artigos</h2>
+                <h2 class="panel-title"><i class="fas fa-rocket"></i> Sistemas e Plataformas</h2>
             </div>
             <div class="panel-content">
-                <div class="input-area">
-                    <h3><i class="fas fa-pencil-alt"></i> Descreva o que você precisa</h3>
-                    <textarea id="searchPrompt" placeholder="Ex: SisAmil, Senior, escala..."></textarea>
-                    
-                    <div class="button-group">
-                        <button id="searchBtn" class="btn-primary">
-                            <i class="fas fa-search"></i> Buscar
-                        </button>
-                        <button id="clearBtn" class="btn-secondary">
-                            <i class="fas fa-broom"></i> Limpar
-                        </button>
-                    </div>
+                <div class="access-list" id="systemsList">
+                    <!-- Lista de sistemas será inserida aqui -->
                 </div>
-
-                <div class="saved-texts">
-                    <h3><i class="fas fa-history"></i> Pesquisas Recentes</h3>
-                    <div class="saved-texts-list" id="recentSearches">
-                        <!-- Lista de pesquisas recentes será inserida aqui -->
-                    </div>
+                
+                <div class="stats">
+                    <span id="totalItems">0 itens</span>
+                    <span id="recentAccess">Nenhum acesso recente</span>
                 </div>
             </div>
         </div>
-        
+        <!--
         <div class="panel">
             <div class="panel-header">
-                <h2 class="panel-title"><i class="fas fa-newspaper"></i> Artigos Recomendados</h2>
-                <div class="search-results-info" id="resultsInfo">
-                    <!-- Informações sobre os resultados serão inseridas aqui -->
-                </div>
+                <h2 class="panel-title"><i class="fas fa-bookmark"></i> Ferramentas e Utilitários</h2>
             </div>
             <div class="panel-content">
-                <div id="articlesContainer">
-                    <div class="empty-state">
-                        <i class="fas fa-search"></i>
-                        <h3>Nenhuma busca realizada</h3>
-                        <p>Digite um prompt de busca acima para encontrar artigos relevantes.</p>
-                    </div>
+                <div class="access-list" id="toolsList">
+                    Lista de ferramentas será inserida aqui 
+                </div>
+                
+                <div class="stats">
+                    <span id="totalTools">0 itens</span>
+                    <span id="favoriteTools">Nenhum favorito</span>
                 </div>
             </div>
         </div>
     </div>
-    
+    -->
     <div id="notification" class="notification">
         <i class="fas fa-check-circle"></i>
         <span id="notificationText"></span>
@@ -626,70 +386,114 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Elementos do DOM
-            const searchPrompt = document.getElementById('searchPrompt');
-            const searchBtn = document.getElementById('searchBtn');
-            const clearBtn = document.getElementById('clearBtn');
-            const articlesContainer = document.getElementById('articlesContainer');
-            const resultsInfo = document.getElementById('resultsInfo');
-            const recentSearches = document.getElementById('recentSearches');
+            const systemsList = document.getElementById('systemsList');
+            const toolsList = document.getElementById('toolsList');
+            const totalItems = document.getElementById('totalItems');
+            const totalTools = document.getElementById('totalTools');
+            const recentAccess = document.getElementById('recentAccess');
+            const favoriteTools = document.getElementById('favoriteTools');
             const notification = document.getElementById('notification');
             const notificationText = document.getElementById('notificationText');
             
-            // Base de dados de artigos
-            const articlesDatabase = [
+            // Base de dados de sistemas e ferramentas
+            const systemsDatabase = [
                 {
                     id: 1,
-                    title: "Plataforma - SisAmil",
-                    description: "Guia passo a passo para implementar certificados SSL/TLS e garantir a segurança das comunicações em seu site.",
+                    title: "SisAmil",
+                    description: "Plataforma principal da Amil",
                     category: "sisamil",
-                    keywords: ["sisamil", "SisAmil", "Sisamil"],
+                    icon: "fas fa-heartbeat",
                     url: "https://sisamil.amil.com.br/ace/ace001a.asp?tp_cliente=",
+                    type: "system"
                 },
                 {
                     id: 2,
-                    title: "Base de conhecimento",
-                    description: "Guia passo a passo para implementar certificados SSL/TLS e garantir a segurança das comunicações em seu site.",
+                    title: "Base de Conhecimento",
+                    description: "Base de conhecimento para atendimento",
                     category: "base",
-                    keywords: ["base", "base de conhecimento", "Base", "Base de Conhecimento"],
+                    icon: "fas fa-book",
                     url: "https://amil.sharepoint.com/sites/BasedeConhecimentoAtendimento",
+                    type: "system"
                 },
                 {
                     id: 3,
                     title: "Avaya - Escalas",
-                    description: "O sistema para acompanhamento de escalas, aderencia e qualidade.",
+                    description: "Sistema de escalas e aderência",
                     category: "avaya",
-                    keywords: ["Avaya", "aderência", "aderencia", "Aderência", "Aderencia", "escala", "Escala"],
+                    icon: "fas fa-calendar-alt",
                     url: "https://10.160.3.60/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL",
+                    type: "system"
                 },
                 {
                     id: 4,
-                    title: "Senior - Plataforma de pontos",
-                    description: "O sistema para bater seus pontos.",
+                    title: "Senior - Bater Ponto",
+                    description: "Sistema para registro de ponto",
                     category: "ponto",
-                    keywords: ["senior", "Senior", "bater ponto", "Bater Ponto", "Ponto", "ponto"],
+                    icon: "fas fa-clock",
                     url: "https://ponto.senior.com.br",
-                    date: "2024-01-01",
+                    type: "system"
                 },
                 {
                     id: 5,
-                    title: "Teams - comunicação",
-                    description: "Sistema de comunicação interna.",
+                    title: "Teams",
+                    description: "Sistema de comunicação interna",
                     category: "teams",
-                    keywords: ["teams", "Teams"],
+                    icon: "fas fa-comments",
                     url: "https://teams.microsoft.com",
+                    type: "system"
                 }, 
                 {
                     id: 6,
-                    title: "Gestão Senior - Assinatura de Pontos",
-                    description: "Sistema de comunicação interna.",
-                    category: "teams",
-                    keywords: ["Assinar Ponto", "assinar ponto", "gestão senior", "gestao senior", "Gestão Senior", "Gestao Senior", "assinar", "Assinar"],
+                    title: "Gestão Senior",
+                    description: "Sistema para assinatura de pontos",
+                    category: "gestao",
+                    icon: "fas fa-signature",
                     url: "https://senior.dbm.com.br/gestaoponto-frontend/login",
+                    type: "system"
                 }
             ];
             
-            // Pesquisas recentes
-            let recentSearchesList = JSON.parse(localStorage.getItem('recentSearches')) || [];
+            const toolsDatabase = [
+                {
+                    id: 101,
+                    title: "Calculadora de Horas",
+                    description: "Calcule horas trabalhadas e extras",
+                    category: "calculadora",
+                    icon: "fas fa-calculator",
+                    url: "#",
+                    type: "tool"
+                },
+                {
+                    id: 102,
+                    title: "Gerador de Relatórios",
+                    description: "Crie relatórios personalizados",
+                    category: "relatorios",
+                    icon: "fas fa-chart-bar",
+                    url: "#",
+                    type: "tool"
+                },
+                {
+                    id: 103,
+                    title: "Conversor de Arquivos",
+                    description: "Converta entre diferentes formatos",
+                    category: "conversor",
+                    icon: "fas fa-file-export",
+                    url: "#",
+                    type: "tool"
+                },
+                {
+                    id: 104,
+                    title: "Agenda de Tarefas",
+                    description: "Organize suas atividades diárias",
+                    category: "agenda",
+                    icon: "fas fa-tasks",
+                    url: "#",
+                    type: "tool"
+                }
+            ];
+            
+            // Histórico de acessos
+            let accessHistory = JSON.parse(localStorage.getItem('accessHistory')) || [];
             
             // Função para mostrar notificação
             function showNotification(message, isSuccess = true) {
@@ -705,218 +509,152 @@
                 }, 3000);
             }
             
-            // Função para calcular relevância
-            function calculateRelevance(article, prompt) {
-                let score = 0;
-                if (article.title.toLowerCase().includes(prompt)) score += 3;
-                if (article.description.toLowerCase().includes(prompt)) score += 2;
-                if (article.keywords.some(k => k.toLowerCase().includes(prompt))) score += 2;
-                return Math.min(score, 5);
+            // Função para registrar acesso
+            function registerAccess(item) {
+                const accessRecord = {
+                    id: item.id,
+                    title: item.title,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Adicionar ao histórico
+                accessHistory.unshift(accessRecord);
+                
+                // Manter apenas os 5 acessos mais recentes
+                if (accessHistory.length > 5) {
+                    accessHistory.pop();
+                }
+                
+                // Salvar no localStorage
+                localStorage.setItem('accessHistory', JSON.stringify(accessHistory));
+                
+                // Atualizar display de acesso recente
+                updateRecentAccess();
+                
+                // Abrir URL
+                if (item.url && item.url !== '#') {
+                    window.open(item.url, '_blank');
+                } else {
+                    showNotification(`Acesso registrado para ${item.title}`, true);
+                }
             }
             
-            // Função para renderizar artigos
-            function renderArticles(articles) {
-                articlesContainer.innerHTML = '';
+            // Função para atualizar display de acesso recente
+            function updateRecentAccess() {
+                if (accessHistory.length > 0) {
+                    const lastAccess = accessHistory[0];
+                    const date = new Date(lastAccess.timestamp);
+                    const timeString = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                    recentAccess.textContent = `Último: ${lastAccess.title} às ${timeString}`;
+                } else {
+                    recentAccess.textContent = 'Nenhum acesso recente';
+                }
+            }
+            
+            // Função para renderizar lista de sistemas
+            function renderSystemsList() {
+                systemsList.innerHTML = '';
                 
-                if (articles.length === 0) {
-                    articlesContainer.innerHTML = `
+                if (systemsDatabase.length === 0) {
+                    systemsList.innerHTML = `
                         <div class="empty-state">
-                            <i class="fas fa-search"></i>
-                            <h3>Nenhum artigo encontrado</h3>
-                            <p>Tente ajustar seus critérios de busca ou usar palavras-chave diferentes.</p>
+                            <i class="fas fa-desktop"></i>
+                            <h3>Nenhum sistema cadastrado</h3>
+                            <p>Adicione sistemas para ter acesso rápido.</p>
                         </div>
                     `;
                     return;
                 }
                 
-                // Ordenar artigos por relevância (mais relevantes primeiro)
-                articles.sort((a, b) => b.relevance - a.relevance);
-                
-                articles.forEach(article => {
-                    const articleCard = document.createElement('div');
-                    articleCard.className = 'article-card';
+                systemsDatabase.forEach(system => {
+                    const accessItem = document.createElement('div');
+                    accessItem.className = 'access-item';
                     
-                    // Gerar estrelas de relevância
-                    const stars = '★'.repeat(article.relevance) + '☆'.repeat(5 - article.relevance);
-                    
-                    articleCard.innerHTML = `
-                        <div class="article-header">
-                            <div>
-                                <div class="article-title">${article.title}</div>
-                                <div class="article-meta">Por ${article.author || 'Desconhecido'} | ${formatDate(article.date)} | ${article.readingTime || '1 min'} de leitura</div>
+                    accessItem.innerHTML = `
+                        <div class="item-info">
+                            <div class="item-icon">
+                                <i class="${system.icon}"></i>
                             </div>
-                            <div class="relevance-score">
-                                <span>Relevância:</span>
-                                <span class="relevance-stars">${stars}</span>
+                            <div class="item-details">
+                                <div class="item-title">${system.title}</div>
+                                <div class="item-description">${system.description}</div>
                             </div>
                         </div>
-                        <div class="article-content">
-                            <div class="article-description">${article.description}</div>
-                            <div class="article-keywords">
-                                ${article.keywords.map(keyword => `<span class="keyword-tag">${keyword}</span>`).join('')}
-                            </div>
-                            <div class="article-actions">
-                                <button class="btn-primary open-article-btn" data-url="${article.url}">
-                                    <i class="fas fa-external-link-alt"></i> Abrir Artigo
-                                </button>
-                                <button class="btn-secondary save-article-btn" data-id="${article.id}">
-                                    <i class="fas fa-bookmark"></i> Salvar
-                                </button>
-                            </div>
-                        </div>
+                        <button class="access-button open-system-btn" data-id="${system.id}">
+                            <i class="fas fa-external-link-alt"></i> Acessar
+                        </button>
                     `;
                     
-                    articlesContainer.appendChild(articleCard);
+                    systemsList.appendChild(accessItem);
                 });
+                
+                // Atualizar contador
+                totalItems.textContent = `${systemsDatabase.length} sistemas`;
                 
                 // Adicionar event listeners para os botões
-                document.querySelectorAll('.open-article-btn').forEach(btn => {
+                document.querySelectorAll('.open-system-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
-                        const url = this.getAttribute('data-url');
-                        window.open(url, '_blank');
-                    });
-                });
-                
-                document.querySelectorAll('.save-article-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const articleId = this.getAttribute('data-id');
-                        const article = articles.find(a => a.id == articleId);
-                        
-                        // Salvar artigo no localStorage
-                        let savedArticles = JSON.parse(localStorage.getItem('savedArticles')) || [];
-                        
-                        // Verificar se o artigo já está salvo
-                        if (!savedArticles.find(a => a.id == articleId)) {
-                            savedArticles.push(article);
-                            localStorage.setItem('savedArticles', JSON.stringify(savedArticles));
-                            showNotification(`Artigo "${article.title}" salvo com sucesso!`);
-                        } else {
-                            showNotification('Este artigo já está salvo.', false);
-                        }
+                        const systemId = this.getAttribute('data-id');
+                        const system = systemsDatabase.find(s => s.id == systemId);
+                        registerAccess(system);
                     });
                 });
             }
             
-            // Função para formatar data
-            function formatDate(dateString) {
-                if (!dateString) return 'N/A';
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                return new Date(dateString).toLocaleDateString('pt-BR', options);
-            }
-            
-            // Função para buscar artigos
-            function searchArticles() {
-                const prompt = searchPrompt.value.trim().toLowerCase();
+            // Função para renderizar lista de ferramentas
+            function renderToolsList() {
+                toolsList.innerHTML = '';
                 
-                if (!prompt) {
-                    showNotification('Por favor, digite um prompt de busca.', false);
-                    return;
-                }
-                
-                // Adicionar à lista de pesquisas recentes
-                if (!recentSearchesList.includes(prompt)) {
-                    recentSearchesList.unshift(prompt);
-                    // Manter apenas as 5 pesquisas mais recentes
-                    if (recentSearchesList.length > 5) {
-                        recentSearchesList.pop();
-                    }
-                    localStorage.setItem('recentSearches', JSON.stringify(recentSearchesList));
-                    renderRecentSearches();
-                }
-                
-                // Filtrar artigos
-                let filteredArticles = articlesDatabase.filter(article => {
-                    return (
-                        article.title.toLowerCase().includes(prompt) ||
-                        article.description.toLowerCase().includes(prompt) ||
-                        article.keywords.some(keyword => keyword.toLowerCase().includes(prompt))
-                    );
-                });
-                
-                // Calcular relevância para cada artigo
-                filteredArticles = filteredArticles.map(article => {
-                    return {
-                        ...article,
-                        relevance: calculateRelevance(article, prompt)
-                    };
-                });
-                
-                // Atualizar informações de resultados
-                resultsInfo.textContent = `Encontrados ${filteredArticles.length} artigo(s) para "${prompt}"`;
-                
-                // Renderizar artigos
-                renderArticles(filteredArticles);
-                
-                showNotification(`Busca realizada com sucesso! ${filteredArticles.length} artigo(s) encontrado(s).`);
-            }
-            
-            // Função para renderizar pesquisas recentes
-            function renderRecentSearches() {
-                recentSearches.innerHTML = '';
-                
-                if (recentSearchesList.length === 0) {
-                    recentSearches.innerHTML = '<p class="empty-message">Nenhuma pesquisa recente.</p>';
-                    return;
-                }
-                
-                recentSearchesList.forEach((search, index) => {
-                    const searchItem = document.createElement('div');
-                    searchItem.className = 'saved-text-item';
-                    searchItem.innerHTML = `
-                        <div class="saved-text-content">${search}</div>
-                        <div class="actions">
-                            <i class="fas fa-search action-btn search-again-btn" title="Buscar novamente"></i>
-                            <i class="fas fa-times action-btn delete-btn" title="Remover"></i>
+                if (toolsDatabase.length === 0) {
+                    toolsList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-tools"></i>
+                            <h3>Nenhuma ferramenta cadastrada</h3>
+                            <p>Adicione ferramentas para ter acesso rápido.</p>
                         </div>
                     `;
+                    return;
+                }
+                
+                toolsDatabase.forEach(tool => {
+                    const accessItem = document.createElement('div');
+                    accessItem.className = 'access-item';
                     
-                    recentSearches.appendChild(searchItem);
+                    accessItem.innerHTML = `
+                        <div class="item-info">
+                            <div class="item-icon">
+                                <i class="${tool.icon}"></i>
+                            </div>
+                            <div class="item-details">
+                                <div class="item-title">${tool.title}</div>
+                                <div class="item-description">${tool.description}</div>
+                            </div>
+                        </div>
+                        <button class="access-button open-tool-btn" data-id="${tool.id}">
+                            <i class="fas fa-external-link-alt"></i> Acessar
+                        </button>
+                    `;
+                    
+                    toolsList.appendChild(accessItem);
                 });
                 
-                // Adicionar event listeners
-                document.querySelectorAll('.search-again-btn').forEach((btn, index) => {
-                    btn.addEventListener('click', function() {
-                        searchPrompt.value = recentSearchesList[index];
-                        searchArticles();
-                    });
-                });
+                // Atualizar contador
+                totalTools.textContent = `${toolsDatabase.length} ferramentas`;
                 
-                // Correção: Adicionando listener para botão de deletar
-                document.querySelectorAll('.delete-btn').forEach((btn, index) => {
+                // Adicionar event listeners para os botões
+                document.querySelectorAll('.open-tool-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
-                        recentSearchesList.splice(index, 1);
-                        localStorage.setItem('recentSearches', JSON.stringify(recentSearchesList));
-                        renderRecentSearches();
-                        showNotification('Pesquisa removida!');
+                        const toolId = this.getAttribute('data-id');
+                        const tool = toolsDatabase.find(t => t.id == toolId);
+                        registerAccess(tool);
                     });
                 });
             }
             
-            // Event listeners
-            searchBtn.addEventListener('click', searchArticles);
-            
-            clearBtn.addEventListener('click', function() {
-                searchPrompt.value = '';
-                articlesContainer.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-search"></i>
-                        <h3>Nenhuma busca realizada</h3>
-                        <p>Digite um prompt de busca acima para encontrar artigos relevantes.</p>
-                    </div>
-                `;
-                resultsInfo.textContent = '';
-                showNotification('Campos limpos!');
-            });
-            
-            // Permitir busca com Enter
-            searchPrompt.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    searchArticles();
-                }
-            });
-            
             // Inicializar a aplicação
-            renderRecentSearches();
+            renderSystemsList();
+            renderToolsList();
+            updateRecentAccess();
         });
     </script>
 </body>
