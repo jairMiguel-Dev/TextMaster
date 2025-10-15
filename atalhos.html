@@ -204,12 +204,35 @@
         }
 
         .btn-secondary {
-            background-color: var(--gray-light);
-            color: var(--dark-color);
+            background: linear-gradient(135deg, var(--accent-color), var(--warning-color));
+            color: white;
+            box-shadow: 0 4px 15px rgba(114, 9, 183, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
         }
 
         .btn-secondary:hover {
-            background-color: var(--gray);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(114, 9, 183, 0.4);
+        }
+
+        .btn-secondary:hover::before {
+            left: 100%;
+        }
+
+        .btn-secondary:active {
+            transform: translateY(-1px);
         }
 
         .btn-accent {
@@ -464,6 +487,26 @@
             background-color: var(--primary-light);
             border-radius: var(--border-radius);
         }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            color: white;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
     </style>
 </head>
 <body>
@@ -475,11 +518,11 @@
                     <h1>TextMaster Pro <span class="app-version">v2.0</span></h1>
                     <p>Plataforma completa de gerenciamento de atalhos para suporte no protocolo de atendimento.</p>
                 </div>
-                <div class="header-actions">
-                <button class="btn-secondary" onclick="window.location.href='index.html'">
-                    <i class="fas fa-arrow-right"></i> retornar ao acesso rápido
-                </button>
             </div>
+            <div class="header-actions">
+                <button class="btn-secondary" onclick="window.location.href='index.html'">
+                    <i class="fas fa-arrow-right"></i> Retornar ao acesso rápido
+                </button>
             </div>
         </header>
 
@@ -498,10 +541,10 @@
                     
                     <div class="button-group">
                         <button id="expandBtn" class="btn-primary">
-                            <i class="fas fa-expand-arrows-alt"></i> Criar Protocólo
+                            <i class="fas fa-expand-arrows-alt"></i> Criar Protocolo
                         </button>
                         <button id="clearBtn" class="btn-secondary">
-                            <i class="fas fa-broom"></i> Limpar Area de texto
+                            <i class="fas fa-broom"></i> Limpar Área de Texto
                         </button>
                     </div>
                 </div>
@@ -534,7 +577,6 @@
                         <!-- Lista de textos salvos será inserida aqui -->
                     </div>
                 </div>
-
             </div>
         </div>
         
@@ -568,71 +610,100 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Elementos do DOM
-            const inputText = document.getElementById('inputText');
-            const outputText = document.getElementById('outputText');
-            const shortcutKey = document.getElementById('shortcutKey');
-            const shortcutValue = document.getElementById('shortcutValue');
-            const addShortcutBtn = document.getElementById('addShortcut');
-            const shortcutsList = document.getElementById('shortcutsList');
-            const shortcutPreview = document.getElementById('shortcutPreview');
-            const expandBtn = document.getElementById('expandBtn');
-            const clearBtn = document.getElementById('clearBtn');
-            const copyBtn = document.getElementById('copyBtn');
-            const saveTextBtn = document.getElementById('saveTextBtn');
-            const savedTextsList = document.getElementById('savedTextsList');
-            const notification = document.getElementById('notification');
-            const notificationText = document.getElementById('notificationText');
-            const wordCount = document.getElementById('wordCount');
-            const charCount = document.getElementById('charCount');
+        // Aplicação TextMaster Pro
+        class TextMasterApp {
+            constructor() {
+                this.shortcuts = JSON.parse(localStorage.getItem('textShortcuts')) || {
+                    'saudacao': 'Prezados,',
+                    'despedida': 'Atenciosamente,\n[Nome]\n[Empresa]',
+                    'agradecimento': 'Agradecemos pelo contato!',
+                    'telefone': 'Telefone: (XX) XXXXX-XXXX',
+                    'email': 'E-mail: contato@empresa.com',
+                    'oferta': 'Temos uma oferta especial para você esta semana!'
+                };
+                
+                this.savedTexts = JSON.parse(localStorage.getItem('savedTexts')) || [];
+                this.init();
+            }
             
-            // Carregar atalhos e textos salvos do localStorage
-            let shortcuts = JSON.parse(localStorage.getItem('textShortcuts')) || {
-                'saudacao': 'Prezados,',
-                'despedida': 'Atenciosamente,\n[Nome]\n[Empresa]',
-                'agradecimento': 'Agradecemos pelo contato!',
-                'telefone': 'Telefone: (XX) XXXXX-XXXX',
-                'email': 'E-mail: contato@empresa.com',
-                'oferta': 'Temos uma oferta especial para você esta semana!'
-            };
+            init() {
+                // Elementos do DOM
+                this.inputText = document.getElementById('inputText');
+                this.outputText = document.getElementById('outputText');
+                this.shortcutKey = document.getElementById('shortcutKey');
+                this.shortcutValue = document.getElementById('shortcutValue');
+                this.addShortcutBtn = document.getElementById('addShortcut');
+                this.shortcutsList = document.getElementById('shortcutsList');
+                this.shortcutPreview = document.getElementById('shortcutPreview');
+                this.expandBtn = document.getElementById('expandBtn');
+                this.clearBtn = document.getElementById('clearBtn');
+                this.copyBtn = document.getElementById('copyBtn');
+                this.saveTextBtn = document.getElementById('saveTextBtn');
+                this.savedTextsList = document.getElementById('savedTextsList');
+                this.notification = document.getElementById('notification');
+                this.notificationText = document.getElementById('notificationText');
+                this.wordCount = document.getElementById('wordCount');
+                this.charCount = document.getElementById('charCount');
+                
+                // Inicializar a aplicação
+                this.renderShortcutsList();
+                this.renderSavedTexts();
+                this.updateCounters();
+                this.detectShortcuts();
+                this.setupEventListeners();
+            }
             
-            let savedTexts = JSON.parse(localStorage.getItem('savedTexts')) || [];
+            setupEventListeners() {
+                // Event listeners
+                this.inputText.addEventListener('input', () => this.detectShortcuts());
+                this.expandBtn.addEventListener('click', () => this.expandShortcuts());
+                this.clearBtn.addEventListener('click', () => this.clearFields());
+                this.addShortcutBtn.addEventListener('click', () => this.addShortcut());
+                this.copyBtn.addEventListener('click', () => this.copyText());
+                this.saveTextBtn.addEventListener('click', () => this.saveText());
+                this.outputText.addEventListener('input', () => this.updateCounters());
+                
+                // Permitir adicionar atalho com Enter
+                this.shortcutKey.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.addShortcut();
+                });
+                
+                this.shortcutValue.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.addShortcut();
+                });
+            }
             
-            // Função para mostrar notificação
-            function showNotification(message, isSuccess = true) {
-                notificationText.textContent = message;
-                notification.style.background = isSuccess 
+            showNotification(message, isSuccess = true) {
+                this.notificationText.textContent = message;
+                this.notification.style.background = isSuccess 
                     ? 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))'
                     : 'linear-gradient(135deg, var(--warning-color), #c1121f)';
                 
-                notification.classList.add('show');
+                this.notification.classList.add('show');
                 
                 setTimeout(() => {
-                    notification.classList.remove('show');
+                    this.notification.classList.remove('show');
                 }, 3000);
             }
             
-            // Função para atualizar contadores
-            function updateCounters() {
-                const text = outputText.value;
+            updateCounters() {
+                const text = this.outputText.value;
                 const words = text.trim() ? text.trim().split(/\s+/).length : 0;
                 const characters = text.length;
                 
-                wordCount.textContent = `${words} palavra${words !== 1 ? 's' : ''}`;
-                charCount.textContent = `${characters} caractere${characters !== 1 ? 's' : ''}`;
+                this.wordCount.textContent = `${words} palavra${words !== 1 ? 's' : ''}`;
+                this.charCount.textContent = `${characters} caractere${characters !== 1 ? 's' : ''}`;
             }
             
-            // Função para renderizar a lista de atalhos
-            function renderShortcutsList() {
-                shortcutsList.innerHTML = '';
+            renderShortcutsList() {
+                this.shortcutsList.innerHTML = '';
                 
-                if (Object.keys(shortcuts).length === 0) {
-                    shortcutsList.innerHTML = '<p class="empty-message">Nenhum atalho cadastrado. Adicione seu primeiro atalho acima.</p>';
+                if (Object.keys(this.shortcuts).length === 0) {
+                    this.shortcutsList.innerHTML = '<p class="empty-message">Nenhum atalho cadastrado. Adicione seu primeiro atalho acima.</p>';
                     return;
                 }
                 
-                for (const [key, value] of Object.entries(shortcuts)) {
+                for (const [key, value] of Object.entries(this.shortcuts)) {
                     const shortcutItem = document.createElement('div');
                     shortcutItem.className = 'shortcut-item';
                     shortcutItem.innerHTML = `
@@ -644,93 +715,99 @@
                         </div>
                     `;
                     
-                    shortcutsList.appendChild(shortcutItem);
+                    this.shortcutsList.appendChild(shortcutItem);
                 }
                 
                 // Adicionar event listeners para edição
                 document.querySelectorAll('.edit-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const key = this.getAttribute('data-key');
-                        const value = this.getAttribute('data-value');
-                        
-                        // Criar formulário de edição
-                        const editForm = document.createElement('div');
-                        editForm.className = 'edit-shortcut-form';
-                        editForm.innerHTML = `
-                            <div class="form-group">
-                                <label for="editShortcutKey">Atalho</label>
-                                <input type="text" id="editShortcutKey" value="${key}" class="edit-key">
-                            </div>
-                            <div class="form-group">
-                                <label for="editShortcutValue">Protocolo</label>
-                                <input type="text" id="editShortcutValue" value="${value}" class="edit-value">
-                            </div>
-                            <div class="button-group">
-                                <button class="btn-primary save-edit-btn" data-key="${key}">
-                                    <i class="fas fa-save"></i> Salvar
-                                </button>
-                                <button class="btn-secondary cancel-edit-btn">
-                                    <i class="fas fa-times"></i> Cancelar
-                                </button>
-                            </div>
-                        `;
-                        
-                        // Substituir o item pelo formulário de edição
-                        const parentItem = this.closest('.shortcut-item');
-                        parentItem.replaceWith(editForm);
-                        
-                        // Adicionar event listeners aos botões do formulário
-                        document.querySelector('.save-edit-btn').addEventListener('click', function() {
-                            const oldKey = this.getAttribute('data-key');
-                            const newKey = document.querySelector('.edit-key').value.trim();
-                            const newValue = document.querySelector('.edit-value').value.trim();
-                            
-                            if (!newKey || !newValue) {
-                                showNotification('Por favor, preencha ambos os campos.', false);
-                                return;
-                            }
-                            
-                            // Se a chave foi alterada, remover a antiga
-                            if (oldKey !== newKey) {
-                                delete shortcuts[oldKey];
-                            }
-                            
-                            // Adicionar/atualizar o atalho
-                            shortcuts[newKey] = newValue;
-                            localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
-                            
-                            renderShortcutsList();
-                            showNotification(`Atalho "${newKey}" atualizado com sucesso!`);
-                        });
-                        
-                        document.querySelector('.cancel-edit-btn').addEventListener('click', function() {
-                            renderShortcutsList();
-                        });
+                    btn.addEventListener('click', (e) => {
+                        const key = e.target.getAttribute('data-key');
+                        const value = e.target.getAttribute('data-value');
+                        this.editShortcut(key, value);
                     });
                 });
                 
                 // Adicionar event listeners para remover
                 document.querySelectorAll('.delete-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const keyToRemove = this.getAttribute('data-key');
-                        delete shortcuts[keyToRemove];
-                        localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
-                        renderShortcutsList();
-                        showNotification(`Atalho "${keyToRemove}" removido!`);
+                    btn.addEventListener('click', (e) => {
+                        const keyToRemove = e.target.getAttribute('data-key');
+                        this.removeShortcut(keyToRemove);
                     });
                 });
             }
             
-            // Função para renderizar textos salvos
-            function renderSavedTexts() {
-                savedTextsList.innerHTML = '';
+            editShortcut(key, value) {
+                // Criar formulário de edição
+                const editForm = document.createElement('div');
+                editForm.className = 'edit-shortcut-form';
+                editForm.innerHTML = `
+                    <div class="form-group">
+                        <label for="editShortcutKey">Atalho</label>
+                        <input type="text" id="editShortcutKey" value="${key}" class="edit-key">
+                    </div>
+                    <div class="form-group">
+                        <label for="editShortcutValue">Protocolo</label>
+                        <input type="text" id="editShortcutValue" value="${value}" class="edit-value">
+                    </div>
+                    <div class="button-group">
+                        <button class="btn-primary save-edit-btn" data-key="${key}">
+                            <i class="fas fa-save"></i> Salvar
+                        </button>
+                        <button class="btn-secondary cancel-edit-btn">
+                            <i class="fas fa-times"></i> Cancelar
+                        </button>
+                    </div>
+                `;
                 
-                if (savedTexts.length === 0) {
-                    savedTextsList.innerHTML = '<p class="empty-message">Nenhum texto salvo ainda.</p>';
+                // Substituir o item pelo formulário de edição
+                const parentItem = document.querySelector(`[data-key="${key}"]`).closest('.shortcut-item');
+                parentItem.replaceWith(editForm);
+                
+                // Adicionar event listeners aos botões do formulário
+                document.querySelector('.save-edit-btn').addEventListener('click', (e) => {
+                    const oldKey = e.target.getAttribute('data-key');
+                    const newKey = document.querySelector('.edit-key').value.trim();
+                    const newValue = document.querySelector('.edit-value').value.trim();
+                    
+                    if (!newKey || !newValue) {
+                        this.showNotification('Por favor, preencha ambos os campos.', false);
+                        return;
+                    }
+                    
+                    // Se a chave foi alterada, remover a antiga
+                    if (oldKey !== newKey) {
+                        delete this.shortcuts[oldKey];
+                    }
+                    
+                    // Adicionar/atualizar o atalho
+                    this.shortcuts[newKey] = newValue;
+                    localStorage.setItem('textShortcuts', JSON.stringify(this.shortcuts));
+                    
+                    this.renderShortcutsList();
+                    this.showNotification(`Atalho "${newKey}" atualizado com sucesso!`);
+                });
+                
+                document.querySelector('.cancel-edit-btn').addEventListener('click', () => {
+                    this.renderShortcutsList();
+                });
+            }
+            
+            removeShortcut(key) {
+                delete this.shortcuts[key];
+                localStorage.setItem('textShortcuts', JSON.stringify(this.shortcuts));
+                this.renderShortcutsList();
+                this.showNotification(`Atalho "${key}" removido!`);
+            }
+            
+            renderSavedTexts() {
+                this.savedTextsList.innerHTML = '';
+                
+                if (this.savedTexts.length === 0) {
+                    this.savedTextsList.innerHTML = '<p class="empty-message">Nenhum texto salvo ainda.</p>';
                     return;
                 }
                 
-                savedTexts.forEach((text, index) => {
+                this.savedTexts.forEach((text, index) => {
                     const date = new Date().toLocaleDateString();
                     const textItem = document.createElement('div');
                     textItem.className = 'saved-text-item';
@@ -746,98 +823,100 @@
                         </div>
                     `;
                     
-                    savedTextsList.appendChild(textItem);
+                    this.savedTextsList.appendChild(textItem);
                 });
                 
                 // Adicionar event listeners para carregar textos
                 document.querySelectorAll('.load-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const index = this.getAttribute('data-index');
-                        outputText.value = savedTexts[index];
-                        updateCounters();
-                        showNotification(`Texto #${parseInt(index) + 1} carregado!`);
+                    btn.addEventListener('click', (e) => {
+                        const index = e.target.getAttribute('data-index');
+                        this.outputText.value = this.savedTexts[index];
+                        this.updateCounters();
+                        this.showNotification(`Texto #${parseInt(index) + 1} carregado!`);
                     });
                 });
                 
                 // Adicionar event listeners para editar textos
                 document.querySelectorAll('.saved-texts .edit-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const index = this.getAttribute('data-index');
-                        const text = savedTexts[index];
-                        
-                        // Criar formulário de edição
-                        const editForm = document.createElement('div');
-                        editForm.className = 'edit-text-form';
-                        editForm.innerHTML = `
-                            <div class="form-group">
-                                <label>Editar Texto</label>
-                                <textarea class="edit-text-area" rows="4">${text}</textarea>
-                            </div>
-                            <div class="button-group">
-                                <button class="btn-primary save-text-edit-btn" data-index="${index}">
-                                    <i class="fas fa-save"></i> Salvar
-                                </button>
-                                <button class="btn-secondary cancel-text-edit-btn">
-                                    <i class="fas fa-times"></i> Cancelar
-                                </button>
-                            </div>
-                        `;
-                        
-                        // Substituir o item pelo formulário de edição
-                        const parentItem = this.closest('.saved-text-item');
-                        parentItem.replaceWith(editForm);
-                        
-                        // Adicionar event listeners aos botões do formulário
-                        document.querySelector('.save-text-edit-btn').addEventListener('click', function() {
-                            const idx = this.getAttribute('data-index');
-                            const newText = document.querySelector('.edit-text-area').value.trim();
-                            
-                            if (!newText) {
-                                showNotification('O texto não pode estar vazio.', false);
-                                return;
-                            }
-                            
-                            savedTexts[idx] = newText;
-                            localStorage.setItem('savedTexts', JSON.stringify(savedTexts));
-                            
-                            renderSavedTexts();
-                            showNotification(`Texto #${parseInt(idx) + 1} atualizado com sucesso!`);
-                        });
-                        
-                        document.querySelector('.cancel-text-edit-btn').addEventListener('click', function() {
-                            renderSavedTexts();
-                        });
+                    btn.addEventListener('click', (e) => {
+                        const index = e.target.getAttribute('data-index');
+                        const text = this.savedTexts[index];
+                        this.editSavedText(index, text);
                     });
                 });
                 
                 // Adicionar event listeners para remover textos
                 document.querySelectorAll('.saved-texts .delete-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const index = this.getAttribute('data-index');
-                        savedTexts.splice(index, 1);
-                        localStorage.setItem('savedTexts', JSON.stringify(savedTexts));
-                        renderSavedTexts();
-                        showNotification(`Texto removido!`);
+                    btn.addEventListener('click', (e) => {
+                        const index = e.target.getAttribute('data-index');
+                        this.savedTexts.splice(index, 1);
+                        localStorage.setItem('savedTexts', JSON.stringify(this.savedTexts));
+                        this.renderSavedTexts();
+                        this.showNotification(`Texto removido!`);
                     });
                 });
             }
             
-            // Função para detectar atalhos no texto de entrada
-            function detectShortcuts() {
-                const text = inputText.value;
+            editSavedText(index, text) {
+                // Criar formulário de edição
+                const editForm = document.createElement('div');
+                editForm.className = 'edit-text-form';
+                editForm.innerHTML = `
+                    <div class="form-group">
+                        <label>Editar Texto</label>
+                        <textarea class="edit-text-area" rows="4">${text}</textarea>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn-primary save-text-edit-btn" data-index="${index}">
+                            <i class="fas fa-save"></i> Salvar
+                        </button>
+                        <button class="btn-secondary cancel-text-edit-btn">
+                            <i class="fas fa-times"></i> Cancelar
+                        </button>
+                    </div>
+                `;
+                
+                // Substituir o item pelo formulário de edição
+                const parentItem = document.querySelector(`[data-index="${index}"]`).closest('.saved-text-item');
+                parentItem.replaceWith(editForm);
+                
+                // Adicionar event listeners aos botões do formulário
+                document.querySelector('.save-text-edit-btn').addEventListener('click', (e) => {
+                    const idx = e.target.getAttribute('data-index');
+                    const newText = document.querySelector('.edit-text-area').value.trim();
+                    
+                    if (!newText) {
+                        this.showNotification('O texto não pode estar vazio.', false);
+                        return;
+                    }
+                    
+                    this.savedTexts[idx] = newText;
+                    localStorage.setItem('savedTexts', JSON.stringify(this.savedTexts));
+                    
+                    this.renderSavedTexts();
+                    this.showNotification(`Texto #${parseInt(idx) + 1} atualizado com sucesso!`);
+                });
+                
+                document.querySelector('.cancel-text-edit-btn').addEventListener('click', () => {
+                    this.renderSavedTexts();
+                });
+            }
+            
+            detectShortcuts() {
+                const text = this.inputText.value;
                 const words = text.split(/\s+/);
                 const detectedShortcuts = [];
                 
                 for (const word of words) {
-                    if (shortcuts[word] && !detectedShortcuts.includes(word)) {
+                    if (this.shortcuts[word] && !detectedShortcuts.includes(word)) {
                         detectedShortcuts.push(word);
                     }
                 }
                 
-                shortcutPreview.innerHTML = '';
+                this.shortcutPreview.innerHTML = '';
                 
                 if (detectedShortcuts.length === 0) {
-                    shortcutPreview.innerHTML = '<p>Nenhum atalho detectado. Digite algum atalho ou adicione novos abaixo.</p>';
+                    this.shortcutPreview.innerHTML = '<p>Nenhum atalho detectado. Digite algum atalho ou adicione novos abaixo.</p>';
                     return;
                 }
                 
@@ -848,101 +927,92 @@
                         <span>${shortcut}</span>
                         <i class="fas fa-times" data-shortcut="${shortcut}"></i>
                     `;
-                    shortcutPreview.appendChild(tag);
+                    this.shortcutPreview.appendChild(tag);
                 }
                 
                 // Adicionar event listeners para remover atalhos do texto
                 document.querySelectorAll('.shortcut-tag i').forEach(icon => {
-                    icon.addEventListener('click', function() {
-                        const shortcut = this.getAttribute('data-shortcut');
+                    icon.addEventListener('click', (e) => {
+                        const shortcut = e.target.getAttribute('data-shortcut');
                         const regex = new RegExp(`\\b${shortcut}\\b`, 'g');
-                        inputText.value = inputText.value.replace(regex, '').replace(/\s+/g, ' ').trim();
-                        detectShortcuts();
+                        this.inputText.value = this.inputText.value.replace(regex, '').replace(/\s+/g, ' ').trim();
+                        this.detectShortcuts();
                     });
                 });
             }
             
-            // Função para expandir atalhos no texto
-            function expandShortcuts() {
-                let text = inputText.value;
+            expandShortcuts() {
+                let text = this.inputText.value;
                 
                 // Ordenar atalhos por tamanho (do maior para o menor) para evitar substituições parciais
-                const sortedKeys = Object.keys(shortcuts).sort((a, b) => b.length - a.length);
+                const sortedKeys = Object.keys(this.shortcuts).sort((a, b) => b.length - a.length);
                 
                 for (const key of sortedKeys) {
                     const regex = new RegExp(`\\b${key}\\b`, 'g');
-                    text = text.replace(regex, shortcuts[key]);
+                    text = text.replace(regex, this.shortcuts[key]);
                 }
                 
-                outputText.value = text;
-                updateCounters();
+                this.outputText.value = text;
+                this.updateCounters();
             }
             
-            // Event listeners
-            inputText.addEventListener('input', detectShortcuts);
+            clearFields() {
+                this.inputText.value = '';
+                this.outputText.value = '';
+                this.shortcutPreview.innerHTML = '';
+                this.updateCounters();
+                this.showNotification('Campos limpos!');
+            }
             
-            expandBtn.addEventListener('click', expandShortcuts);
-            
-            clearBtn.addEventListener('click', function() {
-                inputText.value = '';
-                outputText.value = '';
-                shortcutPreview.innerHTML = '';
-                updateCounters();
-                showNotification('Campos limpos!');
-            });
-            
-            addShortcutBtn.addEventListener('click', function() {
-                const key = shortcutKey.value.trim();
-                const value = shortcutValue.value.trim();
+            addShortcut() {
+                const key = this.shortcutKey.value.trim();
+                const value = this.shortcutValue.value.trim();
                 
                 if (!key || !value) {
-                    showNotification('Por favor, preencha ambos os campos.', false);
+                    this.showNotification('Por favor, preencha ambos os campos.', false);
                     return;
                 }
                 
                 if (key.includes(' ')) {
-                    showNotification('O atalho não pode conter espaços.', false);
+                    this.showNotification('O atalho não pode conter espaços.', false);
                     return;
                 }
                 
-                shortcuts[key] = value;
-                localStorage.setItem('textShortcuts', JSON.stringify(shortcuts));
+                this.shortcuts[key] = value;
+                localStorage.setItem('textShortcuts', JSON.stringify(this.shortcuts));
                 
-                shortcutKey.value = '';
-                shortcutValue.value = '';
+                this.shortcutKey.value = '';
+                this.shortcutValue.value = '';
                 
-                renderShortcutsList();
-                showNotification(`Atalho "${key}" adicionado com sucesso!`);
+                this.renderShortcutsList();
+                this.showNotification(`Atalho "${key}" adicionado com sucesso!`);
                 
                 // Atualizar a detecção de atalhos
-                detectShortcuts();
-            });
+                this.detectShortcuts();
+            }
             
-            copyBtn.addEventListener('click', function() {
-                outputText.select();
+            copyText() {
+                this.outputText.select();
                 document.execCommand('copy');
-                showNotification('Texto copiado para a área de transferência!');
-            });
+                this.showNotification('Texto copiado para a área de transferência!');
+            }
             
-            saveTextBtn.addEventListener('click', function() {
-                if (!outputText.value.trim()) {
-                    showNotification('Nenhum texto para salvar.', false);
+            saveText() {
+                if (!this.outputText.value.trim()) {
+                    this.showNotification('Nenhum texto para salvar.', false);
                     return;
                 }
                 
-                savedTexts.push(outputText.value);
-                localStorage.setItem('savedTexts', JSON.stringify(savedTexts));
-                renderSavedTexts();
-                showNotification('Texto salvo com sucesso!');
-            });
-            
-            outputText.addEventListener('input', updateCounters);
-            
-            // Inicializar a aplicação
-            renderShortcutsList();
-            renderSavedTexts();
-            updateCounters();
-            detectShortcuts();
+                this.savedTexts.push(this.outputText.value);
+                localStorage.setItem('savedTexts', JSON.stringify(this.savedTexts));
+                this.renderSavedTexts();
+                this.showNotification('Texto salvo com sucesso!');
+            }
+        }
+
+        // Inicializar a aplicação quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', () => {
+            new TextMasterApp();
         });
     </script>
 </body>
