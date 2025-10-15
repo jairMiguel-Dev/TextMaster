@@ -88,6 +88,48 @@
             gap: 15px;
         }
 
+        /* Estilo aprimorado para o botão "Atalho para protocolo" */
+        .btn-secondary {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--accent-color), var(--warning-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(114, 9, 183, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(114, 9, 183, 0.4);
+        }
+
+        .btn-secondary:hover::before {
+            left: 100%;
+        }
+
+        .btn-secondary:active {
+            transform: translateY(-1px);
+        }
+
         .panel {
             background-color: white;
             border-radius: var(--border-radius);
@@ -340,7 +382,7 @@
             </div>
             <div class="header-actions">
                 <button class="btn-secondary" onclick="window.location.href='atalhos.html'">
-                    <i class="fas fa-arrow-left"></i> atalho para protocolo
+                    <i class="fas fa-arrow-left"></i> Atalho para protocolo
                 </button>
             </div>
         </header>
@@ -360,302 +402,285 @@
                 </div>
             </div>
         </div>
-        <!--
-        <div class="panel">
-            <div class="panel-header">
-                <h2 class="panel-title"><i class="fas fa-bookmark"></i> Ferramentas e Utilitários</h2>
-            </div>
-            <div class="panel-content">
-                <div class="access-list" id="toolsList">
-                    Lista de ferramentas será inserida aqui 
-                </div>
-                
-                <div class="stats">
-                    <span id="totalTools">0 itens</span>
-                    <span id="favoriteTools">Nenhum favorito</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
-    <div id="notification" class="notification">
-        <i class="fas fa-check-circle"></i>
-        <span id="notificationText"></span>
-    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Elementos do DOM
-            const systemsList = document.getElementById('systemsList');
-            const toolsList = document.getElementById('toolsList');
-            const totalItems = document.getElementById('totalItems');
-            const totalTools = document.getElementById('totalTools');
-            const recentAccess = document.getElementById('recentAccess');
-            const favoriteTools = document.getElementById('favoriteTools');
-            const notification = document.getElementById('notification');
-            const notificationText = document.getElementById('notificationText');
-            
-            // Base de dados de sistemas e ferramentas
-            const systemsDatabase = [
-                {
-                    id: 1,
-                    title: "SisAmil",
-                    description: "Plataforma principal da Amil",
-                    category: "sisamil",
-                    icon: "fas fa-heartbeat",
-                    url: "https://sisamil.amil.com.br/ace/ace001a.asp?tp_cliente=",
-                    type: "system"
-                },
-                {
-                    id: 2,
-                    title: "Base de Conhecimento",
-                    description: "Base de conhecimento para atendimento",
-                    category: "base",
-                    icon: "fas fa-book",
-                    url: "https://amil.sharepoint.com/sites/BasedeConhecimentoAtendimento",
-                    type: "system"
-                },
-                {
-                    id: 3,
-                    title: "Avaya - Escalas",
-                    description: "Sistema de escalas e aderência",
-                    category: "avaya",
-                    icon: "fas fa-calendar-alt",
-                    url: "https://10.160.3.60/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL",
-                    type: "system"
-                },
-                {
-                    id: 4,
-                    title: "Senior - Bater Ponto",
-                    description: "Sistema para registro de ponto",
-                    category: "ponto",
-                    icon: "fas fa-clock",
-                    url: "https://ponto.senior.com.br",
-                    type: "system"
-                },
-                {
-                    id: 5,
-                    title: "Teams",
-                    description: "Sistema de comunicação interna",
-                    category: "teams",
-                    icon: "fas fa-comments",
-                    url: "https://teams.microsoft.com",
-                    type: "system"
-                }, 
-                {
-                    id: 6,
-                    title: "Gestão Senior",
-                    description: "Sistema para assinatura de pontos",
-                    category: "gestao",
-                    icon: "fas fa-signature",
-                    url: "https://senior.dbm.com.br/gestaoponto-frontend/login",
-                    type: "system"
-                }
-            ];
-            
-            const toolsDatabase = [
-                {
-                    id: 101,
-                    title: "Calculadora de Horas",
-                    description: "Calcule horas trabalhadas e extras",
-                    category: "calculadora",
-                    icon: "fas fa-calculator",
-                    url: "#",
-                    type: "tool"
-                },
-                {
-                    id: 102,
-                    title: "Gerador de Relatórios",
-                    description: "Crie relatórios personalizados",
-                    category: "relatorios",
-                    icon: "fas fa-chart-bar",
-                    url: "#",
-                    type: "tool"
-                },
-                {
-                    id: 103,
-                    title: "Conversor de Arquivos",
-                    description: "Converta entre diferentes formatos",
-                    category: "conversor",
-                    icon: "fas fa-file-export",
-                    url: "#",
-                    type: "tool"
-                },
-                {
-                    id: 104,
-                    title: "Agenda de Tarefas",
-                    description: "Organize suas atividades diárias",
-                    category: "agenda",
-                    icon: "fas fa-tasks",
-                    url: "#",
-                    type: "tool"
-                }
-            ];
-            
-            // Histórico de acessos
-            let accessHistory = JSON.parse(localStorage.getItem('accessHistory')) || [];
-            
-            // Função para mostrar notificação
-            function showNotification(message, isSuccess = true) {
-                notificationText.textContent = message;
-                notification.style.background = isSuccess 
-                    ? 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))'
-                    : 'linear-gradient(135deg, var(--warning-color), #c1121f)';
+        <div id="notification" class="notification">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationText"></span>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Elementos do DOM
+                const systemsList = document.getElementById('systemsList');
+                const toolsList = document.getElementById('toolsList');
+                const totalItems = document.getElementById('totalItems');
+                const totalTools = document.getElementById('totalTools');
+                const recentAccess = document.getElementById('recentAccess');
+                const favoriteTools = document.getElementById('favoriteTools');
+                const notification = document.getElementById('notification');
+                const notificationText = document.getElementById('notificationText');
                 
-                notification.classList.add('show');
+                // Base de dados de sistemas e ferramentas
+                const systemsDatabase = [
+                    {
+                        id: 1,
+                        title: "SisAmil",
+                        description: "Plataforma principal da Amil",
+                        category: "sisamil",
+                        icon: "fas fa-heartbeat",
+                        url: "https://sisamil.amil.com.br/ace/ace001a.asp?tp_cliente=",
+                        type: "system"
+                    },
+                    {
+                        id: 2,
+                        title: "Base de Conhecimento",
+                        description: "Base de conhecimento para atendimento",
+                        category: "base",
+                        icon: "fas fa-book",
+                        url: "https://amil.sharepoint.com/sites/BasedeConhecimentoAtendimento",
+                        type: "system"
+                    },
+                    {
+                        id: 3,
+                        title: "Avaya - Escalas",
+                        description: "Sistema de escalas e aderência",
+                        category: "avaya",
+                        icon: "fas fa-calendar-alt",
+                        url: "https://10.160.3.60/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL",
+                        type: "system"
+                    },
+                    {
+                        id: 4,
+                        title: "Senior - Bater Ponto",
+                        description: "Sistema para registro de ponto",
+                        category: "ponto",
+                        icon: "fas fa-clock",
+                        url: "https://ponto.senior.com.br",
+                        type: "system"
+                    },
+                    {
+                        id: 5,
+                        title: "Teams",
+                        description: "Sistema de comunicação interna",
+                        category: "teams",
+                        icon: "fas fa-comments",
+                        url: "https://teams.microsoft.com",
+                        type: "system"
+                    }, 
+                    {
+                        id: 6,
+                        title: "Gestão Senior",
+                        description: "Sistema para assinatura de pontos",
+                        category: "gestao",
+                        icon: "fas fa-signature",
+                        url: "https://senior.dbm.com.br/gestaoponto-frontend/login",
+                        type: "system"
+                    }
+                ];
                 
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 3000);
-            }
-            
-            // Função para registrar acesso
-            function registerAccess(item) {
-                const accessRecord = {
-                    id: item.id,
-                    title: item.title,
-                    timestamp: new Date().toISOString()
-                };
+                const toolsDatabase = [
+                    {
+                        id: 101,
+                        title: "Calculadora de Horas",
+                        description: "Calcule horas trabalhadas e extras",
+                        category: "calculadora",
+                        icon: "fas fa-calculator",
+                        url: "#",
+                        type: "tool"
+                    },
+                    {
+                        id: 102,
+                        title: "Gerador de Relatórios",
+                        description: "Crie relatórios personalizados",
+                        category: "relatorios",
+                        icon: "fas fa-chart-bar",
+                        url: "#",
+                        type: "tool"
+                    },
+                    {
+                        id: 103,
+                        title: "Conversor de Arquivos",
+                        description: "Converta entre diferentes formatos",
+                        category: "conversor",
+                        icon: "fas fa-file-export",
+                        url: "#",
+                        type: "tool"
+                    },
+                    {
+                        id: 104,
+                        title: "Agenda de Tarefas",
+                        description: "Organize suas atividades diárias",
+                        category: "agenda",
+                        icon: "fas fa-tasks",
+                        url: "#",
+                        type: "tool"
+                    }
+                ];
                 
-                // Adicionar ao histórico
-                accessHistory.unshift(accessRecord);
+                // Histórico de acessos
+                let accessHistory = JSON.parse(localStorage.getItem('accessHistory')) || [];
                 
-                // Manter apenas os 5 acessos mais recentes
-                if (accessHistory.length > 5) {
-                    accessHistory.pop();
+                // Função para mostrar notificação
+                function showNotification(message, isSuccess = true) {
+                    notificationText.textContent = message;
+                    notification.style.background = isSuccess 
+                        ? 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))'
+                        : 'linear-gradient(135deg, var(--warning-color), #c1121f)';
+                    
+                    notification.classList.add('show');
+                    
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 3000);
                 }
                 
-                // Salvar no localStorage
-                localStorage.setItem('accessHistory', JSON.stringify(accessHistory));
+                // Função para registrar acesso
+                function registerAccess(item) {
+                    const accessRecord = {
+                        id: item.id,
+                        title: item.title,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    // Adicionar ao histórico
+                    accessHistory.unshift(accessRecord);
+                    
+                    // Manter apenas os 5 acessos mais recentes
+                    if (accessHistory.length > 5) {
+                        accessHistory.pop();
+                    }
+                    
+                    // Salvar no localStorage
+                    localStorage.setItem('accessHistory', JSON.stringify(accessHistory));
+                    
+                    // Atualizar display de acesso recente
+                    updateRecentAccess();
+                    
+                    // Abrir URL
+                    if (item.url && item.url !== '#') {
+                        window.open(item.url, '_blank');
+                    } else {
+                        showNotification(`Acesso registrado para ${item.title}`, true);
+                    }
+                }
                 
-                // Atualizar display de acesso recente
+                // Função para atualizar display de acesso recente
+                function updateRecentAccess() {
+                    if (accessHistory.length > 0) {
+                        const lastAccess = accessHistory[0];
+                        const date = new Date(lastAccess.timestamp);
+                        const timeString = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                        recentAccess.textContent = `Último: ${lastAccess.title} às ${timeString}`;
+                    } else {
+                        recentAccess.textContent = 'Nenhum acesso recente';
+                    }
+                }
+                
+                // Função para renderizar lista de sistemas
+                function renderSystemsList() {
+                    systemsList.innerHTML = '';
+                    
+                    if (systemsDatabase.length === 0) {
+                        systemsList.innerHTML = `
+                            <div class="empty-state">
+                                <i class="fas fa-desktop"></i>
+                                <h3>Nenhum sistema cadastrado</h3>
+                                <p>Adicione sistemas para ter acesso rápido.</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    systemsDatabase.forEach(system => {
+                        const accessItem = document.createElement('div');
+                        accessItem.className = 'access-item';
+                        
+                        accessItem.innerHTML = `
+                            <div class="item-info">
+                                <div class="item-icon">
+                                    <i class="${system.icon}"></i>
+                                </div>
+                                <div class="item-details">
+                                    <div class="item-title">${system.title}</div>
+                                    <div class="item-description">${system.description}</div>
+                                </div>
+                            </div>
+                            <button class="access-button open-system-btn" data-id="${system.id}">
+                                <i class="fas fa-external-link-alt"></i> Acessar
+                            </button>
+                        `;
+                        
+                        systemsList.appendChild(accessItem);
+                    });
+                    
+                    // Atualizar contador
+                    totalItems.textContent = `${systemsDatabase.length} sistemas`;
+                    
+                    // Adicionar event listeners para os botões
+                    document.querySelectorAll('.open-system-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const systemId = this.getAttribute('data-id');
+                            const system = systemsDatabase.find(s => s.id == systemId);
+                            registerAccess(system);
+                        });
+                    });
+                }
+                
+                // Função para renderizar lista de ferramentas
+                function renderToolsList() {
+                    toolsList.innerHTML = '';
+                    
+                    if (toolsDatabase.length === 0) {
+                        toolsList.innerHTML = `
+                            <div class="empty-state">
+                                <i class="fas fa-tools"></i>
+                                <h3>Nenhuma ferramenta cadastrada</h3>
+                                <p>Adicione ferramentas para ter acesso rápido.</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    toolsDatabase.forEach(tool => {
+                        const accessItem = document.createElement('div');
+                        accessItem.className = 'access-item';
+                        
+                        accessItem.innerHTML = `
+                            <div class="item-info">
+                                <div class="item-icon">
+                                    <i class="${tool.icon}"></i>
+                                </div>
+                                <div class="item-details">
+                                    <div class="item-title">${tool.title}</div>
+                                    <div class="item-description">${tool.description}</div>
+                                </div>
+                            </div>
+                            <button class="access-button open-tool-btn" data-id="${tool.id}">
+                                <i class="fas fa-external-link-alt"></i> Acessar
+                            </button>
+                        `;
+                        
+                        toolsList.appendChild(accessItem);
+                    });
+                    
+                    // Atualizar contador
+                    totalTools.textContent = `${toolsDatabase.length} ferramentas`;
+                    
+                    // Adicionar event listeners para os botões
+                    document.querySelectorAll('.open-tool-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const toolId = this.getAttribute('data-id');
+                            const tool = toolsDatabase.find(t => t.id == toolId);
+                            registerAccess(tool);
+                        });
+                    });
+                }
+                
+                // Inicializar a aplicação
+                renderSystemsList();
+                renderToolsList();
                 updateRecentAccess();
-                
-                // Abrir URL
-                if (item.url && item.url !== '#') {
-                    window.open(item.url, '_blank');
-                } else {
-                    showNotification(`Acesso registrado para ${item.title}`, true);
-                }
-            }
-            
-            // Função para atualizar display de acesso recente
-            function updateRecentAccess() {
-                if (accessHistory.length > 0) {
-                    const lastAccess = accessHistory[0];
-                    const date = new Date(lastAccess.timestamp);
-                    const timeString = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-                    recentAccess.textContent = `Último: ${lastAccess.title} às ${timeString}`;
-                } else {
-                    recentAccess.textContent = 'Nenhum acesso recente';
-                }
-            }
-            
-            // Função para renderizar lista de sistemas
-            function renderSystemsList() {
-                systemsList.innerHTML = '';
-                
-                if (systemsDatabase.length === 0) {
-                    systemsList.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-desktop"></i>
-                            <h3>Nenhum sistema cadastrado</h3>
-                            <p>Adicione sistemas para ter acesso rápido.</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                systemsDatabase.forEach(system => {
-                    const accessItem = document.createElement('div');
-                    accessItem.className = 'access-item';
-                    
-                    accessItem.innerHTML = `
-                        <div class="item-info">
-                            <div class="item-icon">
-                                <i class="${system.icon}"></i>
-                            </div>
-                            <div class="item-details">
-                                <div class="item-title">${system.title}</div>
-                                <div class="item-description">${system.description}</div>
-                            </div>
-                        </div>
-                        <button class="access-button open-system-btn" data-id="${system.id}">
-                            <i class="fas fa-external-link-alt"></i> Acessar
-                        </button>
-                    `;
-                    
-                    systemsList.appendChild(accessItem);
-                });
-                
-                // Atualizar contador
-                totalItems.textContent = `${systemsDatabase.length} sistemas`;
-                
-                // Adicionar event listeners para os botões
-                document.querySelectorAll('.open-system-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const systemId = this.getAttribute('data-id');
-                        const system = systemsDatabase.find(s => s.id == systemId);
-                        registerAccess(system);
-                    });
-                });
-            }
-            
-            // Função para renderizar lista de ferramentas
-            function renderToolsList() {
-                toolsList.innerHTML = '';
-                
-                if (toolsDatabase.length === 0) {
-                    toolsList.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-tools"></i>
-                            <h3>Nenhuma ferramenta cadastrada</h3>
-                            <p>Adicione ferramentas para ter acesso rápido.</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                toolsDatabase.forEach(tool => {
-                    const accessItem = document.createElement('div');
-                    accessItem.className = 'access-item';
-                    
-                    accessItem.innerHTML = `
-                        <div class="item-info">
-                            <div class="item-icon">
-                                <i class="${tool.icon}"></i>
-                            </div>
-                            <div class="item-details">
-                                <div class="item-title">${tool.title}</div>
-                                <div class="item-description">${tool.description}</div>
-                            </div>
-                        </div>
-                        <button class="access-button open-tool-btn" data-id="${tool.id}">
-                            <i class="fas fa-external-link-alt"></i> Acessar
-                        </button>
-                    `;
-                    
-                    toolsList.appendChild(accessItem);
-                });
-                
-                // Atualizar contador
-                totalTools.textContent = `${toolsDatabase.length} ferramentas`;
-                
-                // Adicionar event listeners para os botões
-                document.querySelectorAll('.open-tool-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const toolId = this.getAttribute('data-id');
-                        const tool = toolsDatabase.find(t => t.id == toolId);
-                        registerAccess(tool);
-                    });
-                });
-            }
-            
-            // Inicializar a aplicação
-            renderSystemsList();
-            renderToolsList();
-            updateRecentAccess();
-        });
-    </script>
+            });
+        </script>
 </body>
 </html>
