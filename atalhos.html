@@ -671,12 +671,10 @@
                     'indicação2': 'Sr(a) entrou em contato para indicação de rede para a especialidade de urgência e emergência no estado de XX. Foi visualizado no sistema os prestadores disponíveis enviado com sucesso para E-mail/SMS () . E orientado aos canais digitais site/APP',
                     'indicação3': 'Sr(a) XX entrou em contato para indicação de rede para a especialidade de XX no estado de XX . Foi visualizado no sistema os prestadores disponíveis e verbalizado e m linha, pois os dados de contato estão divergentes. E orientado aos canais digitais site/APP',
                     'indicação4': 'Sr(a) XX entrou em contato para indicação de rede para a especialidade de XX no estado de XX. Foi visualizado no sistema os prestadores disponíveis e verbalizado em linha, por insistência do beneficiário. E orientado aos canais digitais site/APP',
-                    'migração2': 'Sr(a) XX entrou em contato para saber como faz a migração do plano. Foi informado que primeiramente deve fazer a contratação de um novo plano no site (www.amil.com.br) ou com o corretor e depois fazer uma carta a próprio punho que deve conter: "A marca ótica ou número do contrato dos dois planos (antigo e novo) e na carta deve informar que realizou uma nova compra, para que seja possível identificar de forma clara os contratos e seguir com o cancelamento do plano antigo. Depois deve acessar o site a mil institucional > Beneficiário do Plano > área logada > menu > Documentos > Nova Solicitação > no campo da mensagem deve preencher o número do celular e dados bancários > Anexar cópia do documento de identificação com foto frente e verso. E aguardar 5 dias úteis para realizar o cancelamento do plano antigo, a partir do recebimento do documento. Foi aberto a RCA de alteração cadastral e orientado sobre o prazo de envio dentro de 48 horas'
+                    'migração2': 'Sr(a) XX entrou em contato para saber como faz a migração do plano. Foi informado que primeiramente deve fazer a contratação de um novo plano no site (www.amil.com.br) ou com o corretor e depois fazer uma carta a próprio punho que deve ser enviada para análise.',
                     'procedimento não realizado': 'Sr(a) XXX, entrou em contato informando que não realizou o procedimento na clinica XX, a GTO foi assinada e a mesma solicita o cancelamento, aberto rca pois a GTO se encontra como confirmada e foi orientada sobre o prazo de 5 dias úteis.',
-                    'renovação': 'Sra XXX, entrou em contato para solicitar o cancelamento do plano pois não está de acordo com a renovação automatica. Foi aberto uma RCA pois o mesmo(a) solicita a anistia das mensalidades dos meses XX, orientado sobre o prazo de 5 dias úteis.',
-                    'xxx': 'xxx',
-                    'xxx': 'xxx',
-                    };
+                    'renovação': 'Sra XXX, entrou em contato para solicitar o cancelamento do plano pois não está de acordo com a renovação automatica. Foi aberto uma RCA pois o mesmo(a) solicita a anistia das mensalidades dos meses XX, orientado sobre o prazo de 5 dias úteis.'
+                };
                 
                 this.savedTexts = JSON.parse(localStorage.getItem('savedTexts')) || [];
                 this.init();
@@ -766,7 +764,7 @@
                         <span class="shortcut-key">${key}</span>
                         <span class="shortcut-value">${value}</span>
                         <div class="actions">
-                            <i class="fas fa-edit action-btn edit-btn" data-key="${key}" data-value="${value}" title="Editar atalho"></i>
+                            <i class="fas fa-edit action-btn edit-btn" data-key="${key}" title="Editar atalho"></i>
                             <i class="fas fa-trash action-btn delete-btn" data-key="${key}" title="Remover atalho"></i>
                         </div>
                     `;
@@ -778,8 +776,7 @@
                 document.querySelectorAll('.edit-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         const key = e.target.getAttribute('data-key');
-                        const value = e.target.getAttribute('data-value');
-                        this.editShortcut(key, value);
+                        this.editShortcut(key);
                     });
                 });
                 
@@ -792,7 +789,9 @@
                 });
             }
             
-            editShortcut(key, value) {
+            editShortcut(key) {
+                const value = this.shortcuts[key];
+                
                 // Criar formulário de edição
                 const editForm = document.createElement('div');
                 editForm.className = 'edit-shortcut-form';
@@ -803,7 +802,7 @@
                     </div>
                     <div class="form-group">
                         <label for="editShortcutValue">Protocolo</label>
-                        <input type="text" id="editShortcutValue" value="${value}" class="edit-value">
+                        <textarea id="editShortcutValue" class="edit-value" rows="3">${value}</textarea>
                     </div>
                     <div class="button-group">
                         <button class="btn-primary save-edit-btn" data-key="${key}">
@@ -874,7 +873,6 @@
                             <div class="text-date">Salvo em: ${textObj.date}</div>
                         </div>
                         <div class="actions">
-                            <i class="fas fa-edit action-btn edit-btn" data-index="${index}" title="Editar texto"></i>
                             <i class="fas fa-upload action-btn load-btn" data-index="${index}" title="Carregar texto"></i>
                             <i class="fas fa-trash action-btn delete-btn" data-index="${index}" title="Excluir texto"></i>
                         </div>
@@ -893,15 +891,6 @@
                     });
                 });
                 
-                // Adicionar event listeners para editar textos
-                document.querySelectorAll('.saved-texts .edit-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const index = e.target.getAttribute('data-index');
-                        const text = this.savedTexts[index].text;
-                        this.editSavedText(index, text);
-                    });
-                });
-                
                 // Adicionar event listeners para remover textos
                 document.querySelectorAll('.saved-texts .delete-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
@@ -913,51 +902,6 @@
                             this.showNotification(`Texto removido!`);
                         }
                     });
-                });
-            }
-            
-            editSavedText(index, text) {
-                // Criar formulário de edição
-                const editForm = document.createElement('div');
-                editForm.className = 'edit-text-form';
-                editForm.innerHTML = `
-                    <div class="form-group">
-                        <label>Editar Texto</label>
-                        <textarea class="edit-text-area" rows="4">${text}</textarea>
-                    </div>
-                    <div class="button-group">
-                        <button class="btn-primary save-text-edit-btn" data-index="${index}">
-                            <i class="fas fa-save"></i> Salvar
-                        </button>
-                        <button class="btn-secondary cancel-text-edit-btn">
-                            <i class="fas fa-times"></i> Cancelar
-                        </button>
-                    </div>
-                `;
-                
-                // Substituir o item pelo formulário de edição
-                const parentItem = document.querySelector(`[data-index="${index}"]`).closest('.saved-text-item');
-                parentItem.replaceWith(editForm);
-                
-                // Adicionar event listeners aos botões do formulário
-                document.querySelector('.save-text-edit-btn').addEventListener('click', (e) => {
-                    const idx = e.target.getAttribute('data-index');
-                    const newText = document.querySelector('.edit-text-area').value.trim();
-                    
-                    if (!newText) {
-                        this.showNotification('O texto não pode estar vazio.', false);
-                        return;
-                    }
-                    
-                    this.savedTexts[idx].text = newText;
-                    localStorage.setItem('savedTexts', JSON.stringify(this.savedTexts));
-                    
-                    this.renderSavedTexts();
-                    this.showNotification(`Texto #${parseInt(idx) + 1} atualizado com sucesso!`);
-                });
-                
-                document.querySelector('.cancel-text-edit-btn').addEventListener('click', () => {
-                    this.renderSavedTexts();
                 });
             }
             
