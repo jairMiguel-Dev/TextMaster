@@ -429,53 +429,6 @@
             margin-top: 5px;
         }
 
-        /* Nova seção de horários de atendimento */
-        .business-hours {
-            margin-top: 25px;
-        }
-
-        .business-hours-list {
-            max-height: 200px;
-            overflow-y: auto;
-            border: 2px solid var(--gray-light);
-            border-radius: var(--border-radius);
-            padding: 10px;
-        }
-
-        .hour-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-            border-bottom: 1px solid var(--gray-light);
-            transition: var(--transition);
-        }
-
-        .hour-item:hover {
-            background-color: var(--gray-light);
-        }
-
-        .hour-item:last-child {
-            border-bottom: none;
-        }
-
-        .hour-details {
-            flex-grow: 1;
-            font-size: 14px;
-            margin-right: 15px;
-        }
-
-        .hour-time {
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .hour-type {
-            font-size: 12px;
-            color: var(--gray);
-            margin-top: 5px;
-        }
-
         @media (max-width: 1200px) {
             .app-container {
                 grid-template-columns: 1fr;
@@ -643,14 +596,6 @@
                         <!-- Lista de textos salvos será inserida aqui -->
                     </div>
                 </div>
-
-                <!-- Nova seção de horários de atendimento -->
-                <div class="business-hours">
-                    <h3><i class="fas fa-clock"></i> Horários de Atendimento</h3>
-                    <div class="business-hours-list" id="businessHoursList">
-                        <!-- Lista de horários será inserida aqui -->
-                    </div>
-                </div>
             </div>
         </div>
         
@@ -734,16 +679,6 @@
                     };
                 
                 this.savedTexts = JSON.parse(localStorage.getItem('savedTexts')) || [];
-                
-                // Horários de atendimento das centrais
-                this.businessHours = [
-                    { central: 'Central Geral', time: 'Seg a Sex das 8h às 18h', type: 'Atendimento Geral' },
-                    { central: 'PME', time: 'Seg a Sex das 8h às 18h', type: 'Somente do PME' },
-                    { central: 'Atendimento 24h', time: 'Todos os dias, 24 horas', type: 'Emergências' },
-                    { central: 'Central Dental', time: 'Seg a Sex das 8h às 17h', type: 'Especializada' },
-                    { central: 'Cancelamentos', time: 'Seg a Sex das 9h às 16h', type: 'Processos específicos' }
-                ];
-                
                 this.init();
             }
             
@@ -761,7 +696,6 @@
                 this.copyBtn = document.getElementById('copyBtn');
                 this.saveTextBtn = document.getElementById('saveTextBtn');
                 this.savedTextsList = document.getElementById('savedTextsList');
-                this.businessHoursList = document.getElementById('businessHoursList');
                 this.notification = document.getElementById('notification');
                 this.notificationText = document.getElementById('notificationText');
                 this.wordCount = document.getElementById('wordCount');
@@ -770,7 +704,6 @@
                 // Inicializar a aplicação
                 this.renderShortcutsList();
                 this.renderSavedTexts();
-                this.renderBusinessHours();
                 this.updateCounters();
                 this.detectShortcuts();
                 this.setupEventListeners();
@@ -980,23 +913,6 @@
                             this.showNotification(`Texto removido!`);
                         }
                     });
-                });
-            }
-            
-            renderBusinessHours() {
-                this.businessHoursList.innerHTML = '';
-                
-                this.businessHours.forEach((hour, index) => {
-                    const hourItem = document.createElement('div');
-                    hourItem.className = 'hour-item';
-                    hourItem.innerHTML = `
-                        <div class="hour-details">
-                            <div class="hour-time">${hour.time}</div>
-                            <div class="hour-type">${hour.central} - ${hour.type}</div>
-                        </div>
-                    `;
-                    
-                    this.businessHoursList.appendChild(hourItem);
                 });
             }
             
