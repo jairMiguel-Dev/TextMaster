@@ -429,6 +429,53 @@
             margin-top: 5px;
         }
 
+        /* Nova seção de horários de atendimento */
+        .business-hours {
+            margin-top: 25px;
+        }
+
+        .business-hours-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 10px;
+        }
+
+        .hour-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .hour-item:hover {
+            background-color: var(--gray-light);
+        }
+
+        .hour-item:last-child {
+            border-bottom: none;
+        }
+
+        .hour-details {
+            flex-grow: 1;
+            font-size: 14px;
+            margin-right: 15px;
+        }
+
+        .hour-time {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .hour-type {
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
         @media (max-width: 1200px) {
             .app-container {
                 grid-template-columns: 1fr;
@@ -596,6 +643,14 @@
                         <!-- Lista de textos salvos será inserida aqui -->
                     </div>
                 </div>
+
+                <!-- Nova seção de horários de atendimento -->
+                <div class="business-hours">
+                    <h3><i class="fas fa-clock"></i> Horários de Atendimento</h3>
+                    <div class="business-hours-list" id="businessHoursList">
+                        <!-- Lista de horários será inserida aqui -->
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -672,9 +727,23 @@
                     'indicação3': 'Sr(a) XX entrou em contato para indicação de rede para a especialidade de XX no estado de XX . Foi visualizado no sistema os prestadores disponíveis e verbalizado e m linha, pois os dados de contato estão divergentes. E orientado aos canais digitais site/APP',
                     'indicação4': 'Sr(a) XX entrou em contato para indicação de rede para a especialidade de XX no estado de XX. Foi visualizado no sistema os prestadores disponíveis e verbalizado em linha, por insistência do beneficiário. E orientado aos canais digitais site/APP',
                     'migração2': 'Sr(a) XX entrou em contato para saber como faz a migração do plano. Foi informado que primeiramente deve fazer a contratação de um novo plano no site (www.amil.com.br) ou com o corretor e depois fazer uma carta a próprio punho que deve conter: "A marca ótica ou número do contrato dos dois planos (antigo e novo) e na carta deve informar que realizou uma nova compra, para que seja possível identificar de forma clara os contratos e seguir com o cancelamento do plano antigo. Depois deve acessar o site a mil institucional > Beneficiário do Plano > área logada > menu > Documentos > Nova Solicitação > no campo da mensagem deve preencher o número do celular e dados bancários > Anexar cópia do documento de identificação com foto frente e verso. E aguardar 5 dias úteis para realizar o cancelamento do plano antigo, a partir do recebimento do documento. Foi aberto a RCA de alteração cadastral e orientado sobre o prazo de envio dentro de 48 horas'
-                };
+                    'procedimento não realizado': 'Sr(a) XXX, entrou em contato informando que não realizou o procedimento na clinica XX, a GTO foi assinada e a mesma solicita o cancelamento, aberto rca pois a GTO se encontra como confirmada e foi orientada sobre o prazo de 5 dias úteis.',
+                    'renovação': 'Sra XXX, entrou em contato para solicitar o cancelamento do plano pois não está de acordo com a renovação automatica. Foi aberto uma RCA pois o mesmo(a) solicita a anistia das mensalidades dos meses XX, orientado sobre o prazo de 5 dias úteis.',
+                    'xxx': 'xxx',
+                    'xxx': 'xxx',
+                    };
                 
                 this.savedTexts = JSON.parse(localStorage.getItem('savedTexts')) || [];
+                
+                // Horários de atendimento das centrais
+                this.businessHours = [
+                    { central: 'Central Geral', time: 'Seg a Sex das 8h às 18h', type: 'Atendimento Geral' },
+                    { central: 'PME', time: 'Seg a Sex das 8h às 18h', type: 'Somente do PME' },
+                    { central: 'Atendimento 24h', time: 'Todos os dias, 24 horas', type: 'Emergências' },
+                    { central: 'Central Dental', time: 'Seg a Sex das 8h às 17h', type: 'Especializada' },
+                    { central: 'Cancelamentos', time: 'Seg a Sex das 9h às 16h', type: 'Processos específicos' }
+                ];
+                
                 this.init();
             }
             
@@ -692,6 +761,7 @@
                 this.copyBtn = document.getElementById('copyBtn');
                 this.saveTextBtn = document.getElementById('saveTextBtn');
                 this.savedTextsList = document.getElementById('savedTextsList');
+                this.businessHoursList = document.getElementById('businessHoursList');
                 this.notification = document.getElementById('notification');
                 this.notificationText = document.getElementById('notificationText');
                 this.wordCount = document.getElementById('wordCount');
@@ -700,6 +770,7 @@
                 // Inicializar a aplicação
                 this.renderShortcutsList();
                 this.renderSavedTexts();
+                this.renderBusinessHours();
                 this.updateCounters();
                 this.detectShortcuts();
                 this.setupEventListeners();
@@ -909,6 +980,23 @@
                             this.showNotification(`Texto removido!`);
                         }
                     });
+                });
+            }
+            
+            renderBusinessHours() {
+                this.businessHoursList.innerHTML = '';
+                
+                this.businessHours.forEach((hour, index) => {
+                    const hourItem = document.createElement('div');
+                    hourItem.className = 'hour-item';
+                    hourItem.innerHTML = `
+                        <div class="hour-details">
+                            <div class="hour-time">${hour.time}</div>
+                            <div class="hour-type">${hour.central} - ${hour.type}</div>
+                        </div>
+                    `;
+                    
+                    this.businessHoursList.appendChild(hourItem);
                 });
             }
             
