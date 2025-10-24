@@ -706,6 +706,7 @@
                     category: "Procedimentos",
                     icon: "fas fa-file-alt",
                     content: "Passo a passo para realizar o cancelamento de plano...",
+                    url: "https://amil.sharepoint.com/sites/BasedeConhecimentoAtendimento/SitePages/Cancelamento---Exclus%C3%A3o-de-Plano-Dental-PF---RN-561.aspx?web=1",
                     type: "article"
                 },
                 {
@@ -817,11 +818,11 @@
                 // Atualizar dashboard
                 updateDashboard();
                 
-                // Abrir URL se for um sistema
-                if (item.url && item.url !== '#' && item.type === 'system') {
+                // Abrir URL se for um sistema ou se o artigo tiver uma URL
+                if (item.url && (item.type === 'system' || item.type === 'article')) {
                     window.open(item.url, '_blank');
                 } else {
-                    showNotification(`Acesso registrado para ${item.title}`, true);
+                    showNotification(`${item.type === 'system' ? 'Sistema' : 'Artigo'} "${item.title}" aberto`, true);
                 }
             }
             
@@ -976,8 +977,6 @@
                         const articleId = this.getAttribute('data-id');
                         const article = articlesDatabase.find(a => a.id == articleId);
                         registerAccess(article);
-                        showNotification(`Artigo "${article.title}" aberto`, true);
-                        // Aqui você pode implementar a exibição do conteúdo completo do artigo
                     });
                 });
                 
