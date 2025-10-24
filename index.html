@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="logo.icon.png" type="image/png">
-    <title>TextMaster Pro - Plataforma Completa de Atalhos para protocolo</title>
+    <title>TextMaster Pro - SPA</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -42,7 +42,7 @@
             max-width: 1600px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1.8fr;
+            grid-template-columns: 1fr;
             gap: 24px;
         }
 
@@ -88,108 +88,10 @@
             gap: 15px;
         }
 
-        .panel {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--gray-light);
-        }
-
-        .panel-title {
-            font-size: 20px;
-            color: var(--secondary-color);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .input-area {
-            margin-bottom: 20px;
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 150px;
-            padding: 18px;
-            border: 2px solid var(--gray-light);
-            border-radius: var(--border-radius);
-            resize: vertical;
-            font-size: 16px;
-            line-height: 1.6;
-            transition: var(--transition);
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-        }
-
-        .output-text {
-            min-height: 300px;
-            font-size: 17px;
-            line-height: 1.7;
-            background-color: var(--light-color);
-        }
-
-        .shortcut-preview {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .shortcut-tag {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        .btn-secondary {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--accent-color), var(--warning-color));
             color: white;
-            padding: 8px 15px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .shortcut-tag:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
-        }
-
-        .shortcut-tag i {
-            cursor: pointer;
-            opacity: 0.8;
-            transition: var(--transition);
-        }
-
-        .shortcut-tag i:hover {
-            opacity: 1;
-            transform: scale(1.2);
-        }
-
-        .button-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        button {
-            padding: 12px 20px;
             border: none;
             border-radius: var(--border-radius);
             cursor: pointer;
@@ -197,22 +99,7 @@
             transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, var(--accent-color), var(--warning-color));
-            color: white;
+            gap: 10px;
             box-shadow: 0 4px 15px rgba(114, 9, 183, 0.3);
             position: relative;
             overflow: hidden;
@@ -242,148 +129,151 @@
             transform: translateY(-1px);
         }
 
-        .btn-accent {
-            background: linear-gradient(135deg, var(--accent-color), var(--warning-color));
-            color: white;
-        }
-
-        .btn-accent:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(114, 9, 183, 0.4);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, var(--success-color), #2a9d8f);
-            color: white;
-        }
-
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
-        }
-
-        .btn-info {
-            background: linear-gradient(135deg, #4cc9f0, #3a86ff);
-            color: white;
-        }
-
-        .btn-info:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
-        }
-
-        .shortcuts-management {
-            margin-top: 20px;
-        }
-
-        .shortcut-form {
-            display: grid;
-            grid-template-columns: 1fr 2fr 1fr auto;
-            gap: 12px;
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 15px;
             margin-bottom: 20px;
-            align-items: end;
         }
 
-        .form-group {
+        .nav-list {
             display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--secondary-color);
-        }
-
-        input {
-            padding: 12px 15px;
-            border: 2px solid var(--gray-light);
-            border-radius: var(--border-radius);
-            font-size: 16px;
-            transition: var(--transition);
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-        }
-
-        .shortcuts-list {
-            max-height: 300px;
-            overflow-y: auto;
-            border: 2px solid var(--gray-light);
-            border-radius: var(--border-radius);
-            padding: 10px;
-        }
-
-        .shortcut-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-            border-bottom: 1px solid var(--gray-light);
-            transition: var(--transition);
-        }
-
-        .shortcut-item:hover {
-            background-color: var(--gray-light);
-        }
-
-        .shortcut-item:last-child {
-            border-bottom: none;
-        }
-
-        .shortcut-key {
-            font-weight: bold;
-            color: var(--primary-color);
-            background-color: rgba(67, 97, 238, 0.1);
-            padding: 4px 10px;
-            border-radius: 4px;
-            min-width: 80px;
-        }
-
-        .shortcut-value {
-            flex-grow: 1;
-            margin: 0 15px;
-            padding: 8px 12px;
-            border-radius: 4px;
-            border: 1px dashed transparent;
-            font-size: 15px;
-        }
-
-        .shortcut-value:focus {
-            outline: none;
-            border: 1px dashed var(--primary-color);
-            background-color: white;
-        }
-
-        .actions {
-            display: flex;
+            list-style: none;
             gap: 10px;
         }
 
-        .action-btn {
-            padding: 8px;
-            border-radius: 4px;
-            cursor: pointer;
+        .nav-item {
+            flex: 1;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            background: var(--gray-light);
+            color: var(--dark-color);
+            text-decoration: none;
+            font-weight: 600;
             transition: var(--transition);
         }
 
-        .edit-btn {
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        /* Seções */
+        .section {
+            display: none;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            min-height: 500px;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--gray-light);
+        }
+
+        .panel-title {
+            font-size: 20px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .access-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .access-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .access-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-grow: 1;
+        }
+
+        .item-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-light);
+            border-radius: 50%;
             color: var(--primary-color);
+            font-size: 20px;
         }
 
-        .edit-btn:hover {
-            background-color: rgba(67, 97, 238, 0.1);
+        .item-details {
+            flex-grow: 1;
         }
 
-        .delete-btn {
-            color: var(--warning-color);
+        .item-title {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
         }
 
-        .delete-btn:hover {
-            background-color: rgba(247, 37, 133, 0.1);
+        .item-description {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .access-button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .access-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
         }
 
         .stats {
@@ -395,19 +285,131 @@
             padding: 10px 0;
         }
 
-        .saved-texts {
-            margin-top: 25px;
+        /* Artigos */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
         }
 
-        .saved-texts-list {
-            max-height: 200px;
+        .article-card {
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .article-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .article-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .article-description {
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .article-category {
+            display: inline-block;
+            padding: 5px 10px;
+            background: var(--primary-light);
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .article-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .article-button {
+            padding: 8px 15px;
+            background: var(--gray-light);
+            color: var(--dark-color);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        .article-button.primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .article-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Dashboard */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .recent-access {
+            margin-top: 30px;
+        }
+
+        .recent-list {
+            max-height: 300px;
             overflow-y: auto;
             border: 2px solid var(--gray-light);
             border-radius: var(--border-radius);
             padding: 10px;
         }
 
-        .saved-text-item {
+        .recent-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -416,93 +418,35 @@
             transition: var(--transition);
         }
 
-        .saved-text-item:hover {
+        .recent-item:hover {
             background-color: var(--gray-light);
         }
 
-        .saved-text-item:last-child {
+        .recent-item:last-child {
             border-bottom: none;
         }
 
-        .saved-text-content {
+        .recent-content {
             flex-grow: 1;
             font-size: 14px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-right: 15px;
         }
 
-        .text-date {
+        .recent-date {
             font-size: 12px;
             color: var(--gray);
             margin-top: 5px;
         }
 
-        @media (max-width: 1200px) {
-            .app-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .shortcut-form {
-                grid-template-columns: 1fr;
-            }
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
         }
 
-        @media (max-width: 768px) {
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .button-group button {
-                width: 100%;
-            }
-            
-            .header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            
-            .header-actions {
-                flex-direction: column;
-                width: 100%;
-            }
-            
-            .header-actions button {
-                width: 100%;
-            }
-        }
-
-        /* Estilos para modo de edição */
-        .editing {
-            background-color: #fff8e1;
-        }
-
-        .logo-img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-        }
-
-        .edit-shortcut-form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-            padding: 15px;
-            background-color: var(--primary-light);
-            border-radius: var(--border-radius);
-        }
-
-        .edit-text-form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-            padding: 15px;
-            background-color: var(--primary-light);
-            border-radius: var(--border-radius);
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: var(--gray-light);
         }
 
         .notification {
@@ -524,56 +468,61 @@
         .notification.show {
             transform: translateX(0);
         }
-        
-        .empty-message {
-            text-align: center;
-            color: var(--gray);
-            padding: 20px;
-            font-style: italic;
-        }
-        
-        .shortcut-tag.active {
-            background: linear-gradient(135deg, var(--success-color), var(--accent-color));
-            transform: scale(1.05);
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
         }
 
-        .article-links {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: var(--primary-light);
-            border-radius: var(--border-radius);
+        @media (max-width: 1200px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .article-links h3 {
-            margin-bottom: 15px;
-            color: var(--secondary-color);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .article-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .article-btn {
-            background: linear-gradient(135deg, var(--success-color), #2a9d8f);
-            color: white;
-            padding: 10px 15px;
-            border-radius: var(--border-radius);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            transition: var(--transition);
-        }
-
-        .article-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .header-actions button {
+                width: 100%;
+            }
+            
+            .nav-list {
+                flex-direction: column;
+            }
+            
+            .access-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .item-info {
+                width: 100%;
+            }
+            
+            .access-button {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -583,709 +532,468 @@
             <div class="logo">
                 <img src="logo.icon.png" alt="TextMaster Pro Logo" class="logo-img">
                 <div>
-                    <h1>TextMaster Pro <span class="app-version">v2.0</span></h1>
-                    <p>Plataforma completa de gerenciamento de atalhos para suporte no protocolo de atendimento.</p>
+                    <h1>TextMaster Pro - SPA <span class="app-version">v2.0</span></h1>
+                    <p>Sistema inteligente de atalhos para acesso rápido a sistemas e plataformas.</p>
                 </div>
             </div>
             <div class="header-actions">
-                <button class="btn-secondary" onclick="window.location.href='index.html'">
-                    <i class="fas fa-arrow-right"></i> Retornar ao acesso rápido
+                <button class="btn-secondary" onclick="window.location.href='atalhos.html'">
+                    <i class="fas fa-arrow-left"></i> Atalho para protocolo
                 </button>
             </div>
         </header>
 
-        <div class="panel">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" data-section="dashboard">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="systems">
+                        <i class="fas fa-rocket"></i> Sistemas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="articles">
+                        <i class="fas fa-newspaper"></i> Artigos
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Seções -->
+        <section id="dashboard" class="section active">
             <div class="panel-header">
-                <h2 class="panel-title"><i class="fas fa-keyboard"></i> Gerenciamento de Atalhos</h2>
+                <h2 class="panel-title"><i class="fas fa-home"></i> Dashboard</h2>
+            </div>
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalSystems">0</div>
+                    <div class="stat-label">Sistemas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalArticles">0</div>
+                    <div class="stat-label">Artigos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalAccess">0</div>
+                    <div class="stat-label">Acessos Hoje</div>
+                </div>
+            </div>
+            <div class="recent-access">
+                <h3 class="panel-title"><i class="fas fa-history"></i> Acessos Recentes</h3>
+                <div class="recent-list" id="recentAccessList">
+                    <!-- Lista de acessos recentes será inserida aqui -->
+                </div>
+            </div>
+        </section>
+
+        <section id="systems" class="section">
+            <div class="panel-header">
+                <h2 class="panel-title"><i class="fas fa-rocket"></i> Sistemas e Plataformas</h2>
             </div>
             <div class="panel-content">
-                <div class="input-area">
-                    <h3><i class="fas fa-pencil-alt"></i> Digite seus atalhos</h3>
-                    <textarea id="inputText" placeholder="Digite os atalhos separados por espaço (ex: saudacao despedida)"></textarea>
-                    
-                    <div class="shortcut-preview" id="shortcutPreview">
-                        <!-- Os atalhos detectados aparecerão aqui -->
-                    </div>
-                    
-                    <div class="button-group">
-                        <button id="expandBtn" class="btn-primary">
-                            <i class="fas fa-expand-arrows-alt"></i> Criar Protocolo
-                        </button>
-                        <button id="clearBtn" class="btn-secondary">
-                            <i class="fas fa-broom"></i> Limpar Área de Texto
-                        </button>
-                    </div>
+                <div class="access-list" id="systemsList">
+                    <!-- Lista de sistemas será inserida aqui -->
                 </div>
-
-                <div class="shortcuts-management">
-                    <h3><i class="fas fa-sliders-h"></i> Gerenciar Atalhos</h3>
-                    
-                    <div class="shortcut-form">
-                        <div class="form-group">
-                            <label for="shortcutKey">Atalho</label>
-                            <input type="text" id="shortcutKey" placeholder="Ex: saudacao">
-                        </div>
-                        <div class="form-group">
-                            <label for="shortcutValue">Protocolo</label>
-                            <input type="text" id="shortcutValue" placeholder="Ex: Olá, seja bem-vindo!">
-                        </div>
-                        <div class="form-group">
-                            <label for="shortcutLink">Link do Artigo (Opcional)</label>
-                            <input type="text" id="shortcutLink" placeholder="Ex: https://exemplo.com/artigo">
-                        </div>
-                        <button id="addShortcut" class="btn-accent">
-                            <i class="fas fa-plus"></i> Adicionar
-                        </button>
-                    </div>
-                    
-                    <div class="shortcuts-list" id="shortcutsList">
-                        <!-- Lista de atalhos será inserida aqui -->
-                    </div>
-                </div>
-
-                <div class="saved-texts">
-                    <h3><i class="fas fa-save"></i> Textos Salvos</h3>
-                    <div class="saved-texts-list" id="savedTextsList">
-                        <!-- Lista de textos salvos será inserida aqui -->
-                    </div>
-                </div>
-
-                <div class="article-links">
-                    <h3><i class="fas fa-external-link-alt"></i> Artigos e Documentação</h3>
-                    <div class="article-buttons" id="articleButtons">
-                        <!-- Botões de artigos serão inseridos aqui -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="panel">
-            <div class="panel-header">
-                <h2 class="panel-title"><i class="fas fa-file-alt"></i> Protocolo Gerado e Editável</h2>
-            </div>
-            <div class="panel-content">
-                <textarea id="outputText" class="output-text" placeholder="O Protocolo irá aparecer aqui, após aplicar os atalhos no campo da esquerda, não esqueça de editar para cada atendimento..."></textarea>
                 
                 <div class="stats">
-                    <span id="wordCount">0 palavras</span>
-                    <span id="charCount">0 caracteres</span>
-                </div>
-                
-                <div class="button-group">
-                    <button id="copyBtn" class="btn-primary">
-                        <i class="fas fa-copy"></i> Copiar Texto
-                    </button>
-                    <button id="saveTextBtn" class="btn-success">
-                        <i class="fas fa-save"></i> Salvar Texto
-                    </button>
+                    <span id="totalItems">0 itens</span>
+                    <span id="recentAccess">Nenhum acesso recente</span>
                 </div>
             </div>
+        </section>
+
+        <section id="articles" class="section">
+            <div class="panel-header">
+                <h2 class="panel-title"><i class="fas fa-newspaper"></i> Base de Conhecimento</h2>
+            </div>
+            <div class="panel-content">
+                <div class="articles-grid" id="articlesList">
+                    <!-- Lista de artigos será inserida aqui -->
+                </div>
+            </div>
+        </section>
+
+        <div id="notification" class="notification">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationText"></span>
         </div>
-    </div>
-    
-    <div id="notification" class="notification">
-        <i class="fas fa-check-circle"></i>
-        <span id="notificationText"></span>
     </div>
 
     <script>
-        // Aplicação TextMaster Pro - Versão com Links para Artigos
-        class TextMasterApp {
-            constructor() {
-                this.shortcuts = JSON.parse(localStorage.getItem('textShortcuts')) || {
-                    'boleto': {
-                        text: 'Sr(a) entrou em contato para solicitar a segunda via da fatura do(s) mês(eses) XX. Foi localizada a fatura e enviado com sucesso para E-mail/SMS (). E orientado aos canais digitais site/app.',
-                        link: ''
-                    },
-                    'boleto2': {
-                        text: 'Sr(a) entrou em contato para solicitar a segunda via da fatura do(s) mês(eses) XX . Foi localizada a(s) fatura(s) e feita a prorrogação para o dia XX e enviado com sucesso para Email/SMS (). E orientado aos canais digitais site/app.',
-                        link: ''
-                    },
-                    'indicação': {
-                        text: 'Sr(a) XX entrou em contato para indicação de rede para a Especialidade/Procedimento XX no estado de XX. Foi visualizado no sistema os prestadores disponíveis e enviado com sucesso para E-mail/SMS ( ) . E orientado aos canais digitais site/APP.',
-                        link: ''
-                    },
-                    'gto': {
-                        text: 'Sr(a) XX entrou em contato para solicitar uma liberação de guia para o procedimento de XX guia ( ). Foi localizada, analisada e liberada com sucesso a guia solicitada. E para mais fins consultar o site/APP.',
-                        link: ''
-                    },
-                    'gto2': {
-                        text: 'Sr(a) XX entrou em contato para solicitar a liberação de guia GTO ( ). Foi verificado no sistema que o pedido está em análise. Informado que o prazo para finalizar a análise é de até 72 horas úteis.',
-                        link: ''
-                    },
-                    'gto3': {
-                        text: 'Sr(a) XX entrou em contato para informar qual o documento que deve anexar para solicitar outra limpeza de novo. Foi informado que ela deve falar para clínica que ele está passando no momento fazer o pedido da GTO e colocar uma justificativa assinada por ela e pela clínica que há necessidade de realizar o procedimento antes de 6 meses, para ser analisado.',
-                        link: ''
-                    },
-                    'gto4': {
-                        text: 'Sr(a) XX entrou em contato para solicitar uma liberação de guia para o procedimento de (). Foi verificado no sistema que a clínica não solicitou esse procedimento ainda para a Amil. Orientado que a clínica deve solicitar primeiro e se der alguma negativa o mesmo pode entrar em contato para verificar.',
-                        link: ''
-                    },
-                    'pme': {
-                        text: 'Sr(a) XX, entrou em contato para XXX, porem como vi que o plano é PME orientei o mesmo entrar em contato com o numero 3003-1332 - opção 1/3.',
-                        link: ''
-                    },
-                    'cancelamento': {
-                        text: 'Sr(a) XX solicita cancelamento do plano. Dados confirmados e verbalizado Artigo 15 da RN561. Ciente sobre boleto proporcional/devolução proporcional. Comprovantes de cancelamento encaminhados via e-mail ().',
-                        link: 'https://exemplo.com/artigo-cancelamento'
-                    },
-                    'cancelamento2': {
-                        text: 'Sr(a) XX entrou em contato para solicitar o cancelamento do seu plano. Foi informada que até o momento ainda não tem 1 ano de plano e por isso será gerado multa de rescisão contratual. Para que não seja gerada a multa a mesma deve solicitar o cancelamento 2 a 3 dias ates do dia XX, que é o último dia de vigência do plano.',
-                        link: 'https://exemplo.com/artigo-cancelamento'
-                    },
-                    'cancelamentorca': {
-                        text: 'Prezados, Boa tarde o(a) sr(a) solicita o cancelamento de contrato XX para encerramento no último dia de vigência da fatura do mês XX no dia XX, pois não tem interesse em continuar com o plano de acordo com o protocolo (). Verbalizado o art. 15 da RN 561.',
-                        link: 'https://exemplo.com/artigo-cancelamento'
-                    },
-                    'cancelamentoerro': {
-                        text: 'Sr(a) XX solicita cancelamento do plano. Dados confirmados e verbalizado Artigo 15 da RN561. Ciente sobre boleto proporcional/devolução proporcional. Porém ao executar o cancelamento deu erro e por isso aberto RCA conforme art. 4948 e informado que o prazo de retorno da demanda é de até 5 dias úteis e os comprovantes de cancelamento serão enviados em até 10 dias úteis.',
-                        link: 'https://exemplo.com/artigo-cancelamento'
-                    },
-                    'exclusão': {
-                        text: 'Sr(a) XX solicitar a exclusão do dependente XX. Dados confirmados e verbalizado Artigo 15 da RN561. Ciente sobre boleto proporcional/devolução proporcional. Comprovante de exclusão encaminhado via e-mail ().',
-                        link: 'https://exemplo.com/artigo-exclusao-dependente'
-                    },
-                    'inclusão': {
-                        text: 'Sr(a) XX entrou em contato para saber sobre a inclusão de dependentes no seu Plano. Foi orientado a fazer primeiramente uma carta a punho informando o que deseja fazer e contendo marca ótica, telefone e e-mail de contato suas e do novo dependente e depois deve acessar o site amil institucional > área logada > menu > Documentos > Nova Solicitação e anexar a carta + documento com foto, constando a assinatura do titular ou responsável pelo contrato e CPF + documento que comprove o parentesco. E aguardar Prazo de análise 5 (cinco) dias úteis.',
-                        link: 'https://exemplo.com/artigo-inclusao-dependente'
-                    },
-                    'migração': {
-                        text: 'Sr(a) XX entrou em contato para saber como se faz a migração do plano. Foi informado que primeiramente deve fazer a contratação de um novo plano no site "amildental.com.br" e aberto a RCA de Alteração/Movimentação Cadastral e orientar o cliente a realizar o envio dos documentos, conforme orientação a seguir, no prazo de 48 horas, a falta do envio implicará no cancelamento da solicitação e não será realizado alteração do plano. Logo após orientei o mesmo há > Acessar o site www.amil.com.br; > Selecionar a opção > Beneficiário do Plano; > Acessar a área logada, registrando login e senha; > Clicar no menu > Documentos no lado esquerdo da página; > Depois clicar em Nova Solicitação; > Em Nova > Solicitação, selecionar "Alterações de Contrato e Solicitações Financeiras"; > Preencher o número do celular para que possamos enviar SMS a cada alteração de status da contratação; > Anexar carta solicitando o cancelamento do plano antigo e mencionando a contratação de um novo plano; > Anexar cópia do documento de identificação com foto, frente e verso, para validar a assinatura na carta; > Clicar em Enviar.',
-                        link: 'https://exemplo.com/artigo-migracao-plano'
-                    },
-                    'cobertura': {
-                        text: 'Sr(a) XX entrou em contato para verificar cobertura para o procedimento de ( ). Foi verificado que o Beneficiário tem sim cobertura para esse procedimento solicitado em linha. E orientado aos canais digitais site/APP.',
-                        link: ''
-                    },
-                    'cobertura2': {
-                        text: 'Sr(a) XX entrou em contato para verificar as coberturas de "Coroas" e os materiais que o seu plano oferece. Foi informado que o beneficiário ele tem: "Coroa de Acetato / Coroa de Aço / Coroa de Policarbonato / Coroa Provisória com Pino ou sem Pino/ Coroa Total em Cerômero ( Anteriores) e Coroa total Metálica. E orientado a os canais digitais site/APP',
-                        link: ''
-                    },
-                    'coberturatotal': {
-                        text: 'Sr(a) XX entrou em contato para saber sobre a cobertura completa do seu plano. Foi orientado que pode verificar no site ou app na parte de coberturas e carências após o login.',
-                        link: ''
-                    },
-                    'cobertura3': {
-                        text: 'Sr(a) XX entrou em contato para verificar se o seu plano tem cobertura para o procedimento de ("Tomografia"). Foi verificado e informado ao Beneficiário "não" tem cobertura para o procedimento em seu plano Dental. E para mais fins consultar o site/APP',
-                        link: ''
-                    },
-                    'cartao': {
-                        text: 'Sr(a) XX entrou em contato para solicitar a troca de cartão de crédito para boleto. Foi informado que não é possível fazer esse procedimento, somente alterar o cartão de crédito ou cadastrar débito automático no site/app.',
-                        link: ''
-                    },
-                    'devolução': {
-                        text: 'Sr(a) XX entrou em contato para solicitar a nota de crédito referente ao XX no valor de R$ XX. Cadastrado dados bancários para devolução.',
-                        link: ''
-                    },
-                    'devolução2': {
-                        text: 'Sr(a) XX entrou em contato para solicitar a nota de crédito referente ao XX no valor de R$ XX. Aberto RCA para devolução.',
-                        link: ''
-                    },
-                    'arrependimento': {
-                        text: 'Sr(a) XX entrou em contato para informar sobre a desistência da contratação. Informei que ele deve acessar amil institucional, fazer o download do formulário de desistência disponível na página inicial assinar e enviar o Formulário pelo Fale Conosco a partir da área logada, se for cliente, ou pela opção não cliente, e anexar cópia de um documento pessoal com foto constando a assinatura do titular ou Responsável pelo contrato, o comprovante de pagamento e os dados bancários para devolução.',
-                        link: ''
-                    },
-                    'reativação': {
-                        text: 'Sr(a) XX entrou em contato para solicitar a reativação do seu plano após fazer os pagamentos. Foi reativado com sucesso o plano, pois não foi encontrado a carta CNOT e feita a retirada de inadimplência. Ciente sobre a(s) mensalidade(s) do(s) mese(s) XX que serão geradas.',
-                        link: ''
-                    },
-                    'mudança': {
-                        text: 'Sr(a) XX entrou em contato para informar que não vai continuar mais na clínica XX porque XX, e agora deseja como proceder para fazer com outro prestador. Foi orientado que ele pode sim solicitar, mas o novo prestador vai ter que enviar uma justificativa junto com o pedido que solicitar.',
-                        link: ''
-                    },
-                    'reembolso': {
-                        text: 'Sr(a) XX entrou em contato para saber como funciona para solicitar a prévia de reembolso e foi orientado(a) que é necessário primeiramente baixar o formulário no site amil institucional, levar para o dentista preencher especificando os procedimentos realizados, materiais utilizados, face/região, dentes, valores individuais e totais, CRO do dentista e assinaturas (dentista e beneficiário) e depois anexar o formulário, os documentos no Aplicativo Amil Clientes.',
-                        link: ''
-                    },
-                    'reembolso2': {
-                        text: 'Sr(a) XX entrou em contato para saber como funciona para solicitar o reembolso e foi orientado(a) que é necessário primeiramente baixar o formulário no site amil institucional, levar para o dentista preencher especificando os procedimentos realizados, materiais utilizados, face/região, dentes, valores individuais e totais, CRO do dentista e assinaturas (dentista e beneficiário) e depois anexar o formulário, os documentos e o comprovante de pagamento no Aplicativo Amil Clientes.',
-                        link: ''
-                    },
-                    'reembolso3': {
-                        text: 'Sr(a) XX entrou em contato para solicitar o retorno referente a sua solicitação de reembolso no protocolo XX. Orientado que consta em sistema a seguinte informação " " .',
-                        link: ''
-                    },
-                    'reembolso4': {
-                        text: 'Sr(a) XX entrou em contato pois recebeu um e-mail sobre o seu pedido de reembolso, protocolo XX e não entendeu o que quer dizer. Orientado que XX',
-                        link: ''
-                    },
-                    'carencia': {
-                        text: 'Sr(a) XX entrou em contato para solicitar o período de carência do seu plano do procedimento de XX. Foi visualizado na sua cobertura orientado que permanece em carência até o dia XX. E orientado a os canais digitais site/APP',
-                        link: ''
-                    },
-                    'carencia2': {
-                        text: 'Sr(a) XX entrou em contato para solicitar o período de carências do seu plano. Foi orientado que para alguns procedimentos o plano tem carências de 30, 60 ,90 ,120 e 180 dias. Para mais fins orientado a os canais digitais site/APP',
-                        link: ''
-                    },
-                    'carencia3': {
-                        text: 'Sr(a) XX entrou em contato para solicitar o período de carência do seu plano do procedimento de XX .Foi orientado que o beneficiário que a sua carência já acabou dia XX. E orientado a os canais digitais site/APP',
-                        link: ''
-                    },
-                    'vencimento': {
-                        text: 'Sr(a) XX entrou em contato para alteração da data de vencimento do seu plano. Porém possui a mensalidade do mês XX em atraso e por isso foi orientada que a alteração só pode ser feita quando a cadeia de pagamento estiver em dia.',
-                        link: ''
-                    },
-                    'vencimento2': {
-                        text: 'Sr(a) XX entrou em contato para solicitar a data de vencimento do seu plano do dia ( ) para todo o dia ( ) de cada mês. Foi visto e alterado com sucesso e passada as orientações para o beneficiário se programar.',
-                        link: ''
-                    },
-                    'corporativo': {
-                        text: 'Sr(a) XX entrou em contato para saber se o seu dependente XX está ativo no plano que aderiu da empresa. Foi visto no sistema que seu dependente não está ativo no plano. Para mais fins consultar o RH da empresa, para saber sobre a data de inclusão.',
-                        link: ''
-                    },
-                    'indicação2': {
-                        text: 'Sr(a) entrou em contato para indicação de rede para a especialidade de urgência e emergência no estado de XX. Foi visualizado no sistema os prestadores disponíveis enviado com sucesso para E-mail/SMS () . E orientado aos canais digitais site/APP',
-                        link: ''
-                    },
-                    'indicação3': {
-                        text: 'Sr(a) XX entrou em contato para indicação de rede para a especialidade de XX no estado de XX . Foi visualizado no sistema os prestadores disponíveis e verbalizado e m linha, pois os dados de contato estão divergentes. E orientado aos canais digitais site/APP',
-                        link: ''
-                    },
-                    'indicação4': {
-                        text: 'Sr(a) XX entrou em contato para indicação de rede para a especialidade de XX no estado de XX. Foi visualizado no sistema os prestadores disponíveis e verbalizado em linha, por insistência do beneficiário. E orientado aos canais digitais site/APP',
-                        link: ''
-                    },
-                    'migração2': {
-                        text: 'Sr(a) XX entrou em contato para saber como faz a migração do plano. Foi informado que primeiramente deve fazer a contratação de um novo plano no site (www.amil.com.br) ou com o corretor e depois fazer uma carta a próprio punho que deve ser enviada para análise.',
-                        link: 'https://exemplo.com/artigo-migracao-plano'
-                    },
-                    'procedimento não realizado': {
-                        text: 'Sr(a) XXX, entrou em contato informando que não realizou o procedimento na clinica XX, a GTO foi assinada e a mesma solicita o cancelamento, aberto rca pois a GTO se encontra como confirmada e foi orientada sobre o prazo de 5 dias úteis.',
-                        link: ''
-                    },
-                    'renovação': {
-                        text: 'Sra XXX, entrou em contato para solicitar o cancelamento do plano pois não está de acordo com a renovação automatica. Foi aberto uma RCA pois o mesmo(a) solicita a anistia das mensalidades dos meses XX, orientado sobre o prazo de 5 dias úteis.',
-                        link: ''
-                    }
-                };
-                
-                this.savedTexts = JSON.parse(localStorage.getItem('savedTexts')) || [];
-                this.init();
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos do DOM
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            const systemsList = document.getElementById('systemsList');
+            const articlesList = document.getElementById('articlesList');
+            const recentAccessList = document.getElementById('recentAccessList');
+            const totalItems = document.getElementById('totalItems');
+            const totalSystems = document.getElementById('totalSystems');
+            const totalArticles = document.getElementById('totalArticles');
+            const totalAccess = document.getElementById('totalAccess');
+            const recentAccess = document.getElementById('recentAccess');
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
             
-            init() {
-                // Elementos do DOM
-                this.inputText = document.getElementById('inputText');
-                this.outputText = document.getElementById('outputText');
-                this.shortcutKey = document.getElementById('shortcutKey');
-                this.shortcutValue = document.getElementById('shortcutValue');
-                this.shortcutLink = document.getElementById('shortcutLink');
-                this.addShortcutBtn = document.getElementById('addShortcut');
-                this.shortcutsList = document.getElementById('shortcutsList');
-                this.shortcutPreview = document.getElementById('shortcutPreview');
-                this.expandBtn = document.getElementById('expandBtn');
-                this.clearBtn = document.getElementById('clearBtn');
-                this.copyBtn = document.getElementById('copyBtn');
-                this.saveTextBtn = document.getElementById('saveTextBtn');
-                this.savedTextsList = document.getElementById('savedTextsList');
-                this.notification = document.getElementById('notification');
-                this.notificationText = document.getElementById('notificationText');
-                this.wordCount = document.getElementById('wordCount');
-                this.charCount = document.getElementById('charCount');
-                this.articleButtons = document.getElementById('articleButtons');
-                
-                // Inicializar a aplicação
-                this.renderShortcutsList();
-                this.renderSavedTexts();
-                this.renderArticleButtons();
-                this.updateCounters();
-                this.detectShortcuts();
-                this.setupEventListeners();
-            }
+            // Base de dados de sistemas e artigos
+            const systemsDatabase = [
+                {
+                    id: 1,
+                    title: "SisAmil",
+                    description: "Plataforma principal da Amil",
+                    category: "sisamil",
+                    icon: "fas fa-heartbeat",
+                    url: "https://sisamil.amil.com.br/ace/ace001a.asp?tp_cliente=",
+                    type: "system"
+                },
+                {
+                    id: 2,
+                    title: "Base de Conhecimento",
+                    description: "Base de conhecimento para atendimento",
+                    category: "base",
+                    icon: "fas fa-book",
+                    url: "https://amil.sharepoint.com/sites/BasedeConhecimentoAtendimento",
+                    type: "system"
+                },
+                {
+                    id: 3,
+                    title: "Avaya - Escalas",
+                    description: "Sistema de escalas e aderência",
+                    category: "avaya",
+                    icon: "fas fa-calendar-alt",
+                    url: "https://10.160.3.60/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL",
+                    type: "system"
+                },
+                {
+                    id: 4,
+                    title: "Senior - Bater Ponto",
+                    description: "Sistema para registro de ponto",
+                    category: "ponto",
+                    icon: "fas fa-clock",
+                    url: "https://ponto.senior.com.br",
+                    type: "system"
+                },
+                {
+                    id: 5,
+                    title: "Teams",
+                    description: "Sistema de comunicação interna",
+                    category: "teams",
+                    icon: "fas fa-comments",
+                    url: "https://teams.microsoft.com",
+                    type: "system"
+                }, 
+                {
+                    id: 6,
+                    title: "Gestão Senior",
+                    description: "Sistema para assinatura de pontos",
+                    category: "gestao",
+                    icon: "fas fa-signature",
+                    url: "https://senior.dbm.com.br/gestaoponto-frontend/login",
+                    type: "system"
+                }
+            ];
             
-            setupEventListeners() {
-                // Event listeners
-                this.inputText.addEventListener('input', () => this.detectShortcuts());
-                this.expandBtn.addEventListener('click', () => this.expandShortcuts());
-                this.clearBtn.addEventListener('click', () => this.clearFields());
-                this.addShortcutBtn.addEventListener('click', () => this.addShortcut());
-                this.copyBtn.addEventListener('click', () => this.copyText());
-                this.saveTextBtn.addEventListener('click', () => this.saveText());
-                this.outputText.addEventListener('input', () => this.updateCounters());
-                
-                // Permitir adicionar atalho com Enter
-                this.shortcutKey.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') this.addShortcut();
+            const articlesDatabase = [
+                {
+                    id: 101,
+                    title: "Cancelamento de Plano",
+                    description: "Procedimento completo para cancelamento de plano de saúde",
+                    category: "Procedimentos",
+                    icon: "fas fa-file-alt",
+                    content: "Passo a passo para realizar o cancelamento de plano...",
+                    type: "article"
+                },
+                {
+                    id: 102,
+                    title: "Alteração de Titularidade",
+                    description: "Como proceder para alteração de titularidade do contrato",
+                    category: "Procedimentos",
+                    icon: "fas fa-exchange-alt",
+                    content: "Documentação necessária e fluxo para alteração...",
+                    type: "article"
+                },
+                {
+                    id: 103,
+                    title: "Reembolso de Consultas",
+                    description: "Processo para solicitação de reembolso de consultas",
+                    category: "Financeiro",
+                    icon: "fas fa-money-bill-wave",
+                    content: "Documentos necessários e prazos para reembolso...",
+                    type: "article"
+                },
+                {
+                    id: 104,
+                    title: "Inclusão de Dependentes",
+                    description: "Como incluir dependentes no plano de saúde",
+                    category: "Cadastro",
+                    icon: "fas fa-user-plus",
+                    content: "Documentação necessária e procedimento para inclusão...",
+                    type: "article"
+                },
+                {
+                    id: 105,
+                    title: "Solicitação de 2ª Via de Boleto",
+                    description: "Como solicitar a segunda via de boleto em atraso",
+                    category: "Financeiro",
+                    icon: "fas fa-file-invoice-dollar",
+                    content: "Procedimento para emissão de segunda via...",
+                    type: "article"
+                },
+                {
+                    id: 106,
+                    title: "Troca de Procedimento",
+                    description: "Como realizar a troca de procedimento médico",
+                    category: "Procedimentos",
+                    icon: "fas fa-procedures",
+                    content: "Fluxo para troca de procedimento médico...",
+                    type: "article"
+                }
+            ];
+            
+            // Histórico de acessos
+            let accessHistory = JSON.parse(localStorage.getItem('accessHistory')) || [];
+            
+            // Navegação entre seções
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove a classe active de todos os links
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Adiciona a classe active ao link clicado
+                    this.classList.add('active');
+                    
+                    // Obtém a seção a ser exibida
+                    const sectionId = this.getAttribute('data-section');
+                    
+                    // Oculta todas as seções
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    // Exibe a seção correspondente
+                    document.getElementById(sectionId).classList.add('active');
                 });
-                
-                this.shortcutValue.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') this.addShortcut();
-                });
-            }
+            });
             
-            showNotification(message, isSuccess = true) {
-                this.notificationText.textContent = message;
-                this.notification.style.background = isSuccess 
+            // Função para mostrar notificação
+            function showNotification(message, isSuccess = true) {
+                notificationText.textContent = message;
+                notification.style.background = isSuccess 
                     ? 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))'
                     : 'linear-gradient(135deg, var(--warning-color), #c1121f)';
                 
-                this.notification.classList.add('show');
+                notification.classList.add('show');
                 
                 setTimeout(() => {
-                    this.notification.classList.remove('show');
+                    notification.classList.remove('show');
                 }, 3000);
             }
             
-            updateCounters() {
-                const text = this.outputText.value;
-                const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-                const characters = text.length;
-                
-                this.wordCount.textContent = `${words} palavra${words !== 1 ? 's' : ''}`;
-                this.charCount.textContent = `${characters} caractere${characters !== 1 ? 's' : ''}`;
-            }
-            
-            renderShortcutsList() {
-                this.shortcutsList.innerHTML = '';
-                
-                if (Object.keys(this.shortcuts).length === 0) {
-                    this.shortcutsList.innerHTML = '<p class="empty-message">Nenhum atalho cadastrado. Adicione seu primeiro atalho acima.</p>';
-                    return;
-                }
-                
-                for (const [key, value] of Object.entries(this.shortcuts)) {
-                    const shortcutItem = document.createElement('div');
-                    shortcutItem.className = 'shortcut-item';
-                    
-                    const linkIcon = value.link ? `<i class="fas fa-external-link-alt action-btn link-btn" data-link="${value.link}" title="Abrir artigo relacionado" style="color: var(--success-color);"></i>` : '';
-                    
-                    shortcutItem.innerHTML = `
-                        <span class="shortcut-key">${key}</span>
-                        <span class="shortcut-value">${value.text}</span>
-                        <div class="actions">
-                            ${linkIcon}
-                            <i class="fas fa-edit action-btn edit-btn" data-key="${key}" title="Editar atalho"></i>
-                            <i class="fas fa-trash action-btn delete-btn" data-key="${key}" title="Remover atalho"></i>
-                        </div>
-                    `;
-                    
-                    this.shortcutsList.appendChild(shortcutItem);
-                }
-                
-                // Adicionar event listeners para edição
-                document.querySelectorAll('.edit-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const key = e.target.getAttribute('data-key');
-                        this.editShortcut(key);
-                    });
-                });
-                
-                // Adicionar event listeners para remover
-                document.querySelectorAll('.delete-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const keyToRemove = e.target.getAttribute('data-key');
-                        this.removeShortcut(keyToRemove);
-                    });
-                });
-                
-                // Adicionar event listeners para links
-                document.querySelectorAll('.link-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const link = e.target.getAttribute('data-link');
-                        window.open(link, '_blank');
-                    });
-                });
-            }
-            
-            editShortcut(key) {
-                const value = this.shortcuts[key];
-                
-                // Criar formulário de edição
-                const editForm = document.createElement('div');
-                editForm.className = 'edit-shortcut-form';
-                editForm.innerHTML = `
-                    <div class="form-group">
-                        <label for="editShortcutKey">Atalho</label>
-                        <input type="text" id="editShortcutKey" value="${key}" class="edit-key">
-                    </div>
-                    <div class="form-group">
-                        <label for="editShortcutValue">Protocolo</label>
-                        <textarea id="editShortcutValue" class="edit-value" rows="3">${value.text}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="editShortcutLink">Link do Artigo</label>
-                        <input type="text" id="editShortcutLink" value="${value.link || ''}" class="edit-link">
-                    </div>
-                    <div class="button-group">
-                        <button class="btn-primary save-edit-btn" data-key="${key}">
-                            <i class="fas fa-save"></i> Salvar
-                        </button>
-                        <button class="btn-secondary cancel-edit-btn">
-                            <i class="fas fa-times"></i> Cancelar
-                        </button>
-                    </div>
-                `;
-                
-                // Substituir o item pelo formulário de edição
-                const parentItem = document.querySelector(`[data-key="${key}"]`).closest('.shortcut-item');
-                parentItem.replaceWith(editForm);
-                
-                // Adicionar event listeners aos botões do formulário
-                document.querySelector('.save-edit-btn').addEventListener('click', (e) => {
-                    const oldKey = e.target.getAttribute('data-key');
-                    const newKey = document.querySelector('.edit-key').value.trim();
-                    const newText = document.querySelector('.edit-value').value.trim();
-                    const newLink = document.querySelector('.edit-link').value.trim();
-                    
-                    if (!newKey || !newText) {
-                        this.showNotification('Por favor, preencha pelo menos o atalho e o protocolo.', false);
-                        return;
-                    }
-                    
-                    // Se a chave foi alterada, remover a antiga
-                    if (oldKey !== newKey) {
-                        delete this.shortcuts[oldKey];
-                    }
-                    
-                    // Adicionar/atualizar o atalho
-                    this.shortcuts[newKey] = {
-                        text: newText,
-                        link: newLink
-                    };
-                    localStorage.setItem('textShortcuts', JSON.stringify(this.shortcuts));
-                    
-                    this.renderShortcutsList();
-                    this.renderArticleButtons();
-                    this.showNotification(`Atalho "${newKey}" atualizado com sucesso!`);
-                });
-                
-                document.querySelector('.cancel-edit-btn').addEventListener('click', () => {
-                    this.renderShortcutsList();
-                });
-            }
-            
-            removeShortcut(key) {
-                if (confirm(`Tem certeza que deseja remover o atalho "${key}"?`)) {
-                    delete this.shortcuts[key];
-                    localStorage.setItem('textShortcuts', JSON.stringify(this.shortcuts));
-                    this.renderShortcutsList();
-                    this.renderArticleButtons();
-                    this.showNotification(`Atalho "${key}" removido!`);
-                }
-            }
-            
-            renderArticleButtons() {
-                this.articleButtons.innerHTML = '';
-                
-                const articles = [
-                    { name: 'Cancelamento de Plano', url: 'https://exemplo.com/artigo-cancelamento', icon: 'fa-file-contract' },
-                    { name: 'Inclusão de Dependentes', url: 'https://exemplo.com/artigo-inclusao-dependente', icon: 'fa-user-plus' },
-                    { name: 'Migração de Plano', url: 'https://exemplo.com/artigo-migracao-plano', icon: 'fa-exchange-alt' },
-                    { name: 'Solicitação de Reembolso', url: 'https://exemplo.com/artigo-reembolso', icon: 'fa-money-bill-wave' },
-                    { name: 'Solicitação de Guia (GTO)', url: 'https://exemplo.com/artigo-gto', icon: 'fa-file-medical' },
-                    { name: 'Carências do Plano', url: 'https://exemplo.com/artigo-carencias', icon: 'fa-calendar-alt' }
-                ];
-                
-                articles.forEach(article => {
-                    const button = document.createElement('a');
-                    button.href = article.url;
-                    button.target = '_blank';
-                    button.className = 'article-btn';
-                    button.innerHTML = `<i class="fas ${article.icon}"></i> ${article.name}`;
-                    
-                    this.articleButtons.appendChild(button);
-                });
-            }
-            
-            renderSavedTexts() {
-                this.savedTextsList.innerHTML = '';
-                
-                if (this.savedTexts.length === 0) {
-                    this.savedTextsList.innerHTML = '<p class="empty-message">Nenhum texto salvo ainda.</p>';
-                    return;
-                }
-                
-                this.savedTexts.forEach((textObj, index) => {
-                    const textItem = document.createElement('div');
-                    textItem.className = 'saved-text-item';
-                    textItem.innerHTML = `
-                        <div>
-                            <div class="saved-text-content">${textObj.text.substring(0, 60)}${textObj.text.length > 60 ? '...' : ''}</div>
-                            <div class="text-date">Salvo em: ${textObj.date}</div>
-                        </div>
-                        <div class="actions">
-                            <i class="fas fa-upload action-btn load-btn" data-index="${index}" title="Carregar texto"></i>
-                            <i class="fas fa-trash action-btn delete-btn" data-index="${index}" title="Excluir texto"></i>
-                        </div>
-                    `;
-                    
-                    this.savedTextsList.appendChild(textItem);
-                });
-                
-                // Adicionar event listeners para carregar textos
-                document.querySelectorAll('.load-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const index = e.target.getAttribute('data-index');
-                        this.outputText.value = this.savedTexts[index].text;
-                        this.updateCounters();
-                        this.showNotification(`Texto #${parseInt(index) + 1} carregado!`);
-                    });
-                });
-                
-                // Adicionar event listeners para remover textos
-                document.querySelectorAll('.saved-texts .delete-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const index = e.target.getAttribute('data-index');
-                        if (confirm('Tem certeza que deseja excluir este texto?')) {
-                            this.savedTexts.splice(index, 1);
-                            localStorage.setItem('savedTexts', JSON.stringify(this.savedTexts));
-                            this.renderSavedTexts();
-                            this.showNotification(`Texto removido!`);
-                        }
-                    });
-                });
-            }
-            
-            detectShortcuts() {
-                const text = this.inputText.value;
-                const words = text.split(/\s+/);
-                const detectedShortcuts = [];
-                
-                for (const word of words) {
-                    if (this.shortcuts[word] && !detectedShortcuts.includes(word)) {
-                        detectedShortcuts.push(word);
-                    }
-                }
-                
-                this.shortcutPreview.innerHTML = '';
-                
-                if (detectedShortcuts.length === 0) {
-                    this.shortcutPreview.innerHTML = '<p class="empty-message">Nenhum atalho detectado. Digite algum atalho ou adicione novos abaixo.</p>';
-                    return;
-                }
-                
-                for (const shortcut of detectedShortcuts) {
-                    const tag = document.createElement('div');
-                    tag.className = 'shortcut-tag';
-                    tag.innerHTML = `
-                        <span>${shortcut}</span>
-                        <i class="fas fa-times" data-shortcut="${shortcut}"></i>
-                    `;
-                    this.shortcutPreview.appendChild(tag);
-                    
-                    // Adicionar evento de clique para aplicar apenas este atalho
-                    tag.addEventListener('click', (e) => {
-                        if (e.target.tagName === 'I') return; // Não disparar se clicar no ícone X
-                        
-                        // Remover classe active de todos os outros atalhos
-                        document.querySelectorAll('.shortcut-tag').forEach(t => t.classList.remove('active'));
-                        
-                        // Adicionar classe active ao atalho clicado
-                        tag.classList.add('active');
-                        
-                        // Aplicar apenas este atalho
-                        this.applySingleShortcut(shortcut);
-                    });
-                }
-                
-                // Adicionar event listeners para remover atalhos do texto
-                document.querySelectorAll('.shortcut-tag i').forEach(icon => {
-                    icon.addEventListener('click', (e) => {
-                        e.stopPropagation(); // Impedir que o clique no X dispare o evento do atalho
-                        const shortcut = e.target.getAttribute('data-shortcut');
-                        const regex = new RegExp(`\\b${shortcut}\\b`, 'g');
-                        this.inputText.value = this.inputText.value.replace(regex, '').replace(/\s+/g, ' ').trim();
-                        this.detectShortcuts();
-                    });
-                });
-            }
-            
-            applySingleShortcut(shortcut) {
-                let text = this.inputText.value;
-                
-                // Substituir apenas o atalho específico
-                const regex = new RegExp(`\\b${shortcut}\\b`, 'g');
-                text = text.replace(regex, this.shortcuts[shortcut].text);
-                
-                this.outputText.value = text;
-                this.updateCounters();
-                this.showNotification(`Atalho "${shortcut}" aplicado!`);
-            }
-            
-            expandShortcuts() {
-                let text = this.inputText.value;
-                
-                // Ordenar atalhos por tamanho (do maior para o menor) para evitar substituições parciais
-                const sortedKeys = Object.keys(this.shortcuts).sort((a, b) => b.length - a.length);
-                
-                for (const key of sortedKeys) {
-                    const regex = new RegExp(`\\b${key}\\b`, 'g');
-                    text = text.replace(regex, this.shortcuts[key].text);
-                }
-                
-                this.outputText.value = text;
-                this.updateCounters();
-                this.showNotification('Todos os atalhos aplicados!');
-            }
-            
-            clearFields() {
-                this.inputText.value = '';
-                this.outputText.value = '';
-                this.shortcutPreview.innerHTML = '';
-                this.updateCounters();
-                this.showNotification('Campos limpos!');
-            }
-            
-            addShortcut() {
-                const key = this.shortcutKey.value.trim();
-                const value = this.shortcutValue.value.trim();
-                const link = this.shortcutLink.value.trim();
-                
-                if (!key || !value) {
-                    this.showNotification('Por favor, preencha pelo menos o atalho e o protocolo.', false);
-                    return;
-                }
-                
-                if (key.includes(' ')) {
-                    this.showNotification('O atalho não pode conter espaços.', false);
-                    return;
-                }
-                
-                this.shortcuts[key] = {
-                    text: value,
-                    link: link
-                };
-                localStorage.setItem('textShortcuts', JSON.stringify(this.shortcuts));
-                
-                this.shortcutKey.value = '';
-                this.shortcutValue.value = '';
-                this.shortcutLink.value = '';
-                
-                this.renderShortcutsList();
-                this.renderArticleButtons();
-                this.showNotification(`Atalho "${key}" adicionado com sucesso!`);
-                
-                // Atualizar a detecção de atalhos
-                this.detectShortcuts();
-            }
-            
-            copyText() {
-                this.outputText.select();
-                document.execCommand('copy');
-                this.showNotification('Texto copiado para a área de transferência!');
-            }
-            
-            saveText() {
-                if (!this.outputText.value.trim()) {
-                    this.showNotification('Nenhum texto para salvar.', false);
-                    return;
-                }
-                
-                const textObj = {
-                    text: this.outputText.value,
-                    date: new Date().toLocaleDateString('pt-BR')
+            // Função para registrar acesso
+            function registerAccess(item) {
+                const accessRecord = {
+                    id: item.id,
+                    title: item.title,
+                    type: item.type,
+                    timestamp: new Date().toISOString()
                 };
                 
-                this.savedTexts.push(textObj);
-                localStorage.setItem('savedTexts', JSON.stringify(this.savedTexts));
-                this.renderSavedTexts();
-                this.showNotification('Texto salvo com sucesso!');
+                // Adicionar ao histórico
+                accessHistory.unshift(accessRecord);
+                
+                // Manter apenas os 10 acessos mais recentes
+                if (accessHistory.length > 10) {
+                    accessHistory.pop();
+                }
+                
+                // Salvar no localStorage
+                localStorage.setItem('accessHistory', JSON.stringify(accessHistory));
+                
+                // Atualizar dashboard
+                updateDashboard();
+                
+                // Abrir URL se for um sistema
+                if (item.url && item.url !== '#' && item.type === 'system') {
+                    window.open(item.url, '_blank');
+                } else {
+                    showNotification(`Acesso registrado para ${item.title}`, true);
+                }
             }
-        }
-
-        // Inicializar a aplicação quando o DOM estiver carregado
-        document.addEventListener('DOMContentLoaded', () => {
-            new TextMasterApp();
+            
+            // Função para atualizar dashboard
+            function updateDashboard() {
+                // Atualizar estatísticas
+                totalSystems.textContent = systemsDatabase.length;
+                totalArticles.textContent = articlesDatabase.length;
+                
+                // Calcular acessos de hoje
+                const today = new Date().toDateString();
+                const todayAccess = accessHistory.filter(access => {
+                    const accessDate = new Date(access.timestamp).toDateString();
+                    return accessDate === today;
+                }).length;
+                
+                totalAccess.textContent = todayAccess;
+                
+                // Atualizar lista de acessos recentes
+                renderRecentAccess();
+            }
+            
+            // Função para renderizar lista de acessos recentes
+            function renderRecentAccess() {
+                recentAccessList.innerHTML = '';
+                
+                if (accessHistory.length === 0) {
+                    recentAccessList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-history"></i>
+                            <h3>Nenhum acesso recente</h3>
+                            <p>Os acessos aos sistemas e artigos aparecerão aqui.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                accessHistory.forEach(access => {
+                    const recentItem = document.createElement('div');
+                    recentItem.className = 'recent-item';
+                    
+                    const date = new Date(access.timestamp);
+                    const timeString = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                    const dateString = date.toLocaleDateString('pt-BR');
+                    
+                    recentItem.innerHTML = `
+                        <div class="recent-content">
+                            <div>${access.title}</div>
+                            <div class="recent-date">${dateString} às ${timeString}</div>
+                        </div>
+                        <span class="article-category">${access.type === 'system' ? 'Sistema' : 'Artigo'}</span>
+                    `;
+                    
+                    recentAccessList.appendChild(recentItem);
+                });
+            }
+            
+            // Função para renderizar lista de sistemas
+            function renderSystemsList() {
+                systemsList.innerHTML = '';
+                
+                if (systemsDatabase.length === 0) {
+                    systemsList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-desktop"></i>
+                            <h3>Nenhum sistema cadastrado</h3>
+                            <p>Adicione sistemas para ter acesso rápido.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                systemsDatabase.forEach(system => {
+                    const accessItem = document.createElement('div');
+                    accessItem.className = 'access-item';
+                    
+                    accessItem.innerHTML = `
+                        <div class="item-info">
+                            <div class="item-icon">
+                                <i class="${system.icon}"></i>
+                            </div>
+                            <div class="item-details">
+                                <div class="item-title">${system.title}</div>
+                                <div class="item-description">${system.description}</div>
+                            </div>
+                        </div>
+                        <button class="access-button open-system-btn" data-id="${system.id}">
+                            <i class="fas fa-external-link-alt"></i> Acessar
+                        </button>
+                    `;
+                    
+                    systemsList.appendChild(accessItem);
+                });
+                
+                // Atualizar contador
+                totalItems.textContent = `${systemsDatabase.length} sistemas`;
+                
+                // Adicionar event listeners para os botões
+                document.querySelectorAll('.open-system-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const systemId = this.getAttribute('data-id');
+                        const system = systemsDatabase.find(s => s.id == systemId);
+                        registerAccess(system);
+                    });
+                });
+            }
+            
+            // Função para renderizar lista de artigos
+            function renderArticlesList() {
+                articlesList.innerHTML = '';
+                
+                if (articlesDatabase.length === 0) {
+                    articlesList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-newspaper"></i>
+                            <h3>Nenhum artigo cadastrado</h3>
+                            <p>Adicione artigos para ter acesso rápido.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                articlesDatabase.forEach(article => {
+                    const articleCard = document.createElement('div');
+                    articleCard.className = 'article-card';
+                    
+                    articleCard.innerHTML = `
+                        <div class="article-header">
+                            <div class="item-icon">
+                                <i class="${article.icon}"></i>
+                            </div>
+                            <span class="article-category">${article.category}</span>
+                        </div>
+                        <div class="article-title">${article.title}</div>
+                        <div class="article-description">${article.description}</div>
+                        <div class="article-actions">
+                            <button class="article-button primary open-article-btn" data-id="${article.id}">
+                                <i class="fas fa-eye"></i> Ver Detalhes
+                            </button>
+                            <button class="article-button favorite-article-btn" data-id="${article.id}">
+                                <i class="far fa-star"></i> Favoritar
+                            </button>
+                        </div>
+                    `;
+                    
+                    articlesList.appendChild(articleCard);
+                });
+                
+                // Adicionar event listeners para os botões
+                document.querySelectorAll('.open-article-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const articleId = this.getAttribute('data-id');
+                        const article = articlesDatabase.find(a => a.id == articleId);
+                        registerAccess(article);
+                        showNotification(`Artigo "${article.title}" aberto`, true);
+                        // Aqui você pode implementar a exibição do conteúdo completo do artigo
+                    });
+                });
+                
+                document.querySelectorAll('.favorite-article-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const articleId = this.getAttribute('data-id');
+                        const article = articlesDatabase.find(a => a.id == articleId);
+                        showNotification(`Artigo "${article.title}" adicionado aos favoritos`, true);
+                    });
+                });
+            }
+            
+            // Inicializar a aplicação
+            renderSystemsList();
+            renderArticlesList();
+            updateDashboard();
         });
     </script>
 </body>
