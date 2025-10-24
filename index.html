@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="logo.icon.png" type="image/png">
-    <title>TextMaster Pro - Acesso Rápido</title>
+    <title>TextMaster Pro - SPA</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -42,7 +42,7 @@
             max-width: 1600px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 24px;
         }
 
@@ -88,7 +88,6 @@
             gap: 15px;
         }
 
-        /* Estilo aprimorado para o botão "Atalho para protocolo" */
         .btn-secondary {
             padding: 12px 24px;
             background: linear-gradient(135deg, var(--accent-color), var(--warning-color));
@@ -130,14 +129,57 @@
             transform: translateY(-1px);
         }
 
-        .panel {
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 10px;
+        }
+
+        .nav-item {
+            flex: 1;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            background: var(--gray-light);
+            color: var(--dark-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        /* Seções */
+        .section {
+            display: none;
             background-color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             padding: 25px;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
+            min-height: 500px;
+        }
+
+        .section.active {
+            display: block;
         }
 
         .panel-header {
@@ -243,19 +285,131 @@
             padding: 10px 0;
         }
 
-        .saved-texts {
-            margin-top: 25px;
+        /* Artigos */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
         }
 
-        .saved-texts-list {
-            max-height: 200px;
+        .article-card {
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .article-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .article-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .article-description {
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .article-category {
+            display: inline-block;
+            padding: 5px 10px;
+            background: var(--primary-light);
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .article-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .article-button {
+            padding: 8px 15px;
+            background: var(--gray-light);
+            color: var(--dark-color);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        .article-button.primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .article-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Dashboard */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .recent-access {
+            margin-top: 30px;
+        }
+
+        .recent-list {
+            max-height: 300px;
             overflow-y: auto;
             border: 2px solid var(--gray-light);
             border-radius: var(--border-radius);
             padding: 10px;
         }
 
-        .saved-text-item {
+        .recent-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -264,24 +418,20 @@
             transition: var(--transition);
         }
 
-        .saved-text-item:hover {
+        .recent-item:hover {
             background-color: var(--gray-light);
         }
 
-        .saved-text-item:last-child {
+        .recent-item:last-child {
             border-bottom: none;
         }
 
-        .saved-text-content {
+        .recent-content {
             flex-grow: 1;
             font-size: 14px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-right: 15px;
         }
 
-        .text-date {
+        .recent-date {
             font-size: 12px;
             color: var(--gray);
             margin-top: 5px;
@@ -297,50 +447,6 @@
             font-size: 48px;
             margin-bottom: 15px;
             color: var(--gray-light);
-        }
-
-        .search-results-info {
-            margin-bottom: 20px;
-            color: var(--gray);
-            font-size: 14px;
-        }
-
-        @media (max-width: 1200px) {
-            .app-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            
-            .header-actions {
-                flex-direction: column;
-                width: 100%;
-            }
-            
-            .header-actions button {
-                width: 100%;
-            }
-            
-            .access-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .item-info {
-                width: 100%;
-            }
-            
-            .access-button {
-                width: 100%;
-                justify-content: center;
-            }
         }
 
         .notification {
@@ -368,6 +474,56 @@
             height: 40px;
             object-fit: contain;
         }
+
+        @media (max-width: 1200px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .header-actions button {
+                width: 100%;
+            }
+            
+            .nav-list {
+                flex-direction: column;
+            }
+            
+            .access-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .item-info {
+                width: 100%;
+            }
+            
+            .access-button {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -376,7 +532,7 @@
             <div class="logo">
                 <img src="logo.icon.png" alt="TextMaster Pro Logo" class="logo-img">
                 <div>
-                    <h1>TextMaster Pro - Acesso Rápido <span class="app-version">v2.0</span></h1>
+                    <h1>TextMaster Pro - SPA <span class="app-version">v2.0</span></h1>
                     <p>Sistema inteligente de atalhos para acesso rápido a sistemas e plataformas.</p>
                 </div>
             </div>
@@ -387,7 +543,55 @@
             </div>
         </header>
 
-        <div class="panel">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" data-section="dashboard">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="systems">
+                        <i class="fas fa-rocket"></i> Sistemas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="articles">
+                        <i class="fas fa-newspaper"></i> Artigos
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Seções -->
+        <section id="dashboard" class="section active">
+            <div class="panel-header">
+                <h2 class="panel-title"><i class="fas fa-home"></i> Dashboard</h2>
+            </div>
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalSystems">0</div>
+                    <div class="stat-label">Sistemas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalArticles">0</div>
+                    <div class="stat-label">Artigos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalAccess">0</div>
+                    <div class="stat-label">Acessos Hoje</div>
+                </div>
+            </div>
+            <div class="recent-access">
+                <h3 class="panel-title"><i class="fas fa-history"></i> Acessos Recentes</h3>
+                <div class="recent-list" id="recentAccessList">
+                    <!-- Lista de acessos recentes será inserida aqui -->
+                </div>
+            </div>
+        </section>
+
+        <section id="systems" class="section">
             <div class="panel-header">
                 <h2 class="panel-title"><i class="fas fa-rocket"></i> Sistemas e Plataformas</h2>
             </div>
@@ -401,286 +605,396 @@
                     <span id="recentAccess">Nenhum acesso recente</span>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <section id="articles" class="section">
+            <div class="panel-header">
+                <h2 class="panel-title"><i class="fas fa-newspaper"></i> Base de Conhecimento</h2>
+            </div>
+            <div class="panel-content">
+                <div class="articles-grid" id="articlesList">
+                    <!-- Lista de artigos será inserida aqui -->
+                </div>
+            </div>
+        </section>
 
         <div id="notification" class="notification">
             <i class="fas fa-check-circle"></i>
             <span id="notificationText"></span>
         </div>
+    </div>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Elementos do DOM
-                const systemsList = document.getElementById('systemsList');
-                const toolsList = document.getElementById('toolsList');
-                const totalItems = document.getElementById('totalItems');
-                const totalTools = document.getElementById('totalTools');
-                const recentAccess = document.getElementById('recentAccess');
-                const favoriteTools = document.getElementById('favoriteTools');
-                const notification = document.getElementById('notification');
-                const notificationText = document.getElementById('notificationText');
-                
-                // Base de dados de sistemas e ferramentas
-                const systemsDatabase = [
-                    {
-                        id: 1,
-                        title: "SisAmil",
-                        description: "Plataforma principal da Amil",
-                        category: "sisamil",
-                        icon: "fas fa-heartbeat",
-                        url: "https://sisamil.amil.com.br/ace/ace001a.asp?tp_cliente=",
-                        type: "system"
-                    },
-                    {
-                        id: 2,
-                        title: "Base de Conhecimento",
-                        description: "Base de conhecimento para atendimento",
-                        category: "base",
-                        icon: "fas fa-book",
-                        url: "https://amil.sharepoint.com/sites/BasedeConhecimentoAtendimento",
-                        type: "system"
-                    },
-                    {
-                        id: 3,
-                        title: "Avaya - Escalas",
-                        description: "Sistema de escalas e aderência",
-                        category: "avaya",
-                        icon: "fas fa-calendar-alt",
-                        url: "https://10.160.3.60/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL",
-                        type: "system"
-                    },
-                    {
-                        id: 4,
-                        title: "Senior - Bater Ponto",
-                        description: "Sistema para registro de ponto",
-                        category: "ponto",
-                        icon: "fas fa-clock",
-                        url: "https://ponto.senior.com.br",
-                        type: "system"
-                    },
-                    {
-                        id: 5,
-                        title: "Teams",
-                        description: "Sistema de comunicação interna",
-                        category: "teams",
-                        icon: "fas fa-comments",
-                        url: "https://teams.microsoft.com",
-                        type: "system"
-                    }, 
-                    {
-                        id: 6,
-                        title: "Gestão Senior",
-                        description: "Sistema para assinatura de pontos",
-                        category: "gestao",
-                        icon: "fas fa-signature",
-                        url: "https://senior.dbm.com.br/gestaoponto-frontend/login",
-                        type: "system"
-                    }
-                ];
-                
-                const toolsDatabase = [
-                    {
-                        id: 101,
-                        title: "Calculadora de Horas",
-                        description: "Calcule horas trabalhadas e extras",
-                        category: "calculadora",
-                        icon: "fas fa-calculator",
-                        url: "#",
-                        type: "tool"
-                    },
-                    {
-                        id: 102,
-                        title: "Gerador de Relatórios",
-                        description: "Crie relatórios personalizados",
-                        category: "relatorios",
-                        icon: "fas fa-chart-bar",
-                        url: "#",
-                        type: "tool"
-                    },
-                    {
-                        id: 103,
-                        title: "Conversor de Arquivos",
-                        description: "Converta entre diferentes formatos",
-                        category: "conversor",
-                        icon: "fas fa-file-export",
-                        url: "#",
-                        type: "tool"
-                    },
-                    {
-                        id: 104,
-                        title: "Agenda de Tarefas",
-                        description: "Organize suas atividades diárias",
-                        category: "agenda",
-                        icon: "fas fa-tasks",
-                        url: "#",
-                        type: "tool"
-                    }
-                ];
-                
-                // Histórico de acessos
-                let accessHistory = JSON.parse(localStorage.getItem('accessHistory')) || [];
-                
-                // Função para mostrar notificação
-                function showNotification(message, isSuccess = true) {
-                    notificationText.textContent = message;
-                    notification.style.background = isSuccess 
-                        ? 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))'
-                        : 'linear-gradient(135deg, var(--warning-color), #c1121f)';
-                    
-                    notification.classList.add('show');
-                    
-                    setTimeout(() => {
-                        notification.classList.remove('show');
-                    }, 3000);
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos do DOM
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            const systemsList = document.getElementById('systemsList');
+            const articlesList = document.getElementById('articlesList');
+            const recentAccessList = document.getElementById('recentAccessList');
+            const totalItems = document.getElementById('totalItems');
+            const totalSystems = document.getElementById('totalSystems');
+            const totalArticles = document.getElementById('totalArticles');
+            const totalAccess = document.getElementById('totalAccess');
+            const recentAccess = document.getElementById('recentAccess');
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            // Base de dados de sistemas e artigos
+            const systemsDatabase = [
+                {
+                    id: 1,
+                    title: "SisAmil",
+                    description: "Plataforma principal da Amil",
+                    category: "sisamil",
+                    icon: "fas fa-heartbeat",
+                    url: "https://sisamil.amil.com.br/ace/ace001a.asp?tp_cliente=",
+                    type: "system"
+                },
+                {
+                    id: 2,
+                    title: "Base de Conhecimento",
+                    description: "Base de conhecimento para atendimento",
+                    category: "base",
+                    icon: "fas fa-book",
+                    url: "https://amil.sharepoint.com/sites/BasedeConhecimentoAtendimento",
+                    type: "system"
+                },
+                {
+                    id: 3,
+                    title: "Avaya - Escalas",
+                    description: "Sistema de escalas e aderência",
+                    category: "avaya",
+                    icon: "fas fa-calendar-alt",
+                    url: "https://10.160.3.60/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL",
+                    type: "system"
+                },
+                {
+                    id: 4,
+                    title: "Senior - Bater Ponto",
+                    description: "Sistema para registro de ponto",
+                    category: "ponto",
+                    icon: "fas fa-clock",
+                    url: "https://ponto.senior.com.br",
+                    type: "system"
+                },
+                {
+                    id: 5,
+                    title: "Teams",
+                    description: "Sistema de comunicação interna",
+                    category: "teams",
+                    icon: "fas fa-comments",
+                    url: "https://teams.microsoft.com",
+                    type: "system"
+                }, 
+                {
+                    id: 6,
+                    title: "Gestão Senior",
+                    description: "Sistema para assinatura de pontos",
+                    category: "gestao",
+                    icon: "fas fa-signature",
+                    url: "https://senior.dbm.com.br/gestaoponto-frontend/login",
+                    type: "system"
                 }
-                
-                // Função para registrar acesso
-                function registerAccess(item) {
-                    const accessRecord = {
-                        id: item.id,
-                        title: item.title,
-                        timestamp: new Date().toISOString()
-                    };
-                    
-                    // Adicionar ao histórico
-                    accessHistory.unshift(accessRecord);
-                    
-                    // Manter apenas os 5 acessos mais recentes
-                    if (accessHistory.length > 5) {
-                        accessHistory.pop();
-                    }
-                    
-                    // Salvar no localStorage
-                    localStorage.setItem('accessHistory', JSON.stringify(accessHistory));
-                    
-                    // Atualizar display de acesso recente
-                    updateRecentAccess();
-                    
-                    // Abrir URL
-                    if (item.url && item.url !== '#') {
-                        window.open(item.url, '_blank');
-                    } else {
-                        showNotification(`Acesso registrado para ${item.title}`, true);
-                    }
+            ];
+            
+            const articlesDatabase = [
+                {
+                    id: 101,
+                    title: "Cancelamento de Plano",
+                    description: "Procedimento completo para cancelamento de plano de saúde",
+                    category: "Procedimentos",
+                    icon: "fas fa-file-alt",
+                    content: "Passo a passo para realizar o cancelamento de plano...",
+                    type: "article"
+                },
+                {
+                    id: 102,
+                    title: "Alteração de Titularidade",
+                    description: "Como proceder para alteração de titularidade do contrato",
+                    category: "Procedimentos",
+                    icon: "fas fa-exchange-alt",
+                    content: "Documentação necessária e fluxo para alteração...",
+                    type: "article"
+                },
+                {
+                    id: 103,
+                    title: "Reembolso de Consultas",
+                    description: "Processo para solicitação de reembolso de consultas",
+                    category: "Financeiro",
+                    icon: "fas fa-money-bill-wave",
+                    content: "Documentos necessários e prazos para reembolso...",
+                    type: "article"
+                },
+                {
+                    id: 104,
+                    title: "Inclusão de Dependentes",
+                    description: "Como incluir dependentes no plano de saúde",
+                    category: "Cadastro",
+                    icon: "fas fa-user-plus",
+                    content: "Documentação necessária e procedimento para inclusão...",
+                    type: "article"
+                },
+                {
+                    id: 105,
+                    title: "Solicitação de 2ª Via de Boleto",
+                    description: "Como solicitar a segunda via de boleto em atraso",
+                    category: "Financeiro",
+                    icon: "fas fa-file-invoice-dollar",
+                    content: "Procedimento para emissão de segunda via...",
+                    type: "article"
+                },
+                {
+                    id: 106,
+                    title: "Troca de Procedimento",
+                    description: "Como realizar a troca de procedimento médico",
+                    category: "Procedimentos",
+                    icon: "fas fa-procedures",
+                    content: "Fluxo para troca de procedimento médico...",
+                    type: "article"
                 }
-                
-                // Função para atualizar display de acesso recente
-                function updateRecentAccess() {
-                    if (accessHistory.length > 0) {
-                        const lastAccess = accessHistory[0];
-                        const date = new Date(lastAccess.timestamp);
-                        const timeString = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-                        recentAccess.textContent = `Último: ${lastAccess.title} às ${timeString}`;
-                    } else {
-                        recentAccess.textContent = 'Nenhum acesso recente';
-                    }
-                }
-                
-                // Função para renderizar lista de sistemas
-                function renderSystemsList() {
-                    systemsList.innerHTML = '';
+            ];
+            
+            // Histórico de acessos
+            let accessHistory = JSON.parse(localStorage.getItem('accessHistory')) || [];
+            
+            // Navegação entre seções
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
                     
-                    if (systemsDatabase.length === 0) {
-                        systemsList.innerHTML = `
-                            <div class="empty-state">
-                                <i class="fas fa-desktop"></i>
-                                <h3>Nenhum sistema cadastrado</h3>
-                                <p>Adicione sistemas para ter acesso rápido.</p>
-                            </div>
-                        `;
-                        return;
-                    }
+                    // Remove a classe active de todos os links
+                    navLinks.forEach(l => l.classList.remove('active'));
                     
-                    systemsDatabase.forEach(system => {
-                        const accessItem = document.createElement('div');
-                        accessItem.className = 'access-item';
-                        
-                        accessItem.innerHTML = `
-                            <div class="item-info">
-                                <div class="item-icon">
-                                    <i class="${system.icon}"></i>
-                                </div>
-                                <div class="item-details">
-                                    <div class="item-title">${system.title}</div>
-                                    <div class="item-description">${system.description}</div>
-                                </div>
-                            </div>
-                            <button class="access-button open-system-btn" data-id="${system.id}">
-                                <i class="fas fa-external-link-alt"></i> Acessar
-                            </button>
-                        `;
-                        
-                        systemsList.appendChild(accessItem);
-                    });
+                    // Adiciona a classe active ao link clicado
+                    this.classList.add('active');
                     
-                    // Atualizar contador
-                    totalItems.textContent = `${systemsDatabase.length} sistemas`;
+                    // Obtém a seção a ser exibida
+                    const sectionId = this.getAttribute('data-section');
                     
-                    // Adicionar event listeners para os botões
-                    document.querySelectorAll('.open-system-btn').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            const systemId = this.getAttribute('data-id');
-                            const system = systemsDatabase.find(s => s.id == systemId);
-                            registerAccess(system);
-                        });
-                    });
-                }
-                
-                // Função para renderizar lista de ferramentas
-                function renderToolsList() {
-                    toolsList.innerHTML = '';
+                    // Oculta todas as seções
+                    sections.forEach(section => section.classList.remove('active'));
                     
-                    if (toolsDatabase.length === 0) {
-                        toolsList.innerHTML = `
-                            <div class="empty-state">
-                                <i class="fas fa-tools"></i>
-                                <h3>Nenhuma ferramenta cadastrada</h3>
-                                <p>Adicione ferramentas para ter acesso rápido.</p>
-                            </div>
-                        `;
-                        return;
-                    }
-                    
-                    toolsDatabase.forEach(tool => {
-                        const accessItem = document.createElement('div');
-                        accessItem.className = 'access-item';
-                        
-                        accessItem.innerHTML = `
-                            <div class="item-info">
-                                <div class="item-icon">
-                                    <i class="${tool.icon}"></i>
-                                </div>
-                                <div class="item-details">
-                                    <div class="item-title">${tool.title}</div>
-                                    <div class="item-description">${tool.description}</div>
-                                </div>
-                            </div>
-                            <button class="access-button open-tool-btn" data-id="${tool.id}">
-                                <i class="fas fa-external-link-alt"></i> Acessar
-                            </button>
-                        `;
-                        
-                        toolsList.appendChild(accessItem);
-                    });
-                    
-                    // Atualizar contador
-                    totalTools.textContent = `${toolsDatabase.length} ferramentas`;
-                    
-                    // Adicionar event listeners para os botões
-                    document.querySelectorAll('.open-tool-btn').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            const toolId = this.getAttribute('data-id');
-                            const tool = toolsDatabase.find(t => t.id == toolId);
-                            registerAccess(tool);
-                        });
-                    });
-                }
-                
-                // Inicializar a aplicação
-                renderSystemsList();
-                renderToolsList();
-                updateRecentAccess();
+                    // Exibe a seção correspondente
+                    document.getElementById(sectionId).classList.add('active');
+                });
             });
-        </script>
+            
+            // Função para mostrar notificação
+            function showNotification(message, isSuccess = true) {
+                notificationText.textContent = message;
+                notification.style.background = isSuccess 
+                    ? 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))'
+                    : 'linear-gradient(135deg, var(--warning-color), #c1121f)';
+                
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Função para registrar acesso
+            function registerAccess(item) {
+                const accessRecord = {
+                    id: item.id,
+                    title: item.title,
+                    type: item.type,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Adicionar ao histórico
+                accessHistory.unshift(accessRecord);
+                
+                // Manter apenas os 10 acessos mais recentes
+                if (accessHistory.length > 10) {
+                    accessHistory.pop();
+                }
+                
+                // Salvar no localStorage
+                localStorage.setItem('accessHistory', JSON.stringify(accessHistory));
+                
+                // Atualizar dashboard
+                updateDashboard();
+                
+                // Abrir URL se for um sistema
+                if (item.url && item.url !== '#' && item.type === 'system') {
+                    window.open(item.url, '_blank');
+                } else {
+                    showNotification(`Acesso registrado para ${item.title}`, true);
+                }
+            }
+            
+            // Função para atualizar dashboard
+            function updateDashboard() {
+                // Atualizar estatísticas
+                totalSystems.textContent = systemsDatabase.length;
+                totalArticles.textContent = articlesDatabase.length;
+                
+                // Calcular acessos de hoje
+                const today = new Date().toDateString();
+                const todayAccess = accessHistory.filter(access => {
+                    const accessDate = new Date(access.timestamp).toDateString();
+                    return accessDate === today;
+                }).length;
+                
+                totalAccess.textContent = todayAccess;
+                
+                // Atualizar lista de acessos recentes
+                renderRecentAccess();
+            }
+            
+            // Função para renderizar lista de acessos recentes
+            function renderRecentAccess() {
+                recentAccessList.innerHTML = '';
+                
+                if (accessHistory.length === 0) {
+                    recentAccessList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-history"></i>
+                            <h3>Nenhum acesso recente</h3>
+                            <p>Os acessos aos sistemas e artigos aparecerão aqui.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                accessHistory.forEach(access => {
+                    const recentItem = document.createElement('div');
+                    recentItem.className = 'recent-item';
+                    
+                    const date = new Date(access.timestamp);
+                    const timeString = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                    const dateString = date.toLocaleDateString('pt-BR');
+                    
+                    recentItem.innerHTML = `
+                        <div class="recent-content">
+                            <div>${access.title}</div>
+                            <div class="recent-date">${dateString} às ${timeString}</div>
+                        </div>
+                        <span class="article-category">${access.type === 'system' ? 'Sistema' : 'Artigo'}</span>
+                    `;
+                    
+                    recentAccessList.appendChild(recentItem);
+                });
+            }
+            
+            // Função para renderizar lista de sistemas
+            function renderSystemsList() {
+                systemsList.innerHTML = '';
+                
+                if (systemsDatabase.length === 0) {
+                    systemsList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-desktop"></i>
+                            <h3>Nenhum sistema cadastrado</h3>
+                            <p>Adicione sistemas para ter acesso rápido.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                systemsDatabase.forEach(system => {
+                    const accessItem = document.createElement('div');
+                    accessItem.className = 'access-item';
+                    
+                    accessItem.innerHTML = `
+                        <div class="item-info">
+                            <div class="item-icon">
+                                <i class="${system.icon}"></i>
+                            </div>
+                            <div class="item-details">
+                                <div class="item-title">${system.title}</div>
+                                <div class="item-description">${system.description}</div>
+                            </div>
+                        </div>
+                        <button class="access-button open-system-btn" data-id="${system.id}">
+                            <i class="fas fa-external-link-alt"></i> Acessar
+                        </button>
+                    `;
+                    
+                    systemsList.appendChild(accessItem);
+                });
+                
+                // Atualizar contador
+                totalItems.textContent = `${systemsDatabase.length} sistemas`;
+                
+                // Adicionar event listeners para os botões
+                document.querySelectorAll('.open-system-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const systemId = this.getAttribute('data-id');
+                        const system = systemsDatabase.find(s => s.id == systemId);
+                        registerAccess(system);
+                    });
+                });
+            }
+            
+            // Função para renderizar lista de artigos
+            function renderArticlesList() {
+                articlesList.innerHTML = '';
+                
+                if (articlesDatabase.length === 0) {
+                    articlesList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-newspaper"></i>
+                            <h3>Nenhum artigo cadastrado</h3>
+                            <p>Adicione artigos para ter acesso rápido.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                articlesDatabase.forEach(article => {
+                    const articleCard = document.createElement('div');
+                    articleCard.className = 'article-card';
+                    
+                    articleCard.innerHTML = `
+                        <div class="article-header">
+                            <div class="item-icon">
+                                <i class="${article.icon}"></i>
+                            </div>
+                            <span class="article-category">${article.category}</span>
+                        </div>
+                        <div class="article-title">${article.title}</div>
+                        <div class="article-description">${article.description}</div>
+                        <div class="article-actions">
+                            <button class="article-button primary open-article-btn" data-id="${article.id}">
+                                <i class="fas fa-eye"></i> Ver Detalhes
+                            </button>
+                            <button class="article-button favorite-article-btn" data-id="${article.id}">
+                                <i class="far fa-star"></i> Favoritar
+                            </button>
+                        </div>
+                    `;
+                    
+                    articlesList.appendChild(articleCard);
+                });
+                
+                // Adicionar event listeners para os botões
+                document.querySelectorAll('.open-article-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const articleId = this.getAttribute('data-id');
+                        const article = articlesDatabase.find(a => a.id == articleId);
+                        registerAccess(article);
+                        showNotification(`Artigo "${article.title}" aberto`, true);
+                        // Aqui você pode implementar a exibição do conteúdo completo do artigo
+                    });
+                });
+                
+                document.querySelectorAll('.favorite-article-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const articleId = this.getAttribute('data-id');
+                        const article = articlesDatabase.find(a => a.id == articleId);
+                        showNotification(`Artigo "${article.title}" adicionado aos favoritos`, true);
+                    });
+                });
+            }
+            
+            // Inicializar a aplicação
+            renderSystemsList();
+            renderArticlesList();
+            updateDashboard();
+        });
+    </script>
 </body>
 </html>
