@@ -1194,7 +1194,7 @@
                 let text = this.inputText.value;
                 
                 // Substituir apenas o atalho específico
-                const regex = new RegExp(`\\b${shortcut}\\b`, 'g');
+                const regex = new RegExp(`\\b${this.escapeRegExp(shortcut)}\\b`, 'g');
                 text = text.replace(regex, this.shortcuts[shortcut].text);
                 
                 this.outputText.value = text;
@@ -1205,26 +1205,24 @@
             expandShortcuts() {
                 let text = this.inputText.value;
                 
-                // Usar um mapa para rastrear quais atalhos foram substituídos
-                const replaced = new Map();
-                
                 // Ordenar atalhos por tamanho (do maior para o menor) para evitar substituições parciais
                 const sortedKeys = Object.keys(this.shortcuts).sort((a, b) => b.length - a.length);
                 
-                // Primeira passagem: substituir apenas atalhos que são palavras completas
+                // Substituir todas as ocorrências de cada atalho
                 for (const key of sortedKeys) {
-                    // Verificar se o atalho existe no texto e não foi substituído ainda
-                    if (text.includes(key) && !replaced.has(key)) {
-                        // Usar uma expressão regular com limites de palavra para garantir substituição exata
-                        const regex = new RegExp(`\\b${key}\\b`, 'g');
-                        text = text.replace(regex, this.shortcuts[key].text);
-                        replaced.set(key, true);
-                    }
+                    // Usar uma expressão regular com limites de palavra para garantir substituição exata
+                    const regex = new RegExp(`\\b${this.escapeRegExp(key)}\\b`, 'g');
+                    text = text.replace(regex, this.shortcuts[key].text);
                 }
                 
                 this.outputText.value = text;
                 this.updateCounters();
                 this.showNotification('Todos os atalhos aplicados!');
+            }
+            
+            // Função para escapar caracteres especiais em regex
+            escapeRegExp(string) {
+                return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             }
             
             clearFields() {
