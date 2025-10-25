@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="logo.icon.png" type="image/png">
-    <title>TextMaster Pro - Plataforma Completa de Atalhos para protocolo</title>
+    <title>TextMaster Pro - Plataforma Completa de Atalhos para Protocolo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -213,33 +212,11 @@
         .btn-secondary {
             background: linear-gradient(135deg, var(--accent-color), var(--warning-color));
             color: white;
-            box-shadow: 0 4px 15px rgba(114, 9, 183, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-secondary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
         }
 
         .btn-secondary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(114, 9, 183, 0.4);
-        }
-
-        .btn-secondary:hover::before {
-            left: 100%;
-        }
-
-        .btn-secondary:active {
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(114, 9, 183, 0.4);
         }
 
         .btn-accent {
@@ -258,16 +235,6 @@
         }
 
         .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
-        }
-
-        .btn-info {
-            background: linear-gradient(135deg, #4cc9f0, #3a86ff);
-            color: white;
-        }
-
-        .btn-info:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
         }
@@ -350,12 +317,6 @@
             border-radius: 4px;
             border: 1px dashed transparent;
             font-size: 15px;
-        }
-
-        .shortcut-value:focus {
-            outline: none;
-            border: 1px dashed var(--primary-color);
-            background-color: white;
         }
 
         .actions {
@@ -449,62 +410,6 @@
             }
         }
 
-        @media (max-width: 768px) {
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .button-group button {
-                width: 100%;
-            }
-            
-            .header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            
-            .header-actions {
-                flex-direction: column;
-                width: 100%;
-            }
-            
-            .header-actions button {
-                width: 100%;
-            }
-        }
-
-        /* Estilos para modo de edição */
-        .editing {
-            background-color: #fff8e1;
-        }
-
-        .logo-img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-        }
-
-        .edit-shortcut-form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-            padding: 15px;
-            background-color: var(--primary-light);
-            border-radius: var(--border-radius);
-        }
-
-        .edit-text-form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-            padding: 15px;
-            background-color: var(--primary-light);
-            border-radius: var(--border-radius);
-        }
-
         .notification {
             position: fixed;
             top: 20px;
@@ -581,14 +486,14 @@
     <div class="app-container">
         <header class="header">
             <div class="logo">
-                <img src="logo.icon.png" alt="TextMaster Pro Logo" class="logo-img">
+                <i class="fas fa-keyboard"></i>
                 <div>
-                    <h1>TextMaster Pro <span class="app-version">v2.0</span></h1>
+                    <h1>TextMaster Pro <span class="app-version">v2.2</span></h1>
                     <p>Plataforma completa de gerenciamento de atalhos para suporte no protocolo de atendimento.</p>
                 </div>
             </div>
             <div class="header-actions">
-                <button class="btn-secondary" onclick="window.location.href='index.html'">
+                <button class="btn-secondary">
                     <i class="fas fa-arrow-right"></i> Retornar ao acesso rápido
                 </button>
             </div>
@@ -601,7 +506,7 @@
             <div class="panel-content">
                 <div class="input-area">
                     <h3><i class="fas fa-pencil-alt"></i> Digite seus atalhos</h3>
-                    <textarea id="inputText" placeholder="Digite os atalhos separados por espaço (ex: saudacao despedida)"></textarea>
+                    <textarea id="inputText" placeholder="Digite os atalhos separados por espaço (ex: cancelamento devolução)"></textarea>
                     
                     <div class="shortcut-preview" id="shortcutPreview">
                         <!-- Os atalhos detectados aparecerão aqui -->
@@ -623,11 +528,11 @@
                     <div class="shortcut-form">
                         <div class="form-group">
                             <label for="shortcutKey">Atalho</label>
-                            <input type="text" id="shortcutKey" placeholder="Ex: saudacao">
+                            <input type="text" id="shortcutKey" placeholder="Ex: cancelamento">
                         </div>
                         <div class="form-group">
                             <label for="shortcutValue">Protocolo</label>
-                            <input type="text" id="shortcutValue" placeholder="Ex: Olá, seja bem-vindo!">
+                            <input type="text" id="shortcutValue" placeholder="Ex: Sr(a) solicita cancelamento...">
                         </div>
                         <div class="form-group">
                             <label for="shortcutLink">Link do Artigo (Opcional)</label>
@@ -1205,17 +1110,20 @@
             expandShortcuts() {
                 let text = this.inputText.value;
                 
-                // Ordenar atalhos por tamanho (do maior para o menor) para evitar substituições parciais
-                const sortedKeys = Object.keys(this.shortcuts).sort((a, b) => b.length - a.length);
+                // Dividir o texto em palavras
+                const words = text.split(/\s+/);
+                let result = [];
                 
-                // Substituir todas as ocorrências de cada atalho
-                for (const key of sortedKeys) {
-                    // Usar uma expressão regular com limites de palavra para garantir substituição exata
-                    const regex = new RegExp(`\\b${this.escapeRegExp(key)}\\b`, 'g');
-                    text = text.replace(regex, this.shortcuts[key].text);
+                // Para cada palavra, verificar se é um atalho e substituir
+                for (const word of words) {
+                    if (this.shortcuts[word]) {
+                        result.push(this.shortcuts[word].text);
+                    } else {
+                        result.push(word);
+                    }
                 }
                 
-                this.outputText.value = text;
+                this.outputText.value = result.join(' ');
                 this.updateCounters();
                 this.showNotification('Todos os atalhos aplicados!');
             }
